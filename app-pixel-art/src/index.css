@@ -1,0 +1,428 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   PIXEL ART PORTFOLIO — GLOBAL STYLES
+   ============================================================ */
+
+/* --- CSS Variables: 8+2 Color Palette (Modern Neon) --- */
+:root {
+  --bg: #0D0E15;
+  --surface: #1A1B26;
+  --surface-dim: #11121A;
+  --text: #E0E6F1;
+  --text-dim: #565F89;
+  --accent-cyan: #7EE0FF;
+  --accent-magenta: #FF7EDB;
+  --accent-gold: #FFD93D;
+  --border: #2A2B3D;
+  --shadow: #08090F;
+  --shadow-deep: #05060A;
+
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-label: 'VT323', monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* --- Base Reset --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* --- Pixel Art Image Rendering --- */
+.pixel-art img,
+.pixel-art-image,
+img.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ============================================================
+   PIXEL ART COMPONENT PATTERNS
+   ============================================================ */
+
+/* --- Pixel Button --- */
+.btn-pixel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-family: var(--font-label);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+  box-shadow: 4px 4px 0px 0px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.1s steps(2), box-shadow 0.1s steps(2);
+  text-decoration: none;
+  gap: 8px;
+}
+
+.btn-pixel:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--shadow);
+}
+
+.btn-pixel:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--shadow);
+}
+
+.btn-pixel-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-family: var(--font-label);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0D0E15;
+  background: var(--accent-cyan);
+  border: 2px solid var(--accent-cyan);
+  border-radius: 0px;
+  box-shadow: 4px 4px 0px 0px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.1s steps(2), box-shadow 0.1s steps(2);
+  text-decoration: none;
+  gap: 8px;
+}
+
+.btn-pixel-primary:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--shadow);
+  background: var(--accent-magenta);
+  border-color: var(--accent-magenta);
+}
+
+.btn-pixel-primary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--shadow);
+}
+
+/* --- Pixel Card --- */
+.card-pixel {
+  padding: 24px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+  box-shadow: 4px 4px 0px 0px var(--shadow);
+  transition: transform 0.1s steps(2), box-shadow 0.1s steps(2);
+}
+
+.card-pixel:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--shadow);
+}
+
+/* --- Pixel Badge --- */
+.badge-pixel {
+  display: inline-block;
+  padding: 4px 8px;
+  font-family: var(--font-label);
+  font-size: 16px;
+  color: var(--bg);
+  background: var(--accent-cyan);
+  border: 2px solid var(--bg);
+  border-radius: 0px;
+}
+
+.badge-pixel-alt {
+  display: inline-block;
+  padding: 4px 8px;
+  font-family: var(--font-label);
+  font-size: 16px;
+  color: var(--accent-cyan);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+}
+
+/* --- Pixel Input --- */
+.input-pixel {
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+  box-shadow: inset 2px 2px 0px 0px var(--shadow);
+  outline: none;
+  width: 100%;
+}
+
+.input-pixel:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: inset 2px 2px 0px 0px var(--shadow), 0px 0px 0px 2px var(--accent-cyan);
+}
+
+.input-pixel::placeholder {
+  color: var(--text-dim);
+}
+
+/* --- Pixel Textarea --- */
+.textarea-pixel {
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+  box-shadow: inset 2px 2px 0px 0px var(--shadow);
+  outline: none;
+  width: 100%;
+  resize: vertical;
+}
+
+.textarea-pixel:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: inset 2px 2px 0px 0px var(--shadow), 0px 0px 0px 2px var(--accent-cyan);
+}
+
+.textarea-pixel::placeholder {
+  color: var(--text-dim);
+}
+
+/* ============================================================
+   ANIMATION KEYFRAMES
+   ============================================================ */
+
+/* --- Block Reveal --- */
+@keyframes block-reveal {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0% 0 0); }
+}
+
+.reveal-text {
+  animation: block-reveal 0.4s steps(8) forwards;
+}
+
+/* --- Typewriter --- */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 1.5s steps(20) forwards;
+}
+
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: var(--accent-cyan); }
+}
+
+.typewriter-cursor {
+  border-right: 2px solid var(--accent-cyan);
+  animation:
+    typewriter 1.5s steps(20) forwards,
+    blink 0.6s steps(1) infinite;
+}
+
+/* --- Grid Block Reveal --- */
+@keyframes grid-block-reveal {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.grid-item-reveal {
+  animation: grid-block-reveal 0.3s steps(3) forwards;
+}
+
+/* --- Pixel Float --- */
+@keyframes pixel-float {
+  0% { transform: translate(0, 0); opacity: 1; }
+  25% { transform: translate(4px, -8px); }
+  50% { transform: translate(-4px, -16px); opacity: 0.8; }
+  75% { transform: translate(4px, -24px); }
+  100% { transform: translate(0, -32px); opacity: 0; }
+}
+
+.particle-pixel {
+  width: 4px;
+  height: 4px;
+  background: var(--accent-cyan);
+  animation: pixel-float 1s steps(8) forwards;
+}
+
+/* --- Flicker --- */
+@keyframes flicker {
+  0%, 100% { opacity: 0.97; }
+  50% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: flicker 0.15s steps(2) infinite;
+}
+
+/* --- Scanline Wipe --- */
+@keyframes scanline-wipe {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* --- Pulse Accent --- */
+@keyframes pulse-accent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* --- Entrance: slide up --- */
+@keyframes entrance-up {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-up {
+  animation: entrance-up 0.4s steps(6) forwards;
+}
+
+/* --- Entrance: fade scale --- */
+@keyframes entrance-scale {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.entrance-scale {
+  animation: entrance-scale 0.3s steps(4) forwards;
+}
+
+/* ============================================================
+   CRT SCANLINE OVERLAY
+   ============================================================ */
+
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+/* ============================================================
+   NAVBAR PATTERNS
+   ============================================================ */
+
+.nav-link-pixel {
+  font-family: var(--font-label);
+  font-size: 20px;
+  color: var(--text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border: 2px solid transparent;
+  border-radius: 0px;
+  transition: color 0s, border-color 0s;
+}
+
+.nav-link-pixel:hover {
+  color: var(--accent-cyan);
+  border-color: var(--border);
+}
+
+/* ============================================================
+   LINK PATTERNS
+   ============================================================ */
+
+.link-pixel {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: color 0s;
+}
+
+.link-pixel:hover {
+  color: var(--accent-magenta);
+}
+
+/* ============================================================
+   TAG PATTERNS
+   ============================================================ */
+
+.tag-pixel {
+  display: inline-block;
+  padding: 4px 8px;
+  font-family: var(--font-label);
+  font-size: 16px;
+  color: var(--accent-cyan);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0px;
+}
+
+/* ============================================================
+   PREFERS REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR (WebKit)
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+  background: var(--accent-cyan);
+  color: var(--bg);
+}
