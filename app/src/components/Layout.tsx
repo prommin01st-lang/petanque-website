@@ -8,7 +8,10 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-[100dvh]">
+    <div className="min-h-[100dvh] bg-bg font-body">
+      {/* CRT Scanline Overlay */}
+      <div className="crt-overlay" aria-hidden="true" />
+
       <Navbar />
       <main
         className="relative z-10"

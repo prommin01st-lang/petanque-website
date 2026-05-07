@@ -5,6 +5,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Pixel Art Palette
+        'bg': '#0D0E15',
+        'surface': '#1A1B26',
+        'surface-dim': '#11121A',
+        'text': '#E0E6F1',
+        'text-dim': '#565F89',
+        'accent-cyan': '#7EE0FF',
+        'accent-magenta': '#FF7EDB',
+        'accent-gold': '#FFD93D',
+        'border-pixel': '#2A2B3D',
+        'shadow-pixel': '#08090F',
+        'shadow-deep': '#05060A',
+        // Original app colors
         'void-black': '#0D0D14',
         'pixel-purple': '#6C5CE7',
         'neon-cyan': '#00E5FF',
@@ -14,6 +27,7 @@ module.exports = {
         'gold': '#FFD93D',
         'dark-surface': '#1A1A2E',
         'pixel-green': '#6BCB77',
+        // Shadcn
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -49,13 +63,37 @@ module.exports = {
         },
       },
       fontFamily: {
-        'pixel': ['"Press Start 2P"', 'cursive'],
+        'pixel': ['"Press Start 2P"', 'monospace'],
+        'label': ['VT323', 'monospace'],
         'mono-labels': ['"VT323"', 'monospace'],
-        'body': ['Inter', 'sans-serif'],
+        'body': ['Inter', 'system-ui', 'sans-serif'],
         'code': ['"JetBrains Mono"', 'monospace'],
         'thai': ['Kanit', 'sans-serif'],
       },
+      borderRadius: {
+        'pixel': '0px',
+        'pixel-soft': '4px',
+        xl: "calc(var(--radius) + 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
+      },
+      boxShadow: {
+        'pixel': '4px 4px 0px 0px #08090F',
+        'pixel-sm': '2px 2px 0px 0px #08090F',
+        'pixel-lg': '4px 4px 0px 0px #08090F, 8px 8px 0px 0px #05060A',
+        'pixel-inset': 'inset 2px 2px 0px 0px #08090F',
+        'pixel-focus': 'inset 2px 2px 0px 0px #08090F, 0px 0px 0px 2px #7EE0FF',
+      },
       spacing: {
+        'px-1': '4px',
+        'px-2': '8px',
+        'px-3': '16px',
+        'px-4': '24px',
+        'px-5': '32px',
+        'px-6': '48px',
+        'px-8': '64px',
         'px': '1px',
         '0': '0',
         '1': '0.25rem',
@@ -83,13 +121,6 @@ module.exports = {
         '80': '20rem',
         '96': '24rem',
         '120': '30rem',
-      },
-      borderRadius: {
-        xl: "calc(var(--radius) + 4px)",
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        xs: "calc(var(--radius) - 6px)",
       },
       keyframes: {
         "accordion-down": {
@@ -134,6 +165,33 @@ module.exports = {
           "0%": { transform: "rotateX(60deg) translateZ(-200px) translateY(100%)", opacity: "0" },
           "100%": { transform: "rotateX(60deg) translateZ(-200px) translateY(0)", opacity: "1" },
         },
+        "block-reveal": {
+          "0%": { clipPath: "inset(0 100% 0 0)" },
+          "100%": { clipPath: "inset(0 0% 0 0)" },
+        },
+        "typewriter": {
+          from: { width: "0" },
+          to: { width: "100%" },
+        },
+        "pixel-float": {
+          "0%": { transform: "translate(0, 0)", opacity: "1" },
+          "25%": { transform: "translate(4px, -8px)" },
+          "50%": { transform: "translate(-4px, -16px)", opacity: "0.8" },
+          "75%": { transform: "translate(4px, -24px)" },
+          "100%": { transform: "translate(0, -32px)", opacity: "0" },
+        },
+        "flicker": {
+          "0%, 100%": { opacity: "0.97" },
+          "50%": { opacity: "1" },
+        },
+        "entrance-up": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "entrance-scale": {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -145,6 +203,12 @@ module.exports = {
         "blink-cursor": "blink-cursor 1s step-end infinite",
         "pulse-aura": "pulse-aura 4s ease-in-out infinite",
         "grid-slide-up": "grid-slide-up 1s ease-out forwards",
+        "block-reveal": "block-reveal 0.4s steps(8) forwards",
+        "typewriter": "typewriter 1.5s steps(20) forwards",
+        "pixel-float": "pixel-float 1s steps(8) forwards",
+        "flicker": "flicker 0.15s steps(2) infinite",
+        "entrance-up": "entrance-up 0.4s steps(6) forwards",
+        "entrance-scale": "entrance-scale 0.3s steps(4) forwards",
       },
     },
   },
