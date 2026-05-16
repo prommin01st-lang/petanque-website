@@ -24,6 +24,13 @@ const projects: Project[] = [
     flagship: true,
   },
   {
+    name: 'ContextGate',
+    description:
+      'MCP (Model Context Protocol) gateway for organizations. Pluggable connectors, policy enforcement, audit trail, and admin dashboard. Connects AI agents to files, databases, and SaaS docs through a single endpoint.',
+    image: '/contextgate.png',
+    tags: ['TypeScript', 'MCP', 'Hono', 'React'],
+  },
+  {
     name: 'Context Nexus',
     description:
       'Context management system with advanced search, tagging, and relationship mapping between knowledge nodes.',
