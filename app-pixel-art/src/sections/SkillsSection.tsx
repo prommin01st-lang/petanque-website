@@ -71,7 +71,7 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: 'DevOps',
+    title: 'MCP',
     icon: Wrench,
     accentColor: 'var(--accent-magenta)',
     accentBorder: 'var(--accent-magenta)',

@@ -255,7 +255,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            Full-Stack Developer & DevOps-oriented engineer building real-time
+            Full-Stack Developer & MCP-oriented engineer building real-time
             collaboration systems, enterprise backends, and developer automation.
           </motion.p>
 

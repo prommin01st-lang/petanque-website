@@ -80,7 +80,7 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <div className="font-pixel text-[16px] text-warm-white mb-2">PROMMIN.L</div>
             <div className="font-mono-labels text-[18px] text-mid-gray">
-              Full-Stack Developer & DevOps
+              Full-Stack Developer & MCP
             </div>
           </div>
 

@@ -20,7 +20,7 @@ const projects: Project[] = [
     description:
       'Real-time task board with drag & drop, SignalR live updates, Google Calendar sync. Reduced overhead by ~50%.',
     image: '/kanban.png',
-    tags: ['Next.js', '.NET 9', 'SignalR', 'PostgreSQL'],
+    tags: ['Next.js', '.NET 10', 'SignalR', 'PostgreSQL'],
     flagship: true,
   },
   {
@@ -42,14 +42,14 @@ const projects: Project[] = [
     description:
       'Robust message queue system with retry logic, dead letter handling, and 80%+ integration test coverage.',
     image: '/queue-backend.png',
-    tags: ['.NET 9', 'Testcontainers', 'xUnit'],
+    tags: ['.NET 10', 'Testcontainers', 'xUnit'],
   },
   {
     name: 'Real-time Chat',
     description:
       'Socket-based chat template with room management, typing indicators, and message persistence.',
     image: '/realtime-chat.png',
-    tags: ['.NET 9', 'SignalR', 'React'],
+    tags: ['.NET 10', 'SignalR', 'React'],
   },
   {
     name: 'Automation Scripts',

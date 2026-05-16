@@ -14,7 +14,7 @@ interface Skill {
 const skillsData: Skill[][] = [
   /* Row 1 — Backend (all expert = 4) */
   [
-    { name: '.NET 9', level: 4, icon: <DotNetIcon /> },
+    { name: '.NET 10', level: 4, icon: <DotNetIcon /> },
     { name: 'C#', level: 4, icon: <CSharpIcon /> },
     { name: 'ASP.NET Core', level: 4, icon: <WebIcon /> },
     { name: 'EF Core', level: 4, icon: <DatabaseIcon /> },
@@ -30,12 +30,12 @@ const skillsData: Skill[][] = [
     { name: 'Material UI', level: 3, icon: <PaletteIcon /> },
     { name: 'HTML/CSS', level: 3, icon: <HtmlIcon /> },
   ],
-  /* Row 3 — Data & DevOps */
+  /* Row 3 — Data & MCP */
   [
     { name: 'PostgreSQL', level: 4, icon: <DatabaseIcon /> },
     { name: 'SQL Server', level: 3, icon: <ServerIcon /> },
     { name: 'Docker', level: 3, icon: <DockerIcon /> },
-    { name: 'PowerShell', level: 3, icon: <TerminalIcon /> },
+    { name: 'MCP', level: 3, icon: <McpIcon /> },
     { name: 'Testcontainers', level: 3, icon: <BoxIcon /> },
     { name: 'xUnit', level: 3, icon: <TestIcon /> },
   ],
@@ -180,12 +180,14 @@ function DockerIcon() {
     </svg>
   );
 }
-function TerminalIcon() {
+function McpIcon() {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <rect x="4" y="6" width="24" height="20" rx="2" stroke="#6C5CE7" strokeWidth="2" />
-      <path d="M8 12l4 4-4 4" stroke="#6C5CE7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="16" y1="20" x2="22" y2="20" stroke="#6C5CE7" strokeWidth="2" strokeLinecap="round" />
+      <rect x="4" y="10" width="10" height="12" rx="2" stroke="#6C5CE7" strokeWidth="2" />
+      <rect x="18" y="10" width="10" height="12" rx="2" stroke="#6C5CE7" strokeWidth="2" />
+      <path d="M14 16h4" stroke="#6C5CE7" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="9" cy="16" r="2" fill="#6C5CE7" />
+      <circle cx="23" cy="16" r="2" fill="#6C5CE7" />
     </svg>
   );
 }
@@ -373,7 +375,7 @@ export default function SkillsSection() {
       {/* Category labels + Skill grids */}
       <div className="flex flex-col gap-12">
         {skillsData.map((row, rowIndex) => {
-          const categoryNames = ['Backend', 'Frontend', 'Data & DevOps', 'Cloud & Tools'];
+          const categoryNames = ['Backend', 'Frontend', 'Data & MCP', 'Cloud & Tools'];
           return (
             <div key={rowIndex}>
               {/* Category name */}

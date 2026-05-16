@@ -6,10 +6,10 @@ const easeOutExpo = [0.16, 1, 0.3, 1] as [number, number, number, number];
 const facts = [
   { label: 'Role', value: 'Solo Full-Stack Developer' },
   { label: 'Focus', value: 'Real-time Collaboration Systems' },
-  { label: 'Backend', value: '.NET 9, C#, ASP.NET Core, EF Core, SignalR' },
+  { label: 'Backend', value: '.NET 10, C#, ASP.NET Core, EF Core, SignalR' },
   { label: 'Frontend', value: 'Next.js 14-16, React 19, TypeScript' },
   { label: 'Databases', value: 'PostgreSQL, SQL Server' },
-  { label: 'DevOps', value: 'Docker, PowerShell, Testcontainers' },
+  { label: 'MCP', value: 'Model Context Protocol, AI Agents, LLM Integration' },
   { label: 'Location', value: 'Remote / Worldwide' },
 ];
 
@@ -75,7 +75,7 @@ export default function AboutSection() {
                 marginBottom: '20px',
               }}
             >
-              I am a Full-Stack Developer and DevOps-oriented engineer working solo on several production and internal tools. I focus on building real-time collaboration features, robust backend APIs, and developer automation.
+              I am a Full-Stack Developer and MCP-oriented engineer working solo on several production and internal tools. I focus on building real-time collaboration features, robust backend APIs, and AI integrations via Model Context Protocol.
             </p>
             <p
               className="font-body"
@@ -87,7 +87,7 @@ export default function AboutSection() {
                 marginBottom: '20px',
               }}
             >
-              My flagship project — a Kanban Task Management platform built with Next.js and .NET 9 — reduced manual task-management overhead by approximately 50% in day-to-day workflows through real-time drag &amp; drop, Google Calendar sync, and 15+ live event types powered by SignalR.
+              My flagship project — a Kanban Task Management platform built with Next.js and .NET 10 — reduced manual task-management overhead by approximately 50% in day-to-day workflows through real-time drag &amp; drop, Google Calendar sync, and 15+ live event types powered by SignalR.
             </p>
             <p
               className="font-body"
