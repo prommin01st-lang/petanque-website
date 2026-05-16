@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useI18n } from '@/i18n/I18nContext';
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -332,6 +333,7 @@ function SkillBlock({
 /* ------------------------------------------------------------------ */
 
 export default function SkillsSection() {
+  const { t } = useI18n();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -362,20 +364,20 @@ export default function SkillsSection() {
           className="font-pixel text-[14px] block mb-4"
           style={{ color: '#00E5FF' }}
         >
-          // STACK
+          {t.skills.sectionLabel}
         </span>
         <h2
           className="font-pixel text-[36px] leading-tight section-title-glow"
           style={{ color: '#F0EDE4' }}
         >
-          TECHNICAL ARSENAL
+          {t.skills.title}
         </h2>
       </motion.div>
 
       {/* Category labels + Skill grids */}
       <div className="flex flex-col gap-12">
         {skillsData.map((row, rowIndex) => {
-          const categoryNames = ['Backend', 'Frontend', 'Data & MCP', 'Cloud & Tools'];
+          const categoryNames = [t.skills.categories.backend, t.skills.categories.frontend, t.skills.categories.dataMcp, t.skills.categories.cloudTools];
           return (
             <div key={rowIndex}>
               {/* Category name */}

@@ -1,21 +1,23 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useI18n } from '@/i18n/I18nContext';
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const facts = [
-  { label: 'Role', value: 'Solo Full-Stack Developer' },
-  { label: 'Focus', value: 'Real-time Collaboration Systems' },
-  { label: 'Backend', value: '.NET 10, C#, ASP.NET Core, EF Core, SignalR' },
-  { label: 'Frontend', value: 'Next.js 14-16, React 19, TypeScript' },
-  { label: 'Databases', value: 'PostgreSQL, SQL Server' },
-  { label: 'MCP', value: 'Model Context Protocol, AI Agents, LLM Integration' },
-  { label: 'Location', value: 'Remote / Worldwide' },
-];
-
 export default function AboutSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
+  const facts = [
+    { label: t.about.facts.role, value: t.about.facts.roleValue },
+    { label: t.about.facts.focus, value: t.about.facts.focusValue },
+    { label: t.about.facts.backend, value: t.about.facts.backendValue },
+    { label: t.about.facts.frontend, value: t.about.facts.frontendValue },
+    { label: t.about.facts.databases, value: t.about.facts.databasesValue },
+    { label: t.about.facts.mcp, value: t.about.facts.mcpValue },
+    { label: t.about.facts.location, value: t.about.facts.locationValue },
+  ];
 
   return (
     <section
@@ -40,7 +42,7 @@ export default function AboutSection() {
               marginBottom: '12px',
             }}
           >
-            // ABOUT
+            {t.about.sectionLabel}
           </span>
           <h2
             className="font-pixel section-title-glow"
@@ -50,7 +52,7 @@ export default function AboutSection() {
               lineHeight: 1.2,
             }}
           >
-            ABOUT ME
+            {t.about.title}
           </h2>
         </motion.div>
 
@@ -75,7 +77,7 @@ export default function AboutSection() {
                 marginBottom: '20px',
               }}
             >
-              I am a Full-Stack Developer and MCP-oriented engineer working solo on several production and internal tools. I focus on building real-time collaboration features, robust backend APIs, and AI integrations via Model Context Protocol.
+              {t.about.bio1}
             </p>
             <p
               className="font-body"
@@ -87,7 +89,7 @@ export default function AboutSection() {
                 marginBottom: '20px',
               }}
             >
-              My flagship project — a Kanban Task Management platform built with Next.js and .NET 10 — reduced manual task-management overhead by approximately 50% in day-to-day workflows through real-time drag &amp; drop, Google Calendar sync, and 15+ live event types powered by SignalR.
+              {t.about.bio2}
             </p>
             <p
               className="font-body"
@@ -98,7 +100,7 @@ export default function AboutSection() {
                 lineHeight: 1.7,
               }}
             >
-              I believe in building production-grade software: 80%+ integration test coverage, containerized deployments, and clean architecture that scales from solo development to team collaboration.
+              {t.about.bio3}
             </p>
           </motion.div>
 

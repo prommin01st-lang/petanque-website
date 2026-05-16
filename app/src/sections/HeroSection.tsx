@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { usePixelit } from '../hooks/usePixelit';
+import { useI18n } from '@/i18n/I18nContext';
 
 /* ------------------------------------------------------------------ */
 /*  StarField — isolated perpetual animation                           */
@@ -129,9 +130,10 @@ const smoothEase = [0.16, 1, 0.3, 1] as [number, number, number, number];
 export default function HeroSection() {
   const profileImgRef = useRef<HTMLImageElement>(null);
   usePixelit(profileImgRef);
+  const { t } = useI18n();
 
-  const nameLetters = 'PETANQUE'.split('');
-  const nameLetters2 = 'PROMMIN'.split('');
+  const nameLetters = t.hero.name.split('');
+  const nameLetters2 = t.hero.name.split('');
 
   const stats = [
     { number: '6+', label: 'Projects' },
@@ -200,7 +202,7 @@ export default function HeroSection() {
             <span
               className="font-mono-labels text-[22px] tracking-[0.15em] text-neon-cyan"
             >
-              SOLO DEVELOPER
+              {t.hero.greeting}
             </span>
             {/* Blinking cursor */}
             <span
@@ -255,8 +257,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            Full-Stack Developer & MCP-oriented engineer building real-time
-            collaboration systems, enterprise backends, and developer automation.
+            {t.hero.tagline}
           </motion.p>
 
           {/* CTA buttons */}
@@ -289,7 +290,7 @@ export default function HeroSection() {
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              View My Work
+              {t.hero.ctaPrimary}
             </a>
             <a
               href="https://github.com/prommin01st-lang"
@@ -310,7 +311,7 @@ export default function HeroSection() {
                 e.currentTarget.style.color = '#F0EDE4';
               }}
             >
-              GitHub
+              {t.hero.ctaSecondary}
             </a>
           </motion.div>
 

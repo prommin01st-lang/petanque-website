@@ -1,71 +1,20 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { MouseEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useI18n } from '@/i18n/I18nContext';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
 interface Project {
+  id: string;
   name: string;
   description: string;
   image: string;
   tags: string[];
   flagship?: boolean;
 }
-
-const projects: Project[] = [
-  {
-    name: 'Kanban Task Management',
-    description:
-      'Real-time task board with drag & drop, SignalR live updates, Google Calendar sync. Reduced overhead by ~50%.',
-    image: '/kanban.png',
-    tags: ['Next.js', '.NET 10', 'SignalR', 'PostgreSQL'],
-    flagship: true,
-  },
-  {
-    name: 'ContextGate',
-    description:
-      'MCP (Model Context Protocol) gateway for organizations. Pluggable connectors, policy enforcement, audit trail, and admin dashboard. Connects AI agents to files, databases, and SaaS docs through a single endpoint.',
-    image: '/contextgate.png',
-    tags: ['TypeScript', 'MCP', 'Hono', 'React'],
-  },
-  {
-    name: 'Context Nexus',
-    description:
-      'Context management system with advanced search, tagging, and relationship mapping between knowledge nodes.',
-    image: '/context-nexus.png',
-    tags: ['React', 'TypeScript', 'Node.js'],
-  },
-  {
-    name: 'Domain Viewer',
-    description:
-      'Interactive domain analysis dashboard with visual tree navigation, DNS inspection, and monitoring alerts.',
-    image: '/domain-viewer.png',
-    tags: ['Next.js', 'D3.js', 'Tailwind'],
-  },
-  {
-    name: 'Queue Backend',
-    description:
-      'Robust message queue system with retry logic, dead letter handling, and 80%+ integration test coverage.',
-    image: '/queue-backend.png',
-    tags: ['.NET 10', 'Testcontainers', 'xUnit'],
-  },
-  {
-    name: 'Real-time Chat',
-    description:
-      'Socket-based chat template with room management, typing indicators, and message persistence.',
-    image: '/realtime-chat.png',
-    tags: ['.NET 10', 'SignalR', 'React'],
-  },
-  {
-    name: 'Automation Scripts',
-    description:
-      'PowerShell CLI toolkit with 8+ commands for context management, environment switching, and interactive mode.',
-    image: '/automation-scripts.png',
-    tags: ['PowerShell', 'Docker', 'CI/CD'],
-  },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -114,6 +63,7 @@ function ProjectCard({
   centerIndex: number;
 }) {
   const rotateY = index === centerIndex ? 0 : index < centerIndex ? 8 : -8;
+  const { t } = useI18n();
 
   return (
     <motion.div
@@ -179,7 +129,7 @@ function ProjectCard({
                 borderRadius: 4,
               }}
             >
-              FLAGSHIP
+              {t.projects.flagship}
             </span>
           )}
         </div>
@@ -225,7 +175,7 @@ function ProjectCard({
             style={{ color: '#00E5FF' }}
             onClick={(e) => e.preventDefault()}
           >
-            View Project
+            {t.projects.viewProject}
             <motion.span
               className="inline-block"
               initial={false}
@@ -266,6 +216,61 @@ export default function ProjectsSection() {
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const { t } = useI18n();
+
+  const projects: Project[] = [
+    {
+      id: 'kanban',
+      name: t.projects.items.kanban.name,
+      description: t.projects.items.kanban.description,
+      image: '/kanban.png',
+      tags: ['Next.js', '.NET 10', 'SignalR', 'PostgreSQL'],
+      flagship: true,
+    },
+    {
+      id: 'contextgate',
+      name: t.projects.items.contextgate.name,
+      description: t.projects.items.contextgate.description,
+      image: '/contextgate.png',
+      tags: ['TypeScript', 'MCP', 'Hono', 'React'],
+    },
+    {
+      id: 'contextNexus',
+      name: t.projects.items.contextNexus.name,
+      description: t.projects.items.contextNexus.description,
+      image: '/context-nexus.png',
+      tags: ['React', 'TypeScript', 'Node.js'],
+    },
+    {
+      id: 'domainViewer',
+      name: t.projects.items.domainViewer.name,
+      description: t.projects.items.domainViewer.description,
+      image: '/domain-viewer.png',
+      tags: ['Next.js', 'D3.js', 'Tailwind'],
+    },
+    {
+      id: 'queueBackend',
+      name: t.projects.items.queueBackend.name,
+      description: t.projects.items.queueBackend.description,
+      image: '/queue-backend.png',
+      tags: ['.NET 10', 'Testcontainers', 'xUnit'],
+    },
+    {
+      id: 'realtimeChat',
+      name: t.projects.items.realtimeChat.name,
+      description: t.projects.items.realtimeChat.description,
+      image: '/realtime-chat.png',
+      tags: ['.NET 10', 'SignalR', 'React'],
+    },
+    {
+      id: 'automationScripts',
+      name: t.projects.items.automationScripts.name,
+      description: t.projects.items.automationScripts.description,
+      image: '/automation-scripts.png',
+      tags: ['PowerShell', 'Docker', 'CI/CD'],
+    },
+  ];
 
   const centerIndex = Math.floor(projects.length / 2);
 
@@ -315,7 +320,7 @@ export default function ProjectsSection() {
             className="font-pixel text-[14px]"
             style={{ color: '#00E5FF' }}
           >
-            {'//'} WORK
+            {t.projects.sectionLabel}
           </span>
         </motion.div>
 
@@ -326,7 +331,7 @@ export default function ProjectsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          FEATURED PROJECTS
+          {t.projects.title}
         </motion.h2>
 
         <motion.p
@@ -419,7 +424,7 @@ export default function ProjectsSection() {
         >
           {projects.map((project, i) => (
             <ProjectCard
-              key={project.name}
+              key={project.id}
               project={project}
               index={i}
               centerIndex={centerIndex}
@@ -431,7 +436,7 @@ export default function ProjectsSection() {
         <div className="flex md:hidden flex-col gap-6 px-6 mt-8">
           {projects.map((project, i) => (
             <motion.div
-              key={project.name}
+              key={project.id}
               className="w-full rounded-lg overflow-hidden"
               style={{
                 backgroundColor: '#1A1A2E',
@@ -463,7 +468,7 @@ export default function ProjectsSection() {
                       borderRadius: 4,
                     }}
                   >
-                    FLAGSHIP
+                    {t.projects.flagship}
                   </span>
                 )}
               </div>
@@ -501,7 +506,7 @@ export default function ProjectsSection() {
                   style={{ color: '#00E5FF' }}
                   onClick={(e) => e.preventDefault()}
                 >
-                  View Project →
+                  {t.projects.viewProject}
                 </a>
               </div>
             </motion.div>
