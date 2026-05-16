@@ -25,11 +25,6 @@ const focusAreas: FocusArea[] = [
     icon: <StackIcon />,
   },
   {
-    title: 'DevOps & Quality',
-    description: 'Docker, automated testing, CI/CD pipelines & clean architecture',
-    icon: <DevopsIcon />,
-  },
-  {
     title: 'Cloud & AI Integration',
     description: 'Google APIs, Gemini AI, Cloudflare R2 & OAuth flows',
     icon: <CloudAiIcon />,
@@ -60,17 +55,6 @@ function StackIcon() {
   );
 }
 
-function DevopsIcon() {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="4" y="10" width="12" height="12" rx="2" stroke="#00E5FF" strokeWidth="2" />
-      <rect x="24" y="10" width="12" height="12" rx="2" stroke="#00E5FF" strokeWidth="2" />
-      <rect x="14" y="26" width="12" height="12" rx="2" stroke="#00E5FF" strokeWidth="2" />
-      <path d="M16 16h4M22 16l-2 12" stroke="#00E5FF" strokeWidth="2" strokeLinecap="round" />
-      <path d="M10 22v4M30 22v4M20 26v-6" stroke="#00E5FF" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function CloudAiIcon() {
   return (
