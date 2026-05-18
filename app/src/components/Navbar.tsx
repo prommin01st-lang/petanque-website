@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/i18n/I18nContext';
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
-];
+  { key: 'about', href: '#about' },
+  { key: 'projects', href: '#projects' },
+  { key: 'skills', href: '#skills' },
+  { key: 'contact', href: '#contact' },
+] as const;
 
 export default function Navbar() {
+  const { lang, t, toggleLang } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
@@ -73,7 +75,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link.label}
+              key={link.key}
               href={link.href}
               onClick={(e) => {
                 e.preventDefault();
@@ -92,7 +94,7 @@ export default function Navbar() {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-                {link.label}
+                {t.nav[link.key]}
               </span>
               <motion.span
                 className="absolute left-0 bottom-0 w-2 h-2 bg-neon-cyan"
@@ -102,6 +104,15 @@ export default function Navbar() {
               />
             </a>
           ))}
+          <button
+            onClick={toggleLang}
+            className="font-mono-labels text-[20px] uppercase tracking-[0.05em] transition-colors duration-200"
+            style={{ color: '#F0EDE4' }}
+          >
+            <span style={{ color: lang === 'en' ? '#00E5FF' : '#F0EDE4' }}>EN</span>
+            <span style={{ color: '#8A8598' }}> | </span>
+            <span style={{ color: lang === 'th' ? '#00E5FF' : '#F0EDE4' }}>TH</span>
+          </button>
         </div>
 
         {/* Hamburger button */}
@@ -148,7 +159,7 @@ export default function Navbar() {
           >
             {navLinks.map((link, i) => (
               <motion.a
-                key={link.label}
+                key={link.key}
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
@@ -160,9 +171,21 @@ export default function Navbar() {
                 transition={{ duration: 0.3, delay: i * 0.08 }}
                 className="font-pixel text-[24px] text-warm-white hover:text-neon-cyan transition-colors duration-200"
               >
-                {link.label}
+                {t.nav[link.key]}
               </motion.a>
             ))}
+            <motion.button
+              onClick={toggleLang}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, delay: navLinks.length * 0.08 }}
+              className="font-pixel text-[24px] text-warm-white hover:text-neon-cyan transition-colors duration-200"
+            >
+              <span style={{ color: lang === 'en' ? '#00E5FF' : '#F0EDE4' }}>EN</span>
+              <span style={{ color: '#8A8598' }}> | </span>
+              <span style={{ color: lang === 'th' ? '#00E5FF' : '#F0EDE4' }}>TH</span>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useI18n } from '@/i18n/I18nContext';
 
 const PixelHeart = memo(function PixelHeart() {
   return (
@@ -52,6 +53,7 @@ const LinkedInIcon = memo(function LinkedInIcon() {
 });
 
 export default function Footer() {
+  const { t } = useI18n();
   return (
     <footer
       className="relative"
@@ -78,9 +80,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 items-center">
           {/* Left: Logo + title */}
           <div className="text-center md:text-left">
-            <div className="font-pixel text-[16px] text-warm-white mb-2">PROMMIN.L</div>
+            <div className="font-pixel text-[16px] text-warm-white mb-2">{t.footer.title}</div>
             <div className="font-mono-labels text-[18px] text-mid-gray">
-              Full-Stack Developer & MCP
+              {t.footer.subtitle}
             </div>
           </div>
 
@@ -108,7 +110,7 @@ export default function Footer() {
 
           {/* Right: Built with */}
           <div className="text-center md:text-right font-mono-labels text-[18px] text-mid-gray">
-            Built with{' '}
+            {t.footer.builtWith}{' '}
             <PixelHeart />{' '}
             + .NET & Next.js
           </div>
@@ -117,7 +119,7 @@ export default function Footer() {
         {/* Bottom row: Copyright */}
         <div className="text-center pt-6" style={{ borderTop: '1px solid rgba(138, 133, 152, 0.15)' }}>
           <span className="font-mono-labels text-[16px] text-mid-gray">
-            &copy; 2025 Prommin L.
+            {t.footer.copyright}
           </span>
         </div>
       </div>

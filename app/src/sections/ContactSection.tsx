@@ -1,6 +1,7 @@
 import { useRef, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { useI18n } from '@/i18n/I18nContext';
 
 /* ------------------------------------------------------------------ */
 /*  PIXEL-ART SVG ICONS                                                */
@@ -27,13 +28,14 @@ function LinkedInIcon({ size = 28 }: { size?: number }) {
 /* ------------------------------------------------------------------ */
 
 export default function ContactSection() {
+  const { t } = useI18n();
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    toast.success('Message sent! (Demo only)');
+    toast.success(t.contact.form.success);
     /* Reset uncontrolled inputs */
     if (nameRef.current) nameRef.current.value = '';
     if (emailRef.current) emailRef.current.value = '';
@@ -61,25 +63,25 @@ export default function ContactSection() {
           className="font-pixel text-[14px] block mb-4"
           style={{ color: '#00E5FF' }}
         >
-          // CONNECT
+          {t.contact.sectionLabel}
         </span>
         <h2
           className="font-pixel text-[36px] leading-tight"
           style={{ color: '#F0EDE4' }}
         >
-          LET&apos;S BUILD SOMETHING
+          {t.contact.title1}
         </h2>
         <h2
           className="font-pixel text-[36px] leading-tight mt-2"
           style={{ color: '#6C5CE7' }}
         >
-          TOGETHER
+          {t.contact.title2}
         </h2>
         <p
           className="font-body text-[18px] mt-5"
           style={{ color: '#8A8598' }}
         >
-          I&apos;m open to collaboration on real-time systems, enterprise tools, and developer automation projects.
+          {t.contact.subtitle}
         </p>
       </motion.div>
 
@@ -109,14 +111,14 @@ export default function ContactSection() {
               className="font-mono-labels text-[14px] block mb-2"
               style={{ color: '#8A8598' }}
             >
-              NAME:
+              {t.contact.form.name}:
             </label>
             <input
               ref={nameRef}
               id="contact-name"
               type="text"
               name="name"
-              placeholder="Your Name"
+              placeholder={t.contact.form.namePlaceholder}
               className="w-full outline-none transition-all duration-200"
               style={{
                 height: '52px',
@@ -146,14 +148,14 @@ export default function ContactSection() {
               className="font-mono-labels text-[14px] block mb-2"
               style={{ color: '#8A8598' }}
             >
-              EMAIL:
+              {t.contact.form.email}:
             </label>
             <input
               ref={emailRef}
               id="contact-email"
               type="email"
               name="email"
-              placeholder="your@email.com"
+              placeholder={t.contact.form.emailPlaceholder}
               className="w-full outline-none transition-all duration-200"
               style={{
                 height: '52px',
@@ -183,13 +185,13 @@ export default function ContactSection() {
               className="font-mono-labels text-[14px] block mb-2"
               style={{ color: '#8A8598' }}
             >
-              MESSAGE:
+              {t.contact.form.message}:
             </label>
             <textarea
               ref={messageRef}
               id="contact-message"
               name="message"
-              placeholder="Tell me about your project..."
+              placeholder={t.contact.form.messagePlaceholder}
               className="w-full outline-none resize-none transition-all duration-200"
               style={{
                 height: '160px',
@@ -246,7 +248,7 @@ export default function ContactSection() {
               e.currentTarget.style.boxShadow = '0 6px 0 #4834A0, 0 8px 24px rgba(108, 92, 231, 0.4)';
             }}
           >
-            Send Message
+            {t.contact.form.send}
           </button>
         </form>
       </motion.div>
@@ -263,7 +265,7 @@ export default function ContactSection() {
           className="font-mono-labels text-[18px]"
           style={{ color: '#8A8598' }}
         >
-          Or reach me directly at{' '}
+          {t.contact.direct}{' '}
           <a
             href="https://github.com/prommin01st-lang"
             target="_blank"

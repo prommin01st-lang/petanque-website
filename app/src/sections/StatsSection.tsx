@@ -1,5 +1,6 @@
 import { useRef, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useI18n } from '@/i18n/I18nContext';
 
 const bounceEase = [0.34, 1.56, 0.64, 1] as [number, number, number, number];
 
@@ -13,23 +14,7 @@ interface FocusArea {
   icon: React.ReactNode;
 }
 
-const focusAreas: FocusArea[] = [
-  {
-    title: 'Real-Time Systems',
-    description: 'Live collaboration with SignalR, WebSockets & drag-and-drop sync',
-    icon: <SignalIcon />,
-  },
-  {
-    title: 'Full-Stack Architecture',
-    description: 'End-to-end solutions: Next.js frontend + .NET backend',
-    icon: <StackIcon />,
-  },
-  {
-    title: 'Cloud & AI Integration',
-    description: 'Google APIs, Gemini AI, Cloudflare R2 & OAuth flows',
-    icon: <CloudAiIcon />,
-  },
-];
+
 
 /* ------------------------------------------------------------------ */
 /*  ICONS                                                                */
@@ -180,8 +165,27 @@ function TiltFocusCard({
 /* ------------------------------------------------------------------ */
 
 export default function StatsSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
+  const focusAreas: FocusArea[] = [
+    {
+      title: t.stats.areas.realtime.title,
+      description: t.stats.areas.realtime.description,
+      icon: <SignalIcon />,
+    },
+    {
+      title: t.stats.areas.fullstack.title,
+      description: t.stats.areas.fullstack.description,
+      icon: <StackIcon />,
+    },
+    {
+      title: t.stats.areas.cloudAi.title,
+      description: t.stats.areas.cloudAi.description,
+      icon: <CloudAiIcon />,
+    },
+  ];
 
   return (
     <section
@@ -203,13 +207,13 @@ export default function StatsSection() {
           className="font-pixel text-[14px] block mb-4"
           style={{ color: '#00E5FF' }}
         >
-          // EXPERTISE
+          {t.stats.sectionLabel}
         </span>
         <h2
           className="font-pixel text-[36px] leading-tight section-title-glow"
           style={{ color: '#F0EDE4' }}
         >
-          CORE FOCUS AREAS
+          {t.stats.title}
         </h2>
       </motion.div>
 
