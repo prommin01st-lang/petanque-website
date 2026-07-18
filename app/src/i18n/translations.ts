@@ -150,6 +150,11 @@ export const translations = {
           description:
             'Telegram document-intelligence bot: Thai OCR (PaddleOCR), smart extractors for PDF/Office/images, and local RAG Q&A via Ollama + ChromaDB — fully offline on 8GB RAM.',
         },
+        flowForge: {
+          name: 'Flow Forge',
+          description:
+            'Pastel Mermaid diagram editor with a Thai prompt→Mermaid fine-tuned model (8 diagram types, QLoRA Qwen2.5-1.5B) hosted on Hugging Face.',
+        },
       },
     },
 
@@ -329,6 +334,11 @@ export const translations = {
           name: 'Sarabun OCR',
           description:
             'บอท Telegram อัจฉริยะสำหรับเอกสาร: OCR ภาษาไทย (PaddleOCR), ตัวสกัด PDF/Office/รูปภาพ และถาม-ตอบด้วย RAG บน Ollama + ChromaDB — ออฟไลน์เต็มรูปแบบบน RAM 8GB',
+        },
+        flowForge: {
+          name: 'Flow Forge',
+          description:
+            'โปรแกรมแก้ไขไดอะแกรม Mermaid โทนพาสเทล พร้อมโมเดล AI ภาษาไทย (Qwen2.5-1.5B + QLoRA adapter) ช่วยวาดไดอะแกรม 8 ชนิดจาก Prompt ภาษาไทย เผยแพร่บน Hugging Face',
         },
       },
     },
