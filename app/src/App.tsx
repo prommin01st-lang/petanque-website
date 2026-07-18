@@ -5,7 +5,6 @@ import AboutSection from './sections/AboutSection';
 import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import StatsSection from './sections/StatsSection';
-import ContactSection from './sections/ContactSection';
 
 function HomePage() {
   return (
@@ -15,7 +14,6 @@ function HomePage() {
       <ProjectsSection />
       <SkillsSection />
       <StatsSection />
-      <ContactSection />
     </>
   );
 }

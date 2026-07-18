@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import type { MouseEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
 
@@ -11,8 +10,8 @@ interface Project {
   id: string;
   name: string;
   description: string;
-  image: string;
   tags: string[];
+  metric?: string;
   flagship?: boolean;
 }
 
@@ -40,8 +39,8 @@ function ArrowIcon({ direction = 'left' }: { direction?: 'left' | 'right' }) {
     >
       <path
         d="M15 19l-7-7 7-7"
-        stroke="#F0EDE4"
-        strokeWidth="3"
+        stroke="#D7E3F0"
+        strokeWidth="2.5"
         strokeLinecap="square"
         strokeLinejoin="miter"
       />
@@ -49,159 +48,82 @@ function ArrowIcon({ direction = 'left' }: { direction?: 'left' | 'right' }) {
   );
 }
 
+function GitHubMark({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.36 6.84 9.72.5.1.68-.22.68-.48v-1.7C6.73 20.4 5.8 18.4 5.8 18.4s-.75-1.9-1.84-2.4c0 0-1.5-1.03.1-1.01 0 0 1.64.13 2.54 1.7 1.44 2.53 3.85 1.8 4.79 1.37.15-1.05.58-1.8 1.05-2.23-3.68-.42-7.55-1.84-7.55-8.18 0-1.81.64-3.28 1.7-4.44-.17-.42-.74-2.1.16-4.37 1.35-.42 4.46 1.69 4.46 1.69a15.3 15.3 0 0 1 8.02 0s3.11-2.11 4.46-1.69c.9 2.27.33 3.95.16 4.37 1.05 1.16 1.7 2.63 1.7 4.44 0 6.36-3.88 7.75-7.57 8.17.6.52 1.12 1.54 1.12 3.1v4.57c0 .36.18.69.68.57C19.14 20.6 22 16.76 22 12.26 22 6.58 17.52 2 12 2Z" />
+    </svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
-/*  Project Card                                                       */
+/*  Terminal-window project card                                       */
 /* ------------------------------------------------------------------ */
 
-function ProjectCard({
+function ProjectTerminalCard({
   project,
-  index,
-  centerIndex,
+  fixedHeight,
 }: {
   project: Project;
-  index: number;
-  centerIndex: number;
+  fixedHeight: boolean;
 }) {
-  const rotateY = index === centerIndex ? 0 : index < centerIndex ? 8 : -8;
   const { t } = useI18n();
 
   return (
-    <motion.div
-      className="shrink-0"
-      style={{
-        width: CARD_WIDTH,
-        height: 480,
-        perspective: 1200,
-      }}
-      initial={{
-        opacity: 0,
-        x: index < centerIndex ? -80 : index > centerIndex ? 80 : 0,
-        rotateY: index === centerIndex ? -15 : index < centerIndex ? -20 : 20,
-      }}
-      animate={{
-        opacity: 1,
-        x: 0,
-        rotateY,
-      }}
-      transition={{
-        duration: 0.6,
-        delay: Math.abs(index - centerIndex) * 0.1,
-        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-      }}
+    <div
+      className="term-window flex flex-col w-full"
+      style={fixedHeight ? { height: 430 } : undefined}
     >
-      <div
-        className="group relative h-full w-full overflow-hidden rounded-lg transition-all ease-out md:hover:-translate-y-2"
-        style={{
-          transitionDuration: '350ms',
-          backgroundColor: '#1A1A2E',
-          border: '2px solid rgba(108, 92, 231, 0.25)',
-          transformStyle: 'preserve-3d',
-        }}
-        onMouseEnter={(e: MouseEvent<HTMLDivElement>) => {
-          const el = e.currentTarget;
-          el.style.borderColor = '#6C5CE7';
-          el.style.boxShadow = '0 20px 40px rgba(108, 92, 231, 0.2)';
-          if (window.innerWidth >= 768) {
-            el.style.transform = 'translateY(-8px) translateZ(40px)';
-          }
-        }}
-        onMouseLeave={(e: MouseEvent<HTMLDivElement>) => {
-          const el = e.currentTarget;
-          el.style.borderColor = 'rgba(108, 92, 231, 0.25)';
-          el.style.boxShadow = 'none';
-          el.style.transform = `rotateY(${rotateY}deg)`;
-        }}
-      >
-        {/* Top half — image */}
-        <div className="relative h-[180px] w-full overflow-hidden" style={{ borderRadius: '8px 8px 0 0' }}>
-          <img
-            src={project.image}
-            alt={project.name}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-          {project.flagship && (
-            <span
-              className="absolute left-3 top-3 px-3 py-1 font-mono-labels text-[12px] uppercase tracking-wider"
-              style={{
-                backgroundColor: 'rgba(108, 92, 231, 0.9)',
-                color: '#F0EDE4',
-                borderRadius: 4,
-              }}
-            >
-              {t.projects.flagship}
+      {/* Title bar */}
+      <div className="term-window-header">
+        <span className="term-dot term-dot-red" />
+        <span className="term-dot term-dot-amber" />
+        <span className="term-dot term-dot-green" />
+        <span className="ml-2 truncate">~/projects/{project.id}</span>
+        {project.flagship && (
+          <span className="chip chip-green ml-auto shrink-0">{t.projects.flagship}</span>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-5">
+        <h3 className="font-mono font-bold text-[15px] text-text leading-snug">
+          {project.name}
+        </h3>
+
+        <p className="mt-2.5 font-body text-[13.5px] font-light leading-relaxed text-text-dim line-clamp-4">
+          {project.description}
+        </p>
+
+        {/* Tech tags */}
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => (
+            <span key={tag} className="chip">
+              {tag}
             </span>
-          )}
+          ))}
         </div>
 
-        {/* Bottom half — content */}
-        <div className="flex flex-col" style={{ padding: 28 }}>
-          <h3
-            className="font-pixel text-[16px] leading-tight"
-            style={{ color: '#F0EDE4' }}
-          >
-            {project.name}
-          </h3>
-
-          <p
-            className="mt-2 font-body text-[15px] leading-relaxed line-clamp-2"
-            style={{ color: '#8A8598' }}
-          >
-            {project.description}
-          </p>
-
-          {/* Tech tags */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="font-mono-labels text-[14px]"
-                style={{
-                  backgroundColor: 'rgba(108, 92, 231, 0.15)',
-                  color: '#6C5CE7',
-                  padding: '4px 12px',
-                  borderRadius: 4,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* View Project link */}
+        {/* Footer: metric + repo link */}
+        <div
+          className="mt-auto pt-4 flex items-center justify-between gap-3"
+          style={{ borderTop: '1px solid rgba(30, 42, 56, 0.7)', marginTop: 'auto' }}
+        >
+          <span className="font-mono text-[11px] text-terminal-green truncate">
+            {project.metric ? `▸ ${project.metric}` : ''}
+          </span>
           <a
-            href="#"
-            className="group/link mt-5 inline-flex items-center gap-1 font-mono-labels text-[16px] transition-colors duration-200"
-            style={{ color: '#00E5FF' }}
-            onClick={(e) => e.preventDefault()}
+            href="https://github.com/prommin01st-lang"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-neon font-mono text-[12px] inline-flex items-center gap-1.5 shrink-0"
           >
-            {t.projects.viewProject}
-            <motion.span
-              className="inline-block"
-              initial={false}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 12h14M12 5l7 7-7 7"
-                  stroke="#00E5FF"
-                  strokeWidth="2.5"
-                  strokeLinecap="square"
-                  strokeLinejoin="miter"
-                />
-              </svg>
-            </motion.span>
+            <GitHubMark />
+            GitHub
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -224,51 +146,72 @@ export default function ProjectsSection() {
       id: 'kanban',
       name: t.projects.items.kanban.name,
       description: t.projects.items.kanban.description,
-      image: '/kanban.png',
       tags: ['Next.js', '.NET 10', 'SignalR', 'PostgreSQL'],
+      metric: '~50% overhead · 8h→2h/wk',
       flagship: true,
+    },
+    {
+      id: 'domain-viewer',
+      name: t.projects.items.domainViewer.name,
+      description: t.projects.items.domainViewer.description,
+      tags: ['Next.js 16', '.NET 10', 'Quartz.NET', 'Tailwind 4'],
+      metric: 'JWT dual-token · Quartz jobs',
+    },
+    {
+      id: 'queue-backend',
+      name: t.projects.items.queueBackend.name,
+      description: t.projects.items.queueBackend.description,
+      tags: ['.NET 10', 'Redis', 'Testcontainers', 'xUnit'],
+      metric: '80%+ test coverage',
+    },
+    {
+      id: 'realtime-chat',
+      name: t.projects.items.realtimeChat.name,
+      description: t.projects.items.realtimeChat.description,
+      tags: ['.NET 10', 'SignalR', 'JWT'],
+      metric: 'reusable template',
     },
     {
       id: 'contextgate',
       name: t.projects.items.contextgate.name,
       description: t.projects.items.contextgate.description,
-      image: '/contextgate.png',
-      tags: ['TypeScript', 'MCP', 'Hono', 'React'],
+      tags: ['TypeScript', 'Hono', 'Drizzle', 'MCP'],
+      metric: 'default-deny policies',
     },
     {
-      id: 'contextNexus',
+      id: 'context-nexus',
       name: t.projects.items.contextNexus.name,
       description: t.projects.items.contextNexus.description,
-      image: '/context-nexus.png',
-      tags: ['React', 'TypeScript', 'Node.js'],
+      tags: ['REST API', 'PostgreSQL', 'GitHub Sync'],
+      metric: 'x-api-key auth',
     },
     {
-      id: 'domainViewer',
-      name: t.projects.items.domainViewer.name,
-      description: t.projects.items.domainViewer.description,
-      image: '/domain-viewer.png',
-      tags: ['Next.js', 'D3.js', 'Tailwind'],
+      id: 'mcp-control-tower',
+      name: t.projects.items.mcpControlTower.name,
+      description: t.projects.items.mcpControlTower.description,
+      tags: ['VS Code Ext', 'TypeScript', 'React 18', 'Zustand'],
+      metric: '<500ms activation',
     },
     {
-      id: 'queueBackend',
-      name: t.projects.items.queueBackend.name,
-      description: t.projects.items.queueBackend.description,
-      image: '/queue-backend.png',
-      tags: ['.NET 10', 'Testcontainers', 'xUnit'],
-    },
-    {
-      id: 'realtimeChat',
-      name: t.projects.items.realtimeChat.name,
-      description: t.projects.items.realtimeChat.description,
-      image: '/realtime-chat.png',
-      tags: ['.NET 10', 'SignalR', 'React'],
-    },
-    {
-      id: 'automationScripts',
+      id: 'automation-scripts',
       name: t.projects.items.automationScripts.name,
       description: t.projects.items.automationScripts.description,
-      image: '/automation-scripts.png',
-      tags: ['PowerShell', 'Docker', 'CI/CD'],
+      tags: ['PowerShell 7+', 'CLI'],
+      metric: '8+ nx-* commands',
+    },
+    {
+      id: 'iron-coach-th',
+      name: t.projects.items.ironCoachTh.name,
+      description: t.projects.items.ironCoachTh.description,
+      tags: ['QLoRA', 'Qwen2.5', 'Thai NLP'],
+      metric: '76% PASS (base ~45%)',
+    },
+    {
+      id: 'sarabun-ocr',
+      name: t.projects.items.sarabunOcr.name,
+      description: t.projects.items.sarabunOcr.description,
+      tags: ['Python', 'Ollama', 'PaddleOCR', 'ChromaDB'],
+      metric: 'offline · 8GB RAM',
     },
   ];
 
@@ -303,30 +246,24 @@ export default function ProjectsSection() {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
-      style={{
-        padding: '120px 0',
-        backgroundColor: '#0A0A12',
-      }}
+      className="relative w-full overflow-hidden pointer-events-none"
+      style={{ padding: '120px 0' }}
     >
       {/* Section header */}
-      <div className="mx-auto max-w-6xl px-6 md:px-20 text-center">
+      <div className="mx-auto max-w-6xl px-6 md:px-20 text-center pointer-events-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <span
-            className="font-pixel text-[14px]"
-            style={{ color: '#00E5FF' }}
-          >
+          <span className="font-mono text-[13px] text-neon-cyan">
             {t.projects.sectionLabel}
           </span>
         </motion.div>
 
         <motion.h2
-          className="font-pixel text-[24px] md:text-[36px] mt-4"
-          style={{ color: '#F0EDE4', lineHeight: 1.2 }}
+          className="font-mono font-bold text-[28px] md:text-[36px] mt-3 text-text text-glow-cyan"
+          style={{ lineHeight: 1.2 }}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -335,20 +272,18 @@ export default function ProjectsSection() {
         </motion.h2>
 
         <motion.p
-          className="font-body text-[18px] mt-4"
-          style={{ color: '#8A8598' }}
+          className="font-body text-[16px] font-light mt-4 text-text-dim"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          A selection of production tools and systems I&apos;ve built solo.
+          {t.projects.subtitle}
         </motion.p>
       </div>
 
       {/* Carousel container */}
       <motion.div
-        className="relative mx-auto mt-16 max-w-full"
-        style={{ perspective: 1200 }}
+        className="relative mx-auto mt-16 max-w-full pointer-events-auto"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -359,22 +294,22 @@ export default function ProjectsSection() {
           <button
             onClick={() => scrollBy(-1)}
             disabled={!canScrollLeft}
-            className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-all duration-200"
+            className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center rounded-md transition-all duration-200"
             style={{
               width: 48,
               height: 48,
-              border: '2px solid #8A8598',
-              backgroundColor: 'transparent',
+              border: '1px solid #1E2A38',
+              backgroundColor: 'rgba(10, 16, 24, 0.85)',
               opacity: canScrollLeft ? 1 : 0.3,
               pointerEvents: canScrollLeft ? 'auto' : 'none',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#00E5FF';
-              e.currentTarget.style.backgroundColor = 'rgba(0, 229, 255, 0.1)';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(0, 229, 255, 0.2)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#8A8598';
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = '#1E2A38';
+              e.currentTarget.style.boxShadow = 'none';
             }}
             aria-label="Scroll left"
           >
@@ -385,22 +320,22 @@ export default function ProjectsSection() {
           <button
             onClick={() => scrollBy(1)}
             disabled={!canScrollRight}
-            className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-all duration-200"
+            className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center rounded-md transition-all duration-200"
             style={{
               width: 48,
               height: 48,
-              border: '2px solid #8A8598',
-              backgroundColor: 'transparent',
+              border: '1px solid #1E2A38',
+              backgroundColor: 'rgba(10, 16, 24, 0.85)',
               opacity: canScrollRight ? 1 : 0.3,
               pointerEvents: canScrollRight ? 'auto' : 'none',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#00E5FF';
-              e.currentTarget.style.backgroundColor = 'rgba(0, 229, 255, 0.1)';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(0, 229, 255, 0.2)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#8A8598';
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = '#1E2A38';
+              e.currentTarget.style.boxShadow = 'none';
             }}
             aria-label="Scroll right"
           >
@@ -418,17 +353,24 @@ export default function ProjectsSection() {
             paddingRight: 'max(48px, calc((100% - 1200px) / 2 + 48px))',
             scrollPaddingLeft: 'max(48px, calc((100% - 1200px) / 2 + 48px))',
             scrollBehavior: 'smooth',
-            transformStyle: 'preserve-3d',
             scrollbarWidth: 'none',
           }}
         >
           {projects.map((project, i) => (
-            <ProjectCard
+            <motion.div
               key={project.id}
-              project={project}
-              index={i}
-              centerIndex={centerIndex}
-            />
+              className="shrink-0"
+              style={{ width: CARD_WIDTH }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: Math.abs(i - centerIndex) * 0.06,
+                ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+              }}
+            >
+              <ProjectTerminalCard project={project} fixedHeight />
+            </motion.div>
           ))}
         </div>
 
@@ -437,78 +379,15 @@ export default function ProjectsSection() {
           {projects.map((project, i) => (
             <motion.div
               key={project.id}
-              className="w-full rounded-lg overflow-hidden"
-              style={{
-                backgroundColor: '#1A1A2E',
-                border: '2px solid rgba(108, 92, 231, 0.25)',
-              }}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 duration: 0.5,
-                delay: 0.2 + i * 0.1,
+                delay: 0.1 + i * 0.06,
                 ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
               }}
-              whileHover={{ borderColor: '#6C5CE7' }}
             >
-              {/* Mobile image */}
-              <div className="relative h-[180px] w-full" style={{ borderRadius: '8px 8px 0 0' }}>
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-                {project.flagship && (
-                  <span
-                    className="absolute left-3 top-3 px-3 py-1 font-mono-labels text-[12px] uppercase tracking-wider"
-                    style={{
-                      backgroundColor: 'rgba(108, 92, 231, 0.9)',
-                      color: '#F0EDE4',
-                      borderRadius: 4,
-                    }}
-                  >
-                    {t.projects.flagship}
-                  </span>
-                )}
-              </div>
-
-              {/* Mobile content */}
-              <div style={{ padding: 20 }}>
-                <h3 className="font-pixel text-[14px]" style={{ color: '#F0EDE4' }}>
-                  {project.name}
-                </h3>
-                <p
-                  className="mt-2 font-body text-[14px] line-clamp-2"
-                  style={{ color: '#8A8598' }}
-                >
-                  {project.description}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="font-mono-labels text-[13px]"
-                      style={{
-                        backgroundColor: 'rgba(108, 92, 231, 0.15)',
-                        color: '#6C5CE7',
-                        padding: '3px 10px',
-                        borderRadius: 4,
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href="#"
-                  className="mt-3 inline-flex items-center gap-1 font-mono-labels text-[15px]"
-                  style={{ color: '#00E5FF' }}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  {t.projects.viewProject}
-                </a>
-              </div>
+              <ProjectTerminalCard project={project} fixedHeight={false} />
             </motion.div>
           ))}
         </div>

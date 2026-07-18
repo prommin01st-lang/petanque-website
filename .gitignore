@@ -24,3 +24,9 @@ lerna-debug.log*
 .env
 .env.local
 .env.*.local
+
+# Temporary / Session files
+.playwright-mcp/
+app/test-results/
+kimi-export-session_-*.md
+verify-hero.jpeg
