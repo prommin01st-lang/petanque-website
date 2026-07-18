@@ -15,7 +15,8 @@ export default function AboutSection() {
     { label: t.about.facts.backend, value: t.about.facts.backendValue },
     { label: t.about.facts.frontend, value: t.about.facts.frontendValue },
     { label: t.about.facts.databases, value: t.about.facts.databasesValue },
-    { label: t.about.facts.mcp, value: t.about.facts.mcpValue },
+    { label: t.about.facts.devops, value: t.about.facts.devopsValue },
+    { label: t.about.facts.cloud, value: t.about.facts.cloudValue },
     { label: t.about.facts.location, value: t.about.facts.locationValue },
   ];
 
@@ -23,6 +24,7 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
+      className="pointer-events-none"
       style={{ padding: '120px 24px' }}
     >
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
@@ -33,145 +35,72 @@ export default function AboutSection() {
           transition={{ duration: 0.5, ease: easeOutExpo }}
           style={{ marginBottom: '64px' }}
         >
-          <span
-            className="font-pixel"
-            style={{
-              fontSize: '14px',
-              color: '#00E5FF',
-              display: 'block',
-              marginBottom: '12px',
-            }}
-          >
+          <span className="font-mono text-[13px] text-neon-cyan block mb-3">
             {t.about.sectionLabel}
           </span>
-          <h2
-            className="font-pixel section-title-glow"
-            style={{
-              fontSize: '36px',
-              color: '#F0EDE4',
-              lineHeight: 1.2,
-            }}
-          >
+          <h2 className="font-mono font-bold text-[28px] md:text-[36px] text-text leading-tight text-glow-cyan">
             {t.about.title}
           </h2>
         </motion.div>
 
         {/* Two-column layout */}
-        <div
-          className="flex flex-col lg:flex-row gap-12 lg:gap-16"
-        >
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           {/* Left column: Bio text */}
           <motion.div
-            className="lg:w-[60%]"
+            className="lg:w-[58%] pointer-events-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.15, ease: easeOutExpo }}
           >
-            <p
-              className="font-body"
-              style={{
-                fontSize: '18px',
-                fontWeight: 300,
-                color: '#8A8598',
-                lineHeight: 1.7,
-                marginBottom: '20px',
-              }}
-            >
+            <p className="font-body text-[17px] font-light text-text-dim leading-relaxed mb-5">
               {t.about.bio1}
             </p>
-            <p
-              className="font-body"
-              style={{
-                fontSize: '18px',
-                fontWeight: 300,
-                color: '#8A8598',
-                lineHeight: 1.7,
-                marginBottom: '20px',
-              }}
-            >
+            <p className="font-body text-[17px] font-light text-text-dim leading-relaxed mb-5">
               {t.about.bio2}
             </p>
-            <p
-              className="font-body"
-              style={{
-                fontSize: '18px',
-                fontWeight: 300,
-                color: '#8A8598',
-                lineHeight: 1.7,
-              }}
-            >
+            <p className="font-body text-[17px] font-light text-text-dim leading-relaxed">
               {t.about.bio3}
             </p>
           </motion.div>
 
-          {/* Right column: Quick Facts card */}
+          {/* Right column: quick_facts.yaml terminal card */}
           <motion.div
-            className="lg:w-[40%]"
+            className="lg:w-[42%] pointer-events-auto"
             initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
             transition={{ duration: 0.6, delay: 0.3, ease: easeOutExpo }}
           >
-            <div
-              style={{
-                backgroundColor: '#1A1A2E',
-                border: '2px solid rgba(108, 92, 231, 0.3)',
-                borderRadius: '8px',
-                padding: '32px',
-              }}
-            >
-              <h3
-                className="font-mono-labels"
-                style={{
-                  fontSize: '22px',
-                  color: '#6C5CE7',
-                  marginBottom: '24px',
-                }}
-              >
-                QUICK FACTS
-              </h3>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {facts.map((fact) => (
-                  <div key={fact.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <span
-                      style={{
-                        width: '6px',
-                        height: '6px',
-                        backgroundColor: '#00E5FF',
-                        borderRadius: 0,
-                        flexShrink: 0,
-                        marginTop: '8px',
-                      }}
-                    />
-                    <span style={{ fontSize: '15px', lineHeight: 1.5 }}>
-                      <span style={{ color: '#8A8598' }}>{fact.label}: </span>
-                      <span style={{ color: '#F0EDE4' }}>{fact.value}</span>
-                    </span>
-                  </div>
-                ))}
+            <div className="term-window">
+              {/* Terminal header */}
+              <div className="term-window-header">
+                <span className="term-dot term-dot-red" />
+                <span className="term-dot term-dot-amber" />
+                <span className="term-dot term-dot-green" />
+                <span className="ml-2">{t.about.factsTitle}</span>
               </div>
 
-              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(138, 133, 152, 0.15)' }}>
-                <a
-                  href="https://github.com/prommin01st-lang"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono-labels"
-                  style={{
-                    fontSize: '16px',
-                    color: '#00E5FF',
-                    textDecoration: 'none',
-                    transition: 'text-decoration 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.textDecoration = 'underline';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.textDecoration = 'none';
-                  }}
+              {/* YAML-style facts */}
+              <div className="p-5 font-mono text-[13px] leading-relaxed">
+                {facts.map((fact) => (
+                  <div key={fact.label} className="flex items-baseline gap-2 py-1.5">
+                    <span className="text-neon-cyan shrink-0">{fact.label}:</span>
+                    <span className="text-text">{fact.value}</span>
+                  </div>
+                ))}
+
+                <div
+                  className="mt-4 pt-3"
+                  style={{ borderTop: '1px solid rgba(30, 42, 56, 0.7)' }}
                 >
-                  GitHub: @prommin01st-lang
-                </a>
+                  <a
+                    href="https://github.com/prommin01st-lang"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-neon"
+                  >
+                    github: @prommin01st-lang
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
