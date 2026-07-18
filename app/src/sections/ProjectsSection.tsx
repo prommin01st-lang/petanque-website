@@ -213,6 +213,13 @@ export default function ProjectsSection() {
       tags: ['Python', 'Ollama', 'PaddleOCR', 'ChromaDB'],
       metric: 'offline · 8GB RAM',
     },
+    {
+      id: 'flow-forge',
+      name: t.projects.items.flowForge.name,
+      description: t.projects.items.flowForge.description,
+      tags: ['React', 'Mermaid.js', 'QLoRA', 'Qwen2.5'],
+      metric: '8 diagram types · Thai prompt',
+    },
   ];
 
   const centerIndex = Math.floor(projects.length / 2);
