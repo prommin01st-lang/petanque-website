@@ -349,6 +349,15 @@
   pointer-events: none;
 }
 
+/* Windows with real controls (e.g. the shell): the buttons must receive clicks. */
+.term-window-buttons-live {
+  pointer-events: auto;
+}
+
+.term-window-buttons-live button.term-window-btn:hover {
+  filter: brightness(1.25);
+}
+
 .term-window-btn {
   display: inline-flex;
   align-items: center;

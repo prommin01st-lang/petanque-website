@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Terminal } from '@xterm/xterm';
 import { useI18n } from '@/i18n/I18nContext';
 import { TerminalWindow, LoadingBar, ErrorLine } from '@/components/term';
+import { STATUS_BAR_PX } from '@/statusbar/constants';
 import { loadXterm, type XtermModules } from './loadXterm';
 import { xtermTheme } from './xtermTheme';
 import { createReadline } from './readline';
@@ -52,12 +53,21 @@ const prefersReducedMotion = () =>
 /* The Terminal is created once and kept while mounted; closing only hides.   */
 /* -------------------------------------------------------------------------- */
 
+type WindowMode = 'normal' | 'minimized' | 'maximized';
+
 export default function QuakeShell({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useI18n();
   const [reducedMotion] = useState(prefersReducedMotion);
   const [mods, setMods] = useState<XtermModules | null>(null);
   const [loadError, setLoadError] = useState<unknown>(null);
   const [attempt, setAttempt] = useState(0);
+  const [mode, setMode] = useState<WindowMode>('normal');
+  // Reopening a minimized shell shows it again (derived during render, no effect needed).
+  const [wasOpen, setWasOpen] = useState(open);
+  if (wasOpen !== open) {
+    setWasOpen(open);
+    if (open && mode === 'minimized') setMode('normal');
+  }
   const [cwd, setCwdState] = useState('~');
   const [history] = useState(loadHistory);
   const hostRef = useRef<HTMLDivElement>(null);
@@ -226,11 +236,11 @@ export default function QuakeShell({ open, onClose }: { open: boolean; onClose: 
 
   return (
     <>
-      {open && (
+      {open && mode !== 'minimized' && (
         <button
           type="button"
           tabIndex={-1}
-          aria-label={t.statusBar.closeShell}
+          aria-hidden="true"
           className="fixed inset-0 z-30 cursor-default bg-transparent"
           onClick={onClose}
         />
@@ -240,9 +250,15 @@ export default function QuakeShell({ open, onClose }: { open: boolean; onClose: 
         aria-label={t.statusBar.shell}
         aria-hidden={!open}
         inert={!open}
+        data-mode={mode}
         // pt-12 keeps the window's title bar clear of the fixed navbar (h-12, z-[100]).
-        className="fixed inset-x-0 top-0 z-50 h-[70vh] sm:h-[50vh] pt-12 px-2 sm:px-4 pb-2"
+        className={`fixed inset-x-0 top-0 z-50 pt-12 px-2 sm:px-4 pb-2 ${mode === 'normal' ? 'h-[70vh] sm:h-[50vh]' : mode === 'minimized' ? 'h-auto' : ''}`}
+        onClick={(e) => {
+          // A minimized window restores when its title bar is clicked.
+          if (mode === 'minimized' && !(e.target as HTMLElement).closest('button')) setMode('normal');
+        }}
         style={{
+          ...(mode === 'maximized' ? { height: `calc(100dvh - ${STATUS_BAR_PX}px)` } : {}),
           transform: open ? 'translateY(0)' : 'translateY(-100%)',
           visibility: open ? 'visible' : 'hidden',
           // Visible immediately on open (so xterm can take focus); hidden only after the slide-up.
@@ -256,7 +272,11 @@ export default function QuakeShell({ open, onClose }: { open: boolean; onClose: 
         <TerminalWindow
           title={cwd}
           onClose={onClose}
-          closeLabel={t.statusBar.closeShell}
+          onMinimize={() => setMode((m) => (m === 'minimized' ? 'normal' : 'minimized'))}
+          onMaximize={() => setMode((m) => (m === 'maximized' ? 'normal' : 'maximized'))}
+          minimized={mode === 'minimized'}
+          maximized={mode === 'maximized'}
+          labels={{ close: t.statusBar.closeShell, minimize: t.shell.minimize, maximize: t.shell.maximize, restore: t.shell.restore }}
           className="h-full [&>.term-window-body]:min-h-0 [&>.term-window-body]:p-2"
         >
           <div className="relative h-full">

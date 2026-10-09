@@ -7,7 +7,7 @@ export default function makeHelp(list: () => readonly Command[]): Command {
     name: 'help',
     summary: (t) => t.shell.help.help,
     run(_args, ctx) {
-      return [...list().map((c) => bold(c.name.padEnd(8)) + c.summary(ctx.t)), ctx.t.shell.hint];
+      return [...list().filter((c) => !c.hidden).map((c) => bold(c.name.padEnd(8)) + c.summary(ctx.t)), ctx.t.shell.hint];
     },
   };
 }

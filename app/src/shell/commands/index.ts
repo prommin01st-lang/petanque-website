@@ -15,12 +15,13 @@ import lang from './lang';
 import cd from './cd';
 import open from './open';
 import exit from './exit';
+import { login, sudo, ssh } from './login';
 import { fmt } from './util';
 
 const help = makeHelp(() => COMMANDS);
 
-export const COMMANDS: readonly Command[] = [help, ls, cat, tree, whoami, echo, date, history, clear, lang, cd, open, exit];
-export const COMMAND_NAMES: readonly string[] = COMMANDS.map((c) => c.name);
+export const COMMANDS: readonly Command[] = [help, ls, cat, tree, whoami, echo, date, history, clear, lang, cd, open, exit, login, sudo, ssh];
+export const COMMAND_NAMES: readonly string[] = COMMANDS.filter((c) => !c.hidden).map((c) => c.name);
 
 const isAbort = (e: unknown) => e instanceof DOMException && e.name === 'AbortError';
 

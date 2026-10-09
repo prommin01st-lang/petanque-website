@@ -141,3 +141,26 @@ describe('link handlers', () => {
     ]);
   });
 });
+
+describe('window buttons', () => {
+  it('minimize collapses to the title bar and restores; maximize fills the viewport', async () => {
+    ui();
+    await waitFor(() => expect(fake.input).not.toBeNull());
+    const panel = screen.getByRole('dialog');
+    fireEvent.click(screen.getByRole('button', { name: 'Minimize shell' }));
+    expect(panel).toHaveAttribute('data-mode', 'minimized');
+    fireEvent.click(screen.getByRole('button', { name: 'Minimize shell' }));
+    expect(panel).toHaveAttribute('data-mode', 'normal');
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize shell' }));
+    expect(panel).toHaveAttribute('data-mode', 'maximized');
+    fireEvent.click(screen.getByRole('button', { name: 'Restore shell size' }));
+    expect(panel).toHaveAttribute('data-mode', 'normal');
+  });
+
+  it('close button closes the shell', async () => {
+    const onClose = ui();
+    await waitFor(() => expect(fake.input).not.toBeNull());
+    fireEvent.click(screen.getByRole('button', { name: 'Close shell' }));
+    expect(onClose).toHaveBeenCalled();
+  });
+});

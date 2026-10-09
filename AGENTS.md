@@ -252,7 +252,7 @@ app/src/
 
 ### Commands
 
-`help`, `ls`, `cat`, `tree`, `whoami`, `echo`, `date`, `history`, `clear`, `lang`, `cd`, `open`, `exit` (registry: `shell/commands/index.ts`). `help` is a `makeHelp(() => COMMANDS)` factory to avoid a circular import. Open with the backtick key or the status bar `>_ shell` button; close with Esc (inside xterm this is handled by `attachCustomKeyEventHandler`, because xterm stops propagation) or `exit`.
+`help`, `ls`, `cat`, `tree`, `whoami`, `echo`, `date`, `history`, `clear`, `lang`, `cd`, `open`, `exit` (registry: `shell/commands/index.ts`). Hidden easter eggs (`hidden: true` — left out of `help`, Tab completion and suggestions): `login`, `sudo su`, `ssh admin@prommin` open `/admin/login`; other `sudo`/`ssh` targets print a refusal. `help` is a `makeHelp(() => COMMANDS)` factory to avoid a circular import. Open with the backtick key or the status bar `>_ shell` button; close with Esc (inside xterm this is handled by `attachCustomKeyEventHandler`, because xterm stops propagation) or `exit`. The shell window's title-bar buttons are live: `_` minimizes to the title bar (click the bar to restore), `□` maximizes (double-clicking the bar toggles it too), `×` closes. `TerminalWindow` makes a button real only when its handler (`onClose`/`onMinimize`/`onMaximize`) is passed; cards without handlers keep decorative, `aria-hidden` buttons (`.term-window-buttons` is `pointer-events: none`, `.term-window-buttons-live` re-enables it).
 
 ### Boundaries and rules
 

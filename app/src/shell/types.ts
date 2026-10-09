@@ -28,6 +28,8 @@ export interface ShellContext {
 
 export interface Command {
   name: string;
+  /** Hidden commands run normally but are left out of help, Tab completion and suggestions. */
+  hidden?: boolean;
   summary: (t: Translations) => string;
   run(args: string[], ctx: ShellContext): Promise<ShellOutput> | ShellOutput;
 }

@@ -70,3 +70,45 @@ describe('TerminalWindow close button', () => {
     expect(container.querySelector('.term-window-btn-min')?.closest('[aria-hidden="true"]')).not.toBeNull();
   });
 });
+
+describe('TerminalWindow window controls', () => {
+  it('makes _ and □ real buttons when handlers are given', () => {
+    const onMinimize = vi.fn();
+    const onMaximize = vi.fn();
+    render(
+      <TerminalWindow title="~" onClose={vi.fn()} onMinimize={onMinimize} onMaximize={onMaximize}
+        labels={{ close: 'Close shell', minimize: 'Minimize', maximize: 'Maximize', restore: 'Restore' }} />,
+    );
+    screen.getByRole('button', { name: 'Minimize' }).click();
+    screen.getByRole('button', { name: 'Maximize' }).click();
+    expect(onMinimize).toHaveBeenCalledTimes(1);
+    expect(onMaximize).toHaveBeenCalledTimes(1);
+  });
+
+  it('labels the maximize button Restore and marks state while maximized', () => {
+    render(
+      <TerminalWindow title="~" onMaximize={vi.fn()} maximized
+        labels={{ close: 'Close', minimize: 'Minimize', maximize: 'Maximize', restore: 'Restore' }} />,
+    );
+    expect(screen.getByRole('button', { name: 'Restore' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('double-clicking the title bar toggles maximize', () => {
+    const onMaximize = vi.fn();
+    const { container } = render(<TerminalWindow title="~" onMaximize={onMaximize} />);
+    container.querySelector('.term-window-bar')!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    expect(onMaximize).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides the body while minimized', () => {
+    render(<TerminalWindow title="~" onMinimize={vi.fn()} minimized><p>body</p></TerminalWindow>);
+    expect(screen.getByText('body').closest('.term-window-body')).toHaveAttribute('hidden');
+  });
+
+  it('interactive buttons are not inside an aria-hidden or pointer-events:none wrapper', () => {
+    const { container } = render(<TerminalWindow title="~" onClose={vi.fn()} />);
+    const wrap = container.querySelector('.term-window-buttons')!;
+    expect(wrap).not.toHaveAttribute('aria-hidden');
+    expect(wrap).toHaveClass('term-window-buttons-live');
+  });
+});

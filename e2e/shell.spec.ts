@@ -21,3 +21,18 @@ test('shell button in the status bar opens the shell', async ({ page }) => {
   await page.getByRole('navigation', { name: 'Window list' }).getByRole('button', { name: /open shell/i }).click();
   await expect(page.locator('.xterm')).toBeVisible();
 });
+
+test('shell window buttons respond to real mouse clicks', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Backquote');
+  const panel = page.getByRole('dialog');
+  await expect(page.locator('.xterm')).toBeVisible();
+  await panel.locator('button.term-window-btn-max').click();
+  await expect(panel).toHaveAttribute('data-mode', 'maximized');
+  await panel.locator('button.term-window-btn-min').click();
+  await expect(panel).toHaveAttribute('data-mode', 'minimized');
+  await panel.locator('.term-window-title').click();
+  await expect(panel).toHaveAttribute('data-mode', 'normal');
+  await panel.locator('button.term-window-btn-close').click();
+  await expect(page.locator('.xterm')).toBeHidden();
+});
