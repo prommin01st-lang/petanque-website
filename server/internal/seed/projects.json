@@ -1,0 +1,184 @@
+[
+  {
+    "slug": "kanban",
+    "nameEn": "Kanban Task Management",
+    "nameTh": "ระบบจัดการงาน Kanban",
+    "descEn": "Real-time board with 35+ REST endpoints, 2 SignalR hubs, Google Calendar two-way sync, and a Gemini AI assistant. Cut manual overhead by ~50% — weekly cycle time dropped from 8h to 2h.",
+    "descTh": "บอร์ดงาน real-time มี 35+ REST endpoints, 2 SignalR hubs, sync Google Calendar สองทาง และผู้ช่วย Gemini AI ลดภาระงาน ~50% — cycle time รายสัปดาห์จาก 8 ชม. เหลือ 2 ชม.",
+    "tags": [
+      "Next.js",
+      ".NET 10",
+      "SignalR",
+      "PostgreSQL"
+    ],
+    "metric": "~50% overhead · 8h→2h/wk",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": true
+  },
+  {
+    "slug": "domain-viewer",
+    "nameEn": "Domain Viewer",
+    "nameTh": "Domain Viewer",
+    "descEn": "Full-stack domain management: expiration tracking, CSV import/export, role-based access, and scheduled Gmail SMTP alerts. Next.js 16 + .NET 10 API with Quartz.NET background jobs.",
+    "descTh": "ระบบจัดการโดเมนแบบ full-stack: ติดตามวันหมดอายุ, import/export CSV, สิทธิ์แบบ role-based และแจ้งเตือนอีเมลตามเวลา — Next.js 16 + .NET 10 API พร้อม Quartz.NET background jobs",
+    "tags": [
+      "Next.js 16",
+      ".NET 10",
+      "Quartz.NET",
+      "Tailwind 4"
+    ],
+    "metric": "JWT dual-token · Quartz jobs",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "queue-backend",
+    "nameEn": "Queue Backend",
+    "nameTh": "Queue Backend",
+    "descEn": "Job queue backend (.NET 10, PostgreSQL, Redis) built test-first: WebApplicationFactory + Testcontainers harness with 80%+ integration coverage via xUnit + FluentAssertions.",
+    "descTh": "แบ็กเอนด์ job queue (.NET 10, PostgreSQL, Redis) พัฒนาแบบ test-first: WebApplicationFactory + Testcontainers ครอบคลุม integration test 80%+ ด้วย xUnit + FluentAssertions",
+    "tags": [
+      ".NET 10",
+      "Redis",
+      "Testcontainers",
+      "xUnit"
+    ],
+    "metric": "80%+ test coverage",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "realtime-chat",
+    "nameEn": "Real-time Chat",
+    "nameTh": "Real-time Chat",
+    "descEn": "Reusable .NET 10 + SignalR chat template: auto-created 1-1 rooms, persistent history, JWT auth, rate limiting, and health checks.",
+    "descTh": "เทมเพลตแชท .NET 10 + SignalR ใช้ซ้ำได้: ห้อง 1-1 สร้างอัตโนมัติ, เก็บประวัติข้อความ, JWT auth, rate limiting และ health checks",
+    "tags": [
+      ".NET 10",
+      "SignalR",
+      "JWT"
+    ],
+    "metric": "reusable template",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "contextgate",
+    "nameEn": "ContextGate",
+    "nameTh": "ContextGate",
+    "descEn": "Open-source MCP gateway for organizations: pluggable connectors, default-deny policies, per-agent API keys, full audit trail, and a React admin dashboard. Hono + Drizzle + PostgreSQL in a pnpm/Turbo monorepo.",
+    "descTh": "MCP gateway โอเพนซอร์สสำหรับองค์กร: pluggable connectors, นโยบาย default-deny, API key ต่อ agent, audit trail ครบถ้วน และแดชบอร์ด React — Hono + Drizzle + PostgreSQL ใน monorepo pnpm/Turbo",
+    "tags": [
+      "TypeScript",
+      "Hono",
+      "Drizzle",
+      "MCP"
+    ],
+    "metric": "default-deny policies",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "context-nexus",
+    "nameEn": "Context Nexus",
+    "nameTh": "Context Nexus",
+    "descEn": "Centralized Context API that stores and syncs .md/.txt knowledge files as a source of truth — indexed in PostgreSQL with optional auto-sync to GitHub.",
+    "descTh": "Context API กลางสำหรับเก็บและ sync ไฟล์ .md/.txt เป็น source of truth — index ด้วย PostgreSQL พร้อมตัวเลือก auto-sync ขึ้น GitHub",
+    "tags": [
+      "REST API",
+      "PostgreSQL",
+      "GitHub Sync"
+    ],
+    "metric": "x-api-key auth",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "mcp-control-tower",
+    "nameEn": "MCP Control Tower",
+    "nameTh": "MCP Control Tower",
+    "descEn": "VS Code extension for managing MCP servers: TreeView control, React monitoring dashboard, multi-transport (stdio/SSE/HTTP), 3-level health checks, and auto-healing restarts.",
+    "descTh": "VS Code extension จัดการ MCP servers: ควบคุมผ่าน TreeView, แดชบอร์ด React แบบ real-time, รองรับหลาย transport (stdio/SSE/HTTP), health check 3 ระดับ และ auto-healing restart",
+    "tags": [
+      "VS Code Ext",
+      "TypeScript",
+      "React 18",
+      "Zustand"
+    ],
+    "metric": "<500ms activation",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "automation-scripts",
+    "nameEn": "Automation Scripts",
+    "nameTh": "Automation Scripts",
+    "descEn": "PowerShell 7+ CLI (nx-*) for the Context Nexus API: upload/download files, manage projects, and interactive mode with 8+ commands.",
+    "descTh": "CLI PowerShell 7+ (คำสั่ง nx-*) สำหรับ Context Nexus API: อัปโหลด/ดาวน์โหลดไฟล์, จัดการโปรเจกต์ และ interactive mode รวม 8+ คำสั่ง",
+    "tags": [
+      "PowerShell 7+",
+      "CLI"
+    ],
+    "metric": "8+ nx-* commands",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "iron-coach-th",
+    "nameEn": "Iron Coach TH",
+    "nameTh": "Iron Coach TH",
+    "descEn": "Thai fitness-coach LLM fine-tuned from Qwen2.5-1.5B with 4-bit QLoRA on a consumer RTX 2060 — 76% PASS on the eval harness (base ~45%), with out-of-domain refusals. Published on Hugging Face.",
+    "descTh": "LLM เทรนเนอร์ฟิตเนสภาษาไทย fine-tune จาก Qwen2.5-1.5B ด้วย QLoRA 4-bit บน RTX 2060 ทั่วไป — ผ่าน eval 76% (base ~45%) พร้อมระบบปฏิเสธคำถามนอกขอบเขต เผยแพร่บน Hugging Face",
+    "tags": [
+      "QLoRA",
+      "Qwen2.5",
+      "Thai NLP"
+    ],
+    "metric": "76% PASS (base ~45%)",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "sarabun-ocr",
+    "nameEn": "Sarabun OCR",
+    "nameTh": "Sarabun OCR",
+    "descEn": "Telegram document-intelligence bot: Thai OCR (PaddleOCR), smart extractors for PDF/Office/images, and local RAG Q&A via Ollama + ChromaDB — fully offline on 8GB RAM.",
+    "descTh": "บอท Telegram อัจฉริยะสำหรับเอกสาร: OCR ภาษาไทย (PaddleOCR), ตัวสกัด PDF/Office/รูปภาพ และถาม-ตอบด้วย RAG บน Ollama + ChromaDB — ออฟไลน์เต็มรูปแบบบน RAM 8GB",
+    "tags": [
+      "Python",
+      "Ollama",
+      "PaddleOCR",
+      "ChromaDB"
+    ],
+    "metric": "offline · 8GB RAM",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  },
+  {
+    "slug": "flow-forge",
+    "nameEn": "Flow Forge",
+    "nameTh": "Flow Forge",
+    "descEn": "Pastel Mermaid diagram editor with a Thai prompt→Mermaid fine-tuned model (8 diagram types, QLoRA Qwen2.5-1.5B) hosted on Hugging Face.",
+    "descTh": "โปรแกรมแก้ไขไดอะแกรม Mermaid โทนพาสเทล พร้อมโมเดล AI ภาษาไทย (Qwen2.5-1.5B + QLoRA adapter) ช่วยวาดไดอะแกรม 8 ชนิดจาก Prompt ภาษาไทย เผยแพร่บน Hugging Face",
+    "tags": [
+      "React",
+      "Mermaid.js",
+      "QLoRA",
+      "Qwen2.5"
+    ],
+    "metric": "8 diagram types · Thai prompt",
+    "repoUrl": "https://github.com/prommin01st-lang",
+    "demoUrl": "",
+    "flagship": false
+  }
+]

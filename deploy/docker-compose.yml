@@ -1,0 +1,41 @@
+services:
+  app:
+    image: ${APP_IMAGE:-ghcr.io/prommin01st-lang/petanque-website:latest}
+    build:
+      context: ..
+    env_file: .env
+    environment:
+      PUBLIC_URL: https://${DOMAIN}
+    volumes:
+      - app-data:/data
+    restart: unless-stopped
+    networks: [internal]
+
+  caddy:
+    image: caddy:2-alpine
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [internal]
+
+volumes:
+  app-data:
+  caddy-data:
+  caddy-config:
+
+networks:
+  internal:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

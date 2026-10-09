@@ -20,4 +20,15 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // Generated shadcn primitives and the i18n provider export helpers next to
+    // components by design; Fast Refresh falls back to a full reload there.
+    files: ['src/components/ui/**/*.{ts,tsx}', 'src/i18n/I18nContext.tsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
+  {
+    // shadcn sidebar skeleton picks a random width once per mount (useMemo).
+    files: ['src/components/ui/sidebar.tsx'],
+    rules: { 'react-hooks/purity': 'off' },
+  },
 ])

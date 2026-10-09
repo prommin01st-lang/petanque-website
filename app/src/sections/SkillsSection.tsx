@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
+import { AsciiBox } from '@/components/term';
+import SectionHeading from './SectionHeading';
 
 /* ------------------------------------------------------------------ */
 /*  DATA — skill categories (aligned with prommin01st-lang.github.io)  */
@@ -33,79 +35,63 @@ const skillCategories: SkillCategory[] = [
   },
 ];
 
+const DIR_NAMES: Record<SkillCategory['key'], string> = {
+  backend: 'backend',
+  frontend: 'frontend',
+  databases: 'databases',
+  devopsTesting: 'devops-testing',
+  cloudIntegrations: 'cloud-integrations',
+};
+
+const FILE_COUNT = skillCategories.reduce((n, c) => n + c.skills.length, 0);
+
 /* ------------------------------------------------------------------ */
-/*  MAIN SECTION                                                       */
+/*  MAIN SECTION — `tree ~/skills`                                     */
 /* ------------------------------------------------------------------ */
 
 export default function SkillsSection() {
   const { t } = useI18n();
 
   return (
-    <section
-      id="skills"
-      className="pointer-events-none"
-      style={{
-        padding: '120px 24px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      }}
-    >
-      {/* Section title */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.5 }}
-        className="mb-16"
-      >
-        <span className="font-mono text-[13px] text-neon-cyan block mb-3">
-          {t.skills.sectionLabel}
-        </span>
-        <h2 className="font-mono font-bold text-[28px] md:text-[36px] text-text leading-tight text-glow-cyan">
-          {t.skills.title}
-        </h2>
-      </motion.div>
+    <section id="skills" className="py-20 px-4 sm:px-6 md:px-10 pointer-events-none">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeading command="tree ~/skills" title={t.skills.title} />
 
-      {/* Category panels */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {skillCategories.map((category, catIndex) => (
-          <motion.div
-            key={category.key}
-            className="panel-hud p-6 pointer-events-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, delay: catIndex * 0.08 }}
-          >
-            {/* Category header */}
-            <div className="flex items-center gap-3 mb-5">
-              <span className="font-mono text-[14px] text-terminal-green">$</span>
-              <span className="font-mono text-[14px] text-text font-medium">
-                ./{category.key === 'devopsTesting' ? 'devops-testing' : category.key === 'cloudIntegrations' ? 'cloud-integrations' : category.key}
-              </span>
-              <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(30, 42, 56, 0.8)' }} />
-              <span className="font-mono text-[11px] text-text-dim">
-                {t.skills.categories[category.key]}
-              </span>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.5 }}
+        >
+          <AsciiBox title="~/skills">
+            <div className="px-1 py-2 md:px-3 font-mono text-[13px] leading-relaxed">
+              <p className="font-bold text-ansi-bright-blue">.</p>
+              <div className="mt-1 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                {skillCategories.map((category) => (
+                  <div key={category.key} className="min-w-0">
+                    <p className="break-words">
+                      <span className="text-ansi-bright-blue font-bold">{DIR_NAMES[category.key]}/</span>{' '}
+                      <span className="text-text-dim"># {t.skills.categories[category.key]}</span>
+                    </p>
+                    <ul className="list-none p-0 m-0">
+                      {category.skills.map((skill, i) => (
+                        <li key={skill} className="whitespace-nowrap">
+                          <span aria-hidden="true" className="text-text-dim">
+                            {i === category.skills.length - 1 ? '└── ' : '├── '}
+                          </span>
+                          <span className="text-text">{skill}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-6 text-text-dim">
+                {skillCategories.length} {t.skills.directories}, {FILE_COUNT} {t.skills.files}
+              </p>
             </div>
-
-            {/* Skill chips */}
-            <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill, i) => (
-                <motion.span
-                  key={skill}
-                  className="chip"
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.25, delay: catIndex * 0.08 + i * 0.04 }}
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+          </AsciiBox>
+        </motion.div>
       </div>
     </section>
   );

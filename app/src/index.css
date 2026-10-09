@@ -4,83 +4,67 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    /* shadcn tokens mapped to the dark terminal palette (HSL triplets) */
+    --background: 0 0% 4.7%;
+    --foreground: 90 10% 82%;
+    --card: 0 0% 7.8%;
+    --card-foreground: 90 10% 82%;
+    --popover: 0 0% 7.8%;
+    --popover-foreground: 90 10% 82%;
+    --primary: 92 74% 55%;
+    --primary-foreground: 0 0% 4.7%;
+    --secondary: 192 7% 20%;
+    --secondary-foreground: 90 10% 82%;
+    --muted: 192 7% 20%;
+    --muted-foreground: 120 3% 55%;
+    --accent: 192 7% 20%;
+    --accent-foreground: 60 5% 93%;
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 4.7%;
+    --border: 192 7% 20%;
+    --input: 192 7% 20%;
+    --ring: 209 51% 64%;
     --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 7.8%;
+    --sidebar-foreground: 90 10% 82%;
+    --sidebar-primary: 92 74% 55%;
+    --sidebar-primary-foreground: 0 0% 4.7%;
+    --sidebar-accent: 192 7% 20%;
+    --sidebar-accent-foreground: 60 5% 93%;
+    --sidebar-border: 192 7% 20%;
+    --sidebar-ring: 209 51% 64%;
 
-    /* Developer Sandbox Palette */
-    --bg: #05080D;
-    --surface: #0B1118;
-    --surface-dim: #070C12;
-    --text: #D7E3F0;
-    --text-dim: #6B7A90;
-    --neon-cyan: #00E5FF;
-    --cyan-dim: #0E4A5C;
-    --terminal-green: #4AF626;
-    --hud-purple: #6C5CE7;
-    --hud-magenta: #FF7EDB;
-    --gold: #FFD93D;
-    --hud-border: #1E2A38;
-    --hud-red: #FF5F56;
-    --hud-amber: #FFBD2E;
+    /* Linux terminal (GNOME Tango ANSI) palette */
+    --bg: #0C0C0C;
+    --surface: #141414;
+    --text: #D3D7CF;
+    --text-dim: #8A8F8A;
+    --hud-border: #2E3436;
+    --ansi-black: #2E3436;
+    --ansi-red: #CC0000;
+    --ansi-green: #4E9A06;
+    --ansi-yellow: #C4A000;
+    --ansi-blue: #3465A4;
+    --ansi-magenta: #75507B;
+    --ansi-cyan: #06989A;
+    --ansi-white: #D3D7CF;
+    --ansi-bright-black: #555753;
+    --ansi-bright-red: #EF2929;
+    --ansi-bright-green: #8AE234;
+    --ansi-bright-yellow: #FCE94F;
+    --ansi-bright-blue: #729FCF;
+    --ansi-bright-magenta: #AD7FA8;
+    --ansi-bright-cyan: #34E2E2;
+    --ansi-bright-white: #EEEEEC;
+    --prompt-user: #8AE234;
+    --prompt-path: #729FCF;
+    --link: #729FCF;
+    --warn: #FCE94F;
+    --danger: #EF2929;
+    --tag: #AD7FA8;
 
     --font-mono: 'JetBrains Mono', monospace;
     --font-body: 'Inter', system-ui, sans-serif;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -95,8 +79,8 @@
     background-color: var(--bg);
     /* Static fallback backdrop (visible when WebGL canvas is not mounted) */
     background-image:
-      radial-gradient(ellipse 60% 45% at 50% 0%, rgba(0, 229, 255, 0.07), transparent 70%),
-      radial-gradient(ellipse 50% 40% at 85% 100%, rgba(108, 92, 231, 0.08), transparent 70%);
+      radial-gradient(ellipse 60% 45% at 50% 0%, rgba(52, 226, 226, 0.04), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 85% 100%, rgba(173, 127, 168, 0.05), transparent 70%);
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -108,81 +92,8 @@
 }
 
 /* ============================================================
-   DEVELOPER SANDBOX — HUD COMPONENT PATTERNS
+   TERMINAL COMPONENT PATTERNS (buttons, chips, inputs, links)
    ============================================================ */
-
-/* --- HUD Panel (glass) --- */
-.panel-hud {
-  position: relative;
-  background: rgba(11, 17, 24, 0.95);
-  border: 1px solid var(--hud-border);
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-}
-
-/* Corner accents (top-left + bottom-right) */
-.panel-hud::before,
-.panel-hud::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  pointer-events: none;
-}
-
-.panel-hud::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--neon-cyan);
-  border-left: 2px solid var(--neon-cyan);
-  border-top-left-radius: 8px;
-}
-
-.panel-hud::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid var(--neon-cyan);
-  border-right: 2px solid var(--neon-cyan);
-  border-bottom-right-radius: 8px;
-}
-
-/* --- Terminal Window Card --- */
-.term-window {
-  background: rgba(11, 17, 24, 0.95);
-  border: 1px solid var(--hud-border);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-}
-
-.term-window:hover {
-  border-color: rgba(0, 229, 255, 0.45);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 229, 255, 0.12);
-}
-
-.term-window-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  background: rgba(7, 12, 18, 0.9);
-  border-bottom: 1px solid var(--hud-border);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.term-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.term-dot-red { background: var(--hud-red); }
-.term-dot-amber { background: var(--hud-amber); }
-.term-dot-green { background: #27C93F; }
 
 /* --- Neon Buttons --- */
 .btn-neon {
@@ -197,8 +108,8 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--bg);
-  background: var(--neon-cyan);
-  border: 1px solid var(--neon-cyan);
+  background: var(--ansi-bright-green);
+  border: 1px solid var(--ansi-bright-green);
   border-radius: 6px;
   cursor: pointer;
   transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
@@ -206,7 +117,7 @@
 }
 
 .btn-neon:hover {
-  box-shadow: 0 0 24px rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 20px rgba(138, 226, 52, 0.35);
   transform: translateY(-2px);
 }
 
@@ -225,9 +136,9 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text);
+  color: var(--ansi-bright-green);
   background: transparent;
-  border: 1px solid var(--text-dim);
+  border: 1px solid var(--ansi-green);
   border-radius: 6px;
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -235,10 +146,40 @@
 }
 
 .btn-neon-outline:hover {
-  border-color: var(--neon-cyan);
-  color: var(--neon-cyan);
-  box-shadow: 0 0 16px rgba(0, 229, 255, 0.2);
+  border-color: var(--ansi-bright-green);
+  color: var(--ansi-bright-green);
+  box-shadow: 0 0 14px rgba(138, 226, 52, 0.2);
   transform: translateY(-2px);
+}
+
+/* --- Destructive outline button --- */
+.btn-danger-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--danger);
+  background: transparent;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+  background: rgba(239, 41, 41, 0.12);
+  box-shadow: 0 0 14px rgba(239, 41, 41, 0.2);
+}
+
+.btn-danger-outline:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* --- Tech Chip --- */
@@ -247,23 +188,17 @@
   padding: 3px 10px;
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--neon-cyan);
-  background: rgba(0, 229, 255, 0.08);
-  border: 1px solid rgba(0, 229, 255, 0.22);
+  color: var(--tag);
+  background: rgba(173, 127, 168, 0.08);
+  border: 1px solid rgba(173, 127, 168, 0.3);
   border-radius: 4px;
   white-space: nowrap;
 }
 
-.chip-purple {
-  color: #B9A8FF;
-  background: rgba(108, 92, 231, 0.12);
-  border-color: rgba(108, 92, 231, 0.35);
-}
-
 .chip-green {
-  color: var(--terminal-green);
-  background: rgba(74, 246, 38, 0.08);
-  border-color: rgba(74, 246, 38, 0.25);
+  color: var(--ansi-bright-green);
+  background: rgba(138, 226, 52, 0.08);
+  border-color: rgba(138, 226, 52, 0.3);
 }
 
 /* --- HUD Inputs --- */
@@ -273,7 +208,7 @@
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--text);
-  background: rgba(5, 8, 13, 0.8);
+  background: rgba(12, 12, 12, 0.8);
   border: 1px solid var(--hud-border);
   border-radius: 6px;
   outline: none;
@@ -281,8 +216,8 @@
 }
 
 .input-hud:focus {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 16px rgba(0, 229, 255, 0.15);
+  border-color: var(--ansi-bright-blue);
+  box-shadow: 0 0 0 1px var(--ansi-bright-blue);
 }
 
 .input-hud::placeholder {
@@ -295,7 +230,7 @@
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--text);
-  background: rgba(5, 8, 13, 0.8);
+  background: rgba(12, 12, 12, 0.8);
   border: 1px solid var(--hud-border);
   border-radius: 6px;
   outline: none;
@@ -304,8 +239,8 @@
 }
 
 .textarea-hud:focus {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 16px rgba(0, 229, 255, 0.15);
+  border-color: var(--ansi-bright-blue);
+  box-shadow: 0 0 0 1px var(--ansi-bright-blue);
 }
 
 .textarea-hud::placeholder {
@@ -315,43 +250,19 @@
 /* --- Text glow --- */
 .text-glow-cyan {
   text-shadow:
-    0 0 18px rgba(0, 229, 255, 0.55),
-    0 0 42px rgba(0, 229, 255, 0.25);
-}
-
-.text-glow-purple {
-  text-shadow:
-    0 0 18px rgba(108, 92, 231, 0.6),
-    0 0 42px rgba(108, 92, 231, 0.3);
+    0 0 18px rgba(52, 226, 226, 0.45),
+    0 0 42px rgba(52, 226, 226, 0.2);
 }
 
 /* --- Neon Link --- */
 .link-neon {
-  color: var(--neon-cyan);
+  color: var(--link);
   text-decoration: none;
-  transition: text-shadow 0.2s ease;
+  text-underline-offset: 3px;
 }
 
 .link-neon:hover {
-  text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
-}
-
-/* --- HUD Nav Link --- */
-.nav-link-hud {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-dim);
-  text-decoration: none;
-  letter-spacing: 0.05em;
-  padding: 4px 6px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-link-hud:hover {
-  color: var(--neon-cyan);
-  border-color: var(--hud-border);
+  text-decoration: underline;
 }
 
 /* ============================================================
@@ -380,9 +291,388 @@
    ============================================================ */
 
 ::selection {
-  background: var(--neon-cyan);
+  background: var(--ansi-bright-blue);
   color: var(--bg);
 }
+
+/* ----- Terminal kit ----- */
+
+.term-box {
+  position: relative;
+  margin-top: 0.6rem;
+  border: 1px solid var(--hud-border);
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+}
+
+.term-box::before,
+.term-box::after {
+  position: absolute;
+  color: var(--ansi-cyan);
+  line-height: 1;
+  background: var(--bg);
+  font-size: 0.8rem;
+}
+
+.term-box::before {
+  content: '+';
+  top: -0.45rem;
+  left: -0.35rem;
+}
+
+.term-box::after {
+  content: '+';
+  bottom: -0.45rem;
+  right: -0.35rem;
+}
+
+.term-box-head {
+  position: absolute;
+  top: -0.7rem;
+  left: 0.75rem;
+  padding: 0 0.25rem;
+  background: var(--bg);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  max-width: calc(100% - 1.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.term-box-body {
+  padding: 1.1rem 1rem 1rem;
+}
+
+.ascii-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.ascii-divider-line {
+  flex: 1;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1em;
+  white-space: nowrap;
+}
+
+
+.ascii-divider-line::before { content: var(--fill); }
+
+.ascii-divider-label {
+  color: var(--ansi-bright-cyan);
+  white-space: nowrap;
+}
+
+.term-typing {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: nowrap;
+  width: calc(var(--chars, 0) * 1ch);
+  animation: term-type calc(var(--chars, 0) * 60ms) steps(var(--chars, 1), end) 1;
+}
+
+@keyframes term-type {
+  from { width: 0; }
+}
+
+.term-loading-bar::before {
+  content: '##########';
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: nowrap;
+  width: 0;
+  animation: term-load 1.6s steps(10, end) infinite;
+}
+
+.term-loading-bar::after {
+  content: '';
+}
+
+@keyframes term-load {
+  to { width: 10ch; }
+}
+
+/* ----- Public site (terminal redesign) ----- */
+
+/* AsciiBox whose body stretches to the box height (equal-height cards) */
+.term-box-fill {
+  display: flex;
+  flex-direction: column;
+}
+
+.term-box-fill > .term-box-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Softer glow for the big figlet name */
+.hero-figlet h1 {
+  text-shadow:
+    0 0 6px rgba(52, 226, 226, 0.4),
+    0 0 20px rgba(52, 226, 226, 0.16);
+}
+
+/* Bracketed terminal buttons: `[ view projects ]` */
+.btn-term {
+  padding: 10px 18px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  border-radius: 0;
+}
+
+.btn-term:hover {
+  transform: none;
+}
+
+/* Navbar tab: `[ about ]`, active = inverse cyan */
+.term-tab {
+  display: inline-block;
+  padding: 2px 6px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.term-tab:hover {
+  color: var(--ansi-bright-cyan);
+}
+
+.term-tab-active,
+.term-tab-active:hover {
+  color: var(--bg);
+  background: var(--ansi-bright-cyan);
+}
+
+/* `[tag]` label */
+.term-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--tag);
+  white-space: nowrap;
+}
+
+/* 3-column ASCII table with `+` at every border intersection */
+.ascii-table {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px dashed var(--text-dim);
+  border-left: 1px dashed var(--text-dim);
+  /* Opaque panel surface so the layered background does not show through the stats. */
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.ascii-table-cell {
+  position: relative;
+  min-width: 0;
+  padding: 0.7rem 0.85rem;
+  border-right: 1px dashed var(--text-dim);
+  border-bottom: 1px dashed var(--text-dim);
+}
+
+.ascii-table::before,
+.ascii-table::after,
+.ascii-table-cell::before,
+.ascii-table-cell::after {
+  content: '+';
+  position: absolute;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--ansi-cyan);
+  pointer-events: none;
+}
+
+.ascii-table-cell::before { top: calc(-0.5em - 0.5px); left: calc(-0.3em - 0.5px); }
+.ascii-table-cell::after { bottom: calc(-0.5em - 0.5px); right: calc(-0.3em - 0.5px); }
+.ascii-table::before { top: calc(-0.5em - 0.5px); right: calc(-0.3em - 0.5px); }
+.ascii-table::after { bottom: calc(-0.5em - 0.5px); left: calc(-0.3em - 1.5px); }
+
+/* Interactive terminal-coloured ASCII image */
+.ascii-image {
+  position: relative;
+}
+
+/* Sized by aspect-ratio (cols / rows*2, set inline) so the box is right before the first paint. */
+.ascii-image-frame {
+  position: relative;
+  width: 100%;
+  height: auto;
+  line-height: 0;
+  background: var(--bg);
+}
+
+.ascii-image-frame canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ascii-image-frame canvas.is-interactive {
+  cursor: pointer;
+}
+
+.ascii-image-fallback {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ascii-image-toggle {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px 5px;
+  color: var(--text-dim);
+  background: rgba(12, 12, 12, 0.72);
+  border: 1px solid var(--hud-border);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.ascii-image-toggle:hover,
+.ascii-image-toggle[aria-pressed='true'] {
+  color: var(--ansi-bright-cyan);
+  border-color: var(--ansi-bright-cyan);
+}
+
+.ascii-image-toggle:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  color: var(--link);
+  border-color: var(--link);
+}
+
+/* Markdown (md-term) */
+.md-term {
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.md-term > * + * { margin-top: 1rem; }
+
+.md-term h1,
+.md-term h2,
+.md-term h3,
+.md-term h4 {
+  font-family: var(--font-mono);
+  color: var(--ansi-bright-white);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.75rem;
+}
+
+.md-term h1 { font-size: 1.6rem; }
+.md-term h2 { font-size: 1.3rem; }
+.md-term h3 { font-size: 1.1rem; }
+.md-term h4 { font-size: 1rem; }
+.md-term h1::before { content: '# '; color: var(--ansi-bright-green); }
+.md-term h2::before { content: '## '; color: var(--ansi-bright-green); }
+.md-term h3::before { content: '### '; color: var(--ansi-bright-green); }
+.md-term h4::before { content: '#### '; color: var(--ansi-bright-green); }
+
+.md-term a { color: var(--link); text-decoration: none; text-underline-offset: 3px; }
+.md-term a:hover { text-decoration: underline; }
+.md-term ul { list-style: none; padding-left: 1.25rem; }
+.md-term ul > li::before { content: '> '; color: var(--ansi-bright-green); margin-left: -1.25rem; font-family: var(--font-mono); }
+.md-term ol { list-style: decimal; padding-left: 1.5rem; }
+.md-term img { max-width: 100%; height: auto; border: 1px solid var(--hud-border); }
+.md-term hr { border: 0; border-top: 1px dashed var(--hud-border); }
+
+.md-term blockquote {
+  border-left: 2px solid var(--ansi-magenta);
+  padding-left: 1rem;
+  color: var(--text-dim);
+}
+
+.md-term code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--warn);
+  background: rgba(46, 52, 54, 0.6);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.md-term pre {
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.md-term pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.md-term table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.md-term th,
+.md-term td {
+  border: 1px solid var(--hud-border);
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+}
+
+.md-term th { color: var(--ansi-bright-cyan); background: rgba(6, 152, 154, 0.15); }
+
+/* highlight.js theme: Tango ANSI (syntax-highlighted terminal output) */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal { color: var(--ansi-bright-magenta); }
+.hljs-built_in { color: var(--ansi-bright-cyan); }
+.hljs-string,
+.hljs-regexp,
+.hljs-addition { color: var(--ansi-bright-green); }
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attr,
+.hljs-attribute { color: var(--ansi-bright-yellow); }
+.hljs-comment,
+.hljs-quote,
+.hljs-meta { color: var(--text-dim); font-style: italic; }
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-type { color: var(--ansi-bright-blue); }
+.hljs-deletion { color: var(--ansi-bright-red); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
 
 /* ============================================================
    PREFERS REDUCED MOTION
@@ -396,4 +686,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-typing { animation: none; width: auto; }
+  .term-loading-bar::before { animation: none; width: 5ch; }
 }

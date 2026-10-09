@@ -30,3 +30,21 @@ lerna-debug.log*
 app/test-results/
 kimi-export-session_-*.md
 verify-hero.jpeg
+
+# Local agent/workflow scratch
+.superpowers/
+
+# Go server
+*.db
+*.db-wal
+*.db-shm
+server/internal/web/dist/*
+!server/internal/web/dist/.keep
+server/server
+/screens/
+
+# Playwright E2E
+e2e/node_modules/
+e2e/test-results/
+e2e/playwright-report/
+e2e/.data/
