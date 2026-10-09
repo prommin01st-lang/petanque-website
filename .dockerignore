@@ -1,0 +1,15 @@
+**/node_modules
+app/dist
+.git
+.superpowers
+.agents
+.claude
+**/*.db*
+e2e
+docs
+**/.env
+**/.env.*
+!**/.env.example
+deploy
+server/internal/web/dist/*
+!server/internal/web/dist/.keep

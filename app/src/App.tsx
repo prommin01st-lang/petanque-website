@@ -1,31 +1,36 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import HeroSection from './sections/HeroSection';
-import AboutSection from './sections/AboutSection';
-import ProjectsSection from './sections/ProjectsSection';
-import SkillsSection from './sections/SkillsSection';
-import StatsSection from './sections/StatsSection';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
 
-function HomePage() {
-  return (
-    <>
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />
-      <SkillsSection />
-      <StatsSection />
-    </>
-  );
+const BlogListPage = lazy(() => import('./pages/BlogListPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const AdminApp = lazy(() => import('./admin/AdminApp'));
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
 }
 
 export default function App() {
   return (
-    <HashRouter>
-      <Layout>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Suspense fallback={null}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/admin/*" element={<AdminApp />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog" element={<BlogListPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
         </Routes>
-      </Layout>
-    </HashRouter>
+      </Suspense>
+    </BrowserRouter>
   );
 }

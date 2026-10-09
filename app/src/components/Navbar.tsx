@@ -1,198 +1,269 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useI18n } from '@/i18n/I18nContext';
+import type { Language } from '@/i18n/translations';
+import { useActiveSection } from '@/hooks/useActiveSection';
+import { useShell } from '@/shell/useShell';
 
-const navLinks = [
+const sectionLinks = [
   { key: 'about', href: '#about' },
   { key: 'projects', href: '#projects' },
   { key: 'skills', href: '#skills' },
 ] as const;
 
+const LANGS: Language[] = ['en', 'th'];
+
+/** Tailwind `md` breakpoint (the desktop tabs take over from here). */
+const MD_UP = '(min-width: 768px)';
+
 interface NavbarProps {
-  is3DEnabled?: boolean;
-  onToggle3D?: () => void;
+  fxEnabled?: boolean;
+  /** Reduced motion is on: fx cannot be enabled, so the toggle is disabled. */
+  fxLocked?: boolean;
+  onToggleFx?: () => void;
 }
 
-export default function Navbar({ is3DEnabled = true, onToggle3D }: NavbarProps) {
-  const { lang, t, toggleLang } = useI18n();
+/* ------------------------------------------------------------------ */
+/*  Navbar — one-line terminal tab bar                                 */
+/* ------------------------------------------------------------------ */
+
+export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx }: NavbarProps) {
+  const { lang, t, setLang } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
+  const onBlog = pathname.startsWith('/blog');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navLinks.map((l) => l.href.slice(1));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const activeSection = useActiveSection();
+  const shell = useShell();
 
-  const handleNavClick = (href: string) => {
+  /* Any route change (incl. browser back/forward) closes the overlay. */
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+  }
+
+  /* Growing past the md breakpoint hides the overlay via CSS; close it so inert/scroll-lock are released. */
+  useEffect(() => {
+    if (!mobileOpen || typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia(MD_UP);
+    const onChange = (e: { matches: boolean }) => {
+      if (e.matches) setMobileOpen(false);
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [mobileOpen]);
+
+  /* Close the mobile overlay; when it was open, hand focus back to [ menu ] */
+  const closeMenu = () => {
+    if (!mobileOpen) return;
+    setMobileOpen(false);
+    menuButtonRef.current?.focus({ preventScroll: true });
   };
 
+  /*
+    While the overlay is open: focus moves into it, the page behind is
+    inert (main + footer), body scroll is locked and Escape closes it.
+  */
+  useEffect(() => {
+    if (!mobileOpen) return;
+    overlayRef.current?.querySelector<HTMLElement>('a, button')?.focus();
+
+    const behind = Array.from(document.querySelectorAll<HTMLElement>('main, footer'));
+    behind.forEach((el) => el.setAttribute('inert', ''));
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.setProperty('overflow', 'hidden');
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setMobileOpen(false);
+      menuButtonRef.current?.focus({ preventScroll: true });
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      behind.forEach((el) => el.removeAttribute('inert'));
+      document.body.style.setProperty('overflow', prevOverflow);
+    };
+  }, [mobileOpen]);
+
+  /* `hash` is set for in-page section links; blog links just navigate */
+  const handleLinkClick = (e: React.MouseEvent, hash?: string) => {
+    closeMenu();
+    if (shell.open) shell.close();
+    if (!hash || !isHome) return; // router navigation; HomePage scrolls to the hash
+    e.preventDefault();
+    document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const links = [
+    ...sectionLinks.map((l) => ({
+      key: l.key,
+      to: `/${l.href}`,
+      label: t.nav[l.key],
+      active: isHome && activeSection === l.href.slice(1),
+      hash: l.href as string | undefined,
+    })),
+    {
+      key: 'blog',
+      to: '/blog',
+      label: t.nav.blog,
+      active: onBlog,
+      hash: undefined,
+    },
+  ];
+
   const langToggle = (
+    <div role="group" aria-label={t.nav.language} className="flex items-center">
+      {LANGS.map((l, i) => (
+        <span key={l} className="flex items-center">
+          {i > 0 && <span aria-hidden="true" className="text-hud-border">|</span>}
+          <button
+            type="button"
+            onClick={() => setLang(l)}
+            aria-pressed={lang === l}
+            className={`px-1 transition-colors duration-200 ${lang === l ? 'text-ansi-bright-cyan' : 'text-text-dim hover:text-text'}`}
+          >
+            {l.toUpperCase()}
+          </button>
+        </span>
+      ))}
+    </div>
+  );
+
+  const toggleFx = onToggleFx && (
     <button
-      onClick={toggleLang}
-      className="font-mono text-[13px] tracking-[0.05em] transition-colors duration-200"
-      aria-label="Toggle language"
+      type="button"
+      onClick={onToggleFx}
+      aria-label={t.nav.toggleFx}
+      disabled={fxLocked}
+      title={fxLocked ? t.nav.fxReducedMotion : undefined}
+      aria-pressed={fxEnabled}
+      className={`transition-colors duration-200 hover:text-ansi-bright-cyan disabled:cursor-not-allowed disabled:hover:text-text-dim ${fxEnabled ? 'text-ansi-bright-green' : 'text-text-dim'}`}
     >
-      <span style={{ color: lang === 'en' ? '#00E5FF' : '#6B7A90' }}>EN</span>
-      <span className="text-hud-border"> | </span>
-      <span style={{ color: lang === 'th' ? '#00E5FF' : '#6B7A90' }}>TH</span>
+      {fxEnabled ? '[fx:on]' : '[fx:off]'}
     </button>
   );
 
-  const render3DToggle = onToggle3D && (
+  const shellButton = (
     <button
-      onClick={onToggle3D}
-      className="font-mono text-[13px] tracking-[0.05em] transition-colors duration-200 hover:text-neon-cyan"
-      aria-label="Toggle 3D backdrop"
-      style={{ color: is3DEnabled ? '#00E5FF' : '#6B7A90' }}
+      type="button"
+      onClick={(e) => {
+        if (shell.open) {
+          shell.close();
+          return;
+        }
+        // From the mobile overlay, close it and return focus to [ menu ] when the shell closes.
+        const opener = mobileOpen ? menuButtonRef.current : e.currentTarget;
+        setMobileOpen(false);
+        shell.openShell(opener);
+      }}
+      aria-pressed={shell.open}
+      aria-label={shell.open ? t.statusBar.closeShell : t.statusBar.openShell}
+      className={`transition-colors duration-200 hover:text-ansi-bright-cyan ${shell.open ? 'text-ansi-bright-cyan' : 'text-ansi-bright-green'}`}
     >
-      3D: {is3DEnabled ? 'ON' : 'OFF'}
+      [ &gt;_ {t.statusBar.shell} ]
     </button>
   );
 
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-[100] h-16 flex items-center justify-between px-6 md:px-20"
+        aria-label={t.nav.main}
+        className="fixed top-0 inset-x-0 z-[100] h-12 flex items-center gap-4 px-4 sm:px-6 md:px-10 font-mono text-[13px] border-b border-hud-border"
         style={{
-          backgroundColor: 'rgba(5, 8, 13, 0.85)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid #1E2A38',
+          backgroundColor: 'rgba(12, 12, 12, 0.88)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
         }}
       >
-        {/* Logo — shell prompt */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        {/* Prompt logo */}
+        <Link
+          to="/"
+          onClick={() => {
+            setMobileOpen(false);
+            if (isHome) window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center font-mono text-[15px]"
+          className="flex items-center shrink-0 text-[14px]"
         >
-          <span className="text-terminal-green">~</span>
-          <span className="text-text-dim">/</span>
-          <span className="text-text">prommin-l</span>
-          <span className="text-neon-cyan ml-1">$</span>
-          <span className="inline-block w-2 h-4 bg-neon-cyan animate-blink-cursor ml-1.5" />
-        </a>
+          <span className="font-bold text-prompt-user">~</span>
+          <span className="text-text">/</span>
+          <span className="font-bold text-prompt-path">prommin-l</span>
+          <span className="text-text ml-1">$</span>
+          <span aria-hidden="true" className="inline-block w-2 h-4 bg-text animate-blink-cursor ml-1.5" />
+        </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.slice(1);
-            return (
-              <a
-                key={link.key}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                className="nav-link-hud"
-                style={
-                  isActive
-                    ? { color: '#00E5FF', textShadow: '0 0 12px rgba(0, 229, 255, 0.5)' }
-                    : undefined
-                }
+        {/* Desktop tabs */}
+        <ul className="hidden md:flex items-center gap-1 ml-4 list-none p-0 m-0">
+          {links.map((l) => (
+            <li key={l.key}>
+              <Link
+                to={l.to}
+                onClick={(e) => handleLinkClick(e, l.hash)}
+                aria-current={l.active ? 'page' : undefined}
+                className={`term-tab ${l.active ? 'term-tab-active' : ''}`}
               >
-                <span className="text-cyan-dim mr-1">{'//'}</span>
-                {t.nav[link.key]}
-              </a>
-            );
-          })}
-          {render3DToggle}
-          {onToggle3D && <span className="text-hud-border"> | </span>}
+                [ <span className="lowercase">{l.label}</span> ]
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Desktop right side */}
+        <div className="hidden md:flex items-center gap-4 ml-auto">
+          {shellButton}
           {langToggle}
+          {toggleFx}
         </div>
 
-        {/* Hamburger button */}
+        {/* Mobile menu button */}
         <button
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[6px]"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          ref={menuButtonRef}
+          type="button"
+          className="md:hidden ml-auto text-ansi-bright-cyan"
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
-          <motion.span
-            className="block w-6 bg-text"
-            style={{ height: '2px' }}
-            animate={mobileOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.2 }}
-          />
-          <motion.span
-            className="block w-6 bg-text"
-            style={{ height: '2px' }}
-            animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-            transition={{ duration: 0.2 }}
-          />
-          <motion.span
-            className="block w-6 bg-text"
-            style={{ height: '2px' }}
-            animate={mobileOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.2 }}
-          />
+          {`[ ${mobileOpen ? t.nav.close : t.nav.menu} ]`}
         </button>
       </nav>
 
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[99] md:hidden flex flex-col items-center justify-center gap-8"
-            style={{ backgroundColor: 'rgba(5, 8, 13, 0.97)' }}
-          >
-            {navLinks.map((link, i) => (
-              <motion.a
-                key={link.key}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3, delay: i * 0.08 }}
-                className="font-mono text-[22px] text-text hover:text-neon-cyan transition-colors duration-200"
+      {/* Mobile overlay — `ls` style listing */}
+      <div
+        ref={overlayRef}
+        id="mobile-menu"
+        hidden={!mobileOpen}
+        className="fixed inset-x-0 top-12 bottom-0 z-[99] md:hidden px-6 py-10 font-mono overflow-y-auto"
+        style={{ backgroundColor: 'rgba(12, 12, 12, 0.97)' }}
+      >
+        <p className="text-[13px] text-text-dim mb-6">
+          <span className="font-bold text-prompt-user">guest@prommin</span>:<span className="font-bold text-prompt-path">~</span>$ ls
+        </p>
+        <ul className="list-none p-0 m-0 space-y-5">
+          {links.map((l) => (
+            <li key={l.key}>
+              <Link
+                to={l.to}
+                onClick={(e) => handleLinkClick(e, l.hash)}
+                aria-current={l.active ? 'page' : undefined}
+                className={`text-[22px] transition-colors duration-200 ${l.active ? 'text-ansi-bright-cyan' : 'text-text hover:text-ansi-bright-cyan'}`}
               >
-                <span className="text-cyan-dim mr-2">{'//'}</span>
-                {t.nav[link.key]}
-              </motion.a>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.3, delay: navLinks.length * 0.08 }}
-              className="font-mono text-[18px] flex flex-col items-center gap-4"
-            >
-              {render3DToggle}
-              {onToggle3D && <div className="w-8 h-px bg-hud-border" />}
-              {langToggle}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <span className="text-ansi-bright-green">&gt; </span>
+                <span className="lowercase">{l.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-10 pt-6 border-t border-dashed border-hud-border flex flex-wrap items-center gap-6 text-[15px]">
+          {shellButton}
+          {langToggle}
+          {toggleFx}
+        </div>
+      </div>
     </>
   );
 }

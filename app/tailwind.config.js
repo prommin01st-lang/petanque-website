@@ -5,21 +5,43 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Developer Sandbox Palette
-        'bg': '#05080D',
-        'surface': '#0B1118',
-        'surface-dim': '#070C12',
-        'text': '#D7E3F0',
-        'text-dim': '#6B7A90',
-        'neon-cyan': '#00E5FF',
-        'cyan-dim': '#0E4A5C',
-        'terminal-green': '#4AF626',
-        'hud-purple': '#6C5CE7',
-        'hud-magenta': '#FF7EDB',
-        'gold': '#FFD93D',
-        'hud-border': '#1E2A38',
-        'hud-red': '#FF5F56',
-        'hud-amber': '#FFBD2E',
+        // Linux terminal (GNOME Tango ANSI) palette
+        'bg': '#0C0C0C',
+        'surface': '#141414',
+        'text': '#D3D7CF',
+        'text-dim': '#8A8F8A',
+        'hud-border': '#2E3436',
+        'prompt-user': '#8AE234',
+        'prompt-path': '#729FCF',
+        'link': '#729FCF',
+        'warn': '#FCE94F',
+        'danger': '#EF2929',
+        'tag': '#AD7FA8',
+        // GNOME/Ubuntu Terminal window chrome
+        'window-bar': '#2A2A2A',
+        'window-btn': '#3D3D3D',
+        'window-border': '#383838',
+        'ubuntu-orange': '#E95420',
+        ansi: {
+          black: '#2E3436',
+          red: '#CC0000',
+          green: '#4E9A06',
+          yellow: '#C4A000',
+          blue: '#3465A4',
+          magenta: '#75507B',
+          cyan: '#06989A',
+          white: '#D3D7CF',
+          bright: {
+            black: '#555753',
+            red: '#EF2929',
+            green: '#8AE234',
+            yellow: '#FCE94F',
+            blue: '#729FCF',
+            magenta: '#AD7FA8',
+            cyan: '#34E2E2',
+            white: '#EEEEEC',
+          },
+        },
         // Shadcn
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,8 +78,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        'mono': ['"JetBrains Mono"', 'monospace'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', '"IBM Plex Sans Thai"', 'monospace'],
+        'body': ['Inter', '"IBM Plex Sans Thai"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -67,10 +89,9 @@ module.exports = {
         xs: "calc(var(--radius) - 6px)",
       },
       boxShadow: {
-        'glow-cyan': '0 0 20px rgba(0, 229, 255, 0.35)',
-        'glow-cyan-sm': '0 0 10px rgba(0, 229, 255, 0.25)',
-        'glow-purple': '0 0 20px rgba(108, 92, 231, 0.35)',
-        'glow-green': '0 0 16px rgba(74, 246, 38, 0.3)',
+        'glow-cyan': '0 0 20px rgba(52, 226, 226, 0.3)',
+        'glow-cyan-sm': '0 0 10px rgba(52, 226, 226, 0.22)',
+        'glow-green': '0 0 16px rgba(138, 226, 52, 0.28)',
       },
       spacing: {
         'px-1': '4px',
