@@ -91,4 +91,6 @@ Replace `admin` with your `ADMIN_USERNAME`. Exit code 2 = usage error, 1 = failu
 
 ## Update
 
-    docker compose pull && docker compose up -d
+There is no CI image registry; the image is built on the server from the checkout:
+
+    git pull && docker compose build app && docker compose up -d
