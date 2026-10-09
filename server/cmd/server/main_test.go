@@ -244,3 +244,56 @@ func TestAdminResetsClearAccountLockout(t *testing.T) {
 		})
 	}
 }
+
+func TestMigrateSubcommandMigratesSeedsAndBootstraps(t *testing.T) {
+	dir := t.TempDir()
+	env := map[string]string{
+		"DATA_DIR":       dir,
+		"PUBLIC_URL":     "http://localhost:8088",
+		"ADMIN_USERNAME": "admin",
+		"ADMIN_PASSWORD": "first-start-password-1",
+		"SESSION_SECRET": strings.Repeat("s", 48),
+		"TOTP_ENC_KEY":   "BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc=",
+	}
+	getenv := func(k string) string { return env[k] }
+
+	out := &bytes.Buffer{}
+	if code := run([]string{"migrate"}, getenv, strings.NewReader(""), out); code != 0 {
+		t.Fatalf("exit %d: %s", code, out)
+	}
+	if !strings.Contains(out.String(), "seeded projects: 11") {
+		t.Fatalf("output: %q", out)
+	}
+
+	db, err := store.Open(filepath.Join(dir, "app.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	if n := count(t, db, `SELECT COUNT(*) FROM projects`); n != 11 {
+		t.Fatalf("projects: %d", n)
+	}
+	if n := count(t, db, `SELECT COUNT(*) FROM admins`); n != 1 {
+		t.Fatalf("admins: %d", n)
+	}
+
+	// Idempotent: a second run applies nothing new and seeds nothing.
+	out.Reset()
+	if code := run([]string{"migrate"}, getenv, strings.NewReader(""), out); code != 0 {
+		t.Fatalf("second run exit %d: %s", code, out)
+	}
+	if !strings.Contains(out.String(), "seeded projects: 0") {
+		t.Fatalf("second run output: %q", out)
+	}
+	if n := count(t, db, `SELECT COUNT(*) FROM projects`); n != 11 {
+		t.Fatalf("projects after rerun: %d", n)
+	}
+}
+
+func TestMigrateSubcommandRejectsBadConfig(t *testing.T) {
+	getenv := func(k string) string { return map[string]string{"DATA_DIR": t.TempDir()}[k] }
+	out := &bytes.Buffer{}
+	if code := run([]string{"migrate"}, getenv, strings.NewReader(""), out); code != 1 {
+		t.Fatalf("exit %d, want 1: %s", code, out)
+	}
+}

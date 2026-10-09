@@ -54,8 +54,10 @@ func run(args []string, getenv func(string) string, stdin io.Reader, stdout io.W
 		return backup(getenv, rest[0], force, stdout)
 	case "admin":
 		return adminCmd(args[1:], getenv, stdin, stdout)
+	case "migrate":
+		return migrateCmd(getenv, stdout)
 	default:
-		fmt.Fprintf(stdout, "unknown subcommand %q (serve | healthcheck | backup [--force] <dest> | admin reset-password|reset-2fa <username>)\n", cmd)
+		fmt.Fprintf(stdout, "unknown subcommand %q (serve | migrate | healthcheck | backup [--force] <dest> | admin reset-password|reset-2fa <username>)\n", cmd)
 		return 2
 	}
 }
@@ -188,30 +190,13 @@ func serve(getenv func(string) string) int {
 		slog.Error("invalid configuration", "err", err)
 		return 1
 	}
-	if err := os.MkdirAll(filepath.Join(cfg.DataDir, "uploads"), 0o750); err != nil {
-		slog.Error("cannot create data dir", "err", err)
-		return 1
-	}
-	db, err := store.Open(filepath.Join(cfg.DataDir, "app.db"))
+	db, inserted, err := prepare(cfg)
 	if err != nil {
-		slog.Error("cannot open database", "err", err)
+		slog.Error("startup failed", "err", err)
 		return 1
 	}
 	defer db.Close()
-	if err := store.Migrate(db); err != nil {
-		slog.Error("migration failed", "err", err)
-		return 1
-	}
-	inserted, err := seed.Projects(context.Background(), db)
-	if err != nil {
-		slog.Error("seed failed", "err", err)
-		return 1
-	}
 	slog.Info("seed projects", "inserted", inserted)
-	if err := auth.Bootstrap(context.Background(), db, cfg.AdminUsername, cfg.AdminPassword); err != nil {
-		slog.Error("admin bootstrap: set ADMIN_USERNAME and ADMIN_PASSWORD (>=12 chars)", "err", err)
-		return 1
-	}
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
@@ -259,4 +244,55 @@ func purgeSessions(ctx context.Context, db *sql.DB) {
 			}
 		}
 	}
+}
+
+// prepare opens the database, applies pending migrations, seeds the portfolio
+// projects into an empty table and bootstraps the first admin. It is shared by
+// serve (on every start) and the one-shot migrate subcommand; every step is
+// idempotent.
+func prepare(cfg config.Config) (*sql.DB, int, error) {
+	if err := os.MkdirAll(filepath.Join(cfg.DataDir, "uploads"), 0o750); err != nil {
+		return nil, 0, fmt.Errorf("create data dir: %w", err)
+	}
+	db, err := store.Open(filepath.Join(cfg.DataDir, "app.db"))
+	if err != nil {
+		return nil, 0, fmt.Errorf("open database: %w", err)
+	}
+	if err := store.Migrate(db); err != nil {
+		db.Close()
+		return nil, 0, fmt.Errorf("migrate: %w", err)
+	}
+	inserted, err := seed.Projects(context.Background(), db)
+	if err != nil {
+		db.Close()
+		return nil, 0, fmt.Errorf("seed projects: %w", err)
+	}
+	if err := auth.Bootstrap(context.Background(), db, cfg.AdminUsername, cfg.AdminPassword); err != nil {
+		db.Close()
+		return nil, 0, fmt.Errorf("admin bootstrap (set ADMIN_USERNAME and ADMIN_PASSWORD, >=12 chars): %w", err)
+	}
+	return db, inserted, nil
+}
+
+// migrateCmd runs the same idempotent preparation as serve and exits, so a
+// deploy can migrate and seed before the new version starts taking traffic.
+func migrateCmd(getenv func(string) string, stdout io.Writer) int {
+	cfg, err := config.Load(getenv)
+	if err != nil {
+		fmt.Fprintln(stdout, "invalid configuration:", err)
+		return 1
+	}
+	db, inserted, err := prepare(cfg)
+	if err != nil {
+		fmt.Fprintln(stdout, err)
+		return 1
+	}
+	defer db.Close()
+	var applied int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM schema_migrations`).Scan(&applied); err != nil {
+		fmt.Fprintln(stdout, "read schema migrations:", err)
+		return 1
+	}
+	fmt.Fprintf(stdout, "migrations applied: %d\nseeded projects: %d\n", applied, inserted)
+	return 0
 }

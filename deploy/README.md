@@ -18,6 +18,25 @@ Single host, Docker Compose: the Go app (serves the API and the built SPA) behin
    `GITHUB_CLIENT_SECRET` (both or neither).
 3. `docker compose up -d`
 
+## Migrate and seed
+
+Every start runs the same idempotent preparation: apply pending SQL migrations, seed the
+11 portfolio projects into an empty `projects` table, and create the first admin from
+`ADMIN_USERNAME`/`ADMIN_PASSWORD` when no admin exists. To run it on its own (e.g. before
+switching traffic to a new version) and see what it did:
+
+    docker compose run --rm --no-deps app migrate
+    # migrations applied: 3
+    # seeded projects: 11      (0 on later runs — existing data is never touched)
+
+## Try it locally (no domain, no HTTPS)
+
+    ./local-up.sh
+
+Builds the image, generates `deploy/.env.local` with fresh secrets on the first run (prints
+the admin password once), runs `migrate`, and starts the app on http://localhost:8088.
+Stop with `docker compose -f docker-compose.local.yml down` (add `-v` to wipe the data).
+
 ## First login
 
 Open `https://DOMAIN/admin/login`, sign in with the bootstrap admin, complete TOTP setup and

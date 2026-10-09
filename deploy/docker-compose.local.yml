@@ -1,0 +1,20 @@
+# Local run of the production image, without Caddy/HTTPS.
+#   ./local-up.sh            (generates .env.local, builds, migrates + seeds, starts)
+# Site: http://localhost:8088   Admin: http://localhost:8088/admin/login
+services:
+  app:
+    image: petanque-website:local
+    build:
+      context: ..
+    env_file: .env.local
+    environment:
+      PUBLIC_URL: http://localhost:8088
+      COOKIE_SECURE: "false"
+    ports:
+      - "127.0.0.1:8088:8080"
+    volumes:
+      - app-data-local:/data
+    restart: unless-stopped
+
+volumes:
+  app-data-local:

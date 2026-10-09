@@ -289,3 +289,5 @@ app/src/
 * `app/public/` holds only `profile.png` (hero portrait and the default og image).
 * Playwright lives only in `e2e/package.json`; `app/` has no Playwright dependency.
 * TOTP codes are single-use: tests or scripts that log in twice within 30 s need the next code.
+
+* **Local Docker run:** `deploy/local-up.sh` (compose file `deploy/docker-compose.local.yml`, app on http://localhost:8088, secrets in gitignored `deploy/.env.local`). `server migrate` runs migrations + project seed + admin bootstrap once and exits (the same `prepare()` that `serve` runs on start).
