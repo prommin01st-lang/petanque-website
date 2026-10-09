@@ -1,6 +1,22 @@
 # Deployment
 
-Single host, Docker Compose: the Go app (serves the API and the built SPA) behind Caddy, which provisions HTTPS automatically.
+Single host, Docker Compose: the Go app (serves the API and the built SPA) behind Caddy, which provisions HTTPS automatically. For hosts behind NAT / without opened ports there is an alternative path behind a Cloudflare Tunnel (see below).
+
+## Cloudflare Tunnel (no public ports)
+
+If the host sits behind NAT (home/server behind a router, no port forwarding) or you simply don't want to expose ports 80/443, serve the site through a Cloudflare Tunnel instead of Caddy. TLS is terminated at the Cloudflare edge; the `cloudflared` connector runs as a Compose service on the internal network and no host port is published at all.
+
+1. Same `.env` as above (`DOMAIN=www.example.com` — the tunnel path only needs it for `PUBLIC_URL`).
+2. Create the tunnel once with the cloudflared CLI (any machine authenticated for the zone, e.g. `cloudflared tunnel login`):
+
+       cloudflared tunnel create petanque-website
+       cloudflared tunnel route dns petanque-website www.example.com   # CNAME www -> <tunnel-id>.cfargotunnel.com (proxied)
+
+   Copy the generated credentials JSON to `deploy/cloudflared/creds.json` and make it readable by the container user: `chown 65532:65532 deploy/cloudflared/creds.json` (the file is gitignored).
+3. `docker compose -f docker-compose.yml -f docker-compose.cloudflare.yml up -d` — starts `app` + `cloudflared`; Caddy stays disabled (it only starts with `--profile direct`).
+4. `TRUSTED_PROXY_CIDR=172.28.0.0/16` (default) already covers the connector's container IP, so visitor IPs reach the rate limiter via `X-Forwarded-For`.
+
+The tunnel config lives in `deploy/cloudflared/config.yml` (ingress `www.example.com` -> `http://app:8080`). Back up `creds.json` together with `.env`; a lost credentials file means re-creating the tunnel (`cloudflared tunnel create` + `route dns --overwrite-dns`).
 
 ## Prerequisites
 

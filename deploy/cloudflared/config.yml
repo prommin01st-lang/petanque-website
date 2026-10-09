@@ -1,0 +1,13 @@
+# Cloudflare Tunnel for www.petanque21st.com.
+# Tunnel "petanque-website" (4e5aba64-caf5-4734-8a93-fec893a0cb24).
+# Credentials live in creds.json (same content as the cloudflared CLI wrote
+# to ~/.cloudflared/<tunnel-id>.json) — gitignored, keep a copy safe.
+# ingress is evaluated top-down; the first matching hostname wins.
+tunnel: 4e5aba64-caf5-4734-8a93-fec893a0cb24
+credentials-file: /etc/cloudflared/creds.json
+
+ingress:
+  - hostname: www.petanque21st.com
+    service: http://app:8080
+  # Must always terminate with a catch-all.
+  - service: http_status:404
