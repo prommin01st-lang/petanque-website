@@ -24,7 +24,7 @@ Content (projects) is seeded from `server/internal/seed/projects.json` into an e
 | `e2e/` | Playwright end-to-end tests. |
 | `deploy/` | `docker-compose.yml`, `Caddyfile`, `.env.example`, `backup.sh`, `README.md` (deploy guide). |
 | `Dockerfile` | Multi-stage: node build → Go build (embeds `app/dist`) → distroless `nonroot`. |
-| `.github/` | `workflows/ci.yml`, `dependabot.yml` (actions, npm, gomod). |
+| `.github/` | Empty on purpose: no CI workflows and no Dependabot (they spend Actions minutes). |
 | `docs/superpowers/` | Design spec and implementation plan for the ASCII terminal CMS. |
 | `tech-spec.md` | Historical design doc from the original site; may be stale. |
 
@@ -39,7 +39,7 @@ The dev host is **Linux**. Go lives at `~/tools/go/bin` on the maintainer's mach
 npm install
 npm run dev            # Vite on :3000; proxies /api, /uploads, /rss.xml, /sitemap.xml → :8080
 npm test -- --run      # Vitest + React Testing Library (jsdom)
-npm run lint           # ESLint flat config — must report 0 errors (CI enforces it)
+npm run lint           # ESLint flat config — must report 0 errors
 npm run build          # tsc -b && vite build → app/dist (type errors fail the build)
 
 # Backend (from server/)
@@ -64,7 +64,7 @@ docker build -t petanque-site .
 
 For local full-stack dev: run the Go server on `:8080` (with `COOKIE_SECURE=false`) and `npm run dev` in `app/`. The Go binary only serves the SPA that was embedded at build time: copy `app/dist/*` into `server/internal/web/dist/` before `go build` (that directory is gitignored except `.keep`; the Dockerfile and `e2e/scripts/build.mjs` do this for you).
 
-**Lint:** `npm run lint` is clean (0 errors) and runs in CI. `eslint.config.js` turns off `react-refresh/only-export-components` for the generated `src/components/ui/**` and `src/i18n/I18nContext.tsx`, and `react-hooks/purity` for `src/components/ui/sidebar.tsx` (shadcn skeleton `Math.random()`); first-party code gets no exemptions.
+**Lint:** `npm run lint` is clean (0 errors); run it before committing. `eslint.config.js` turns off `react-refresh/only-export-components` for the generated `src/components/ui/**` and `src/i18n/I18nContext.tsx`, and `react-hooks/purity` for `src/components/ui/sidebar.tsx` (shadcn skeleton `Math.random()`); first-party code gets no exemptions.
 
 **Bundle:** `vite.config.ts` puts React/ReactDOM/router in a `react-*` vendor chunk (entry ≈ 285 kB, vendor ≈ 231 kB); markdown/highlight and the admin are lazy chunks.
 
@@ -275,12 +275,12 @@ app/src/
 
 ---
 
-## Deployment & CI
+## Deployment
 
 * **Docker:** `Dockerfile` builds the SPA, embeds it, compiles a static Go binary (`CGO_ENABLED=0`), runs as distroless `nonroot` with `/data` volume, `HEALTHCHECK` via `/server healthcheck`.
-* **Compose** (`deploy/`): `app` (image `ghcr.io/prommin01st-lang/petanque-website`) + `caddy` (automatic HTTPS, HSTS, zstd/gzip) on network `172.28.0.0/16`. See `deploy/README.md` for setup, first login, restore and updates.
+* **Compose** (`deploy/`): `app` (built locally from the repo `Dockerfile`, tag `petanque-website:latest`) + `caddy` (automatic HTTPS, HSTS, zstd/gzip) on network `172.28.0.0/16`. See `deploy/README.md` for setup, first login, restore and updates.
 * **Backups:** `deploy/backup.sh` runs `/server backup --force` (SQLite `VACUUM INTO`) and tars uploads into `./backups`, keeping the newest 14.
-* **CI** (`.github/workflows/ci.yml`, `permissions: contents: read`, actions pinned by SHA): `web` (npm ci, lint, vitest, build), `server` (vet, race tests), `e2e` (needs both; Playwright Chromium; uploads `test-results` on failure), `image` (main pushes only, needs all three; pushes to GHCR). Dependabot updates actions, npm and gomod.
+* **No CI (owner's decision — GitHub Actions minutes cost money).** Do not add `.github/workflows/*`. Verification is local: Go vet/tests, `npm run lint` / `npm test -- --run` / `npm run build`, e2e when relevant, and a successful `docker build` (or `deploy/local-up.sh`).
 
 ---
 

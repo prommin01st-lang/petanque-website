@@ -1,6 +1,6 @@
 services:
   app:
-    image: ${APP_IMAGE:-ghcr.io/prommin01st-lang/petanque-website:latest}
+    image: ${APP_IMAGE:-petanque-website:latest}
     build:
       context: ..
     env_file: .env
