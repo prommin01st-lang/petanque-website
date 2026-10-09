@@ -82,6 +82,7 @@ func (h *Handler) Mount(r chi.Router) {
 			fr.Get("/sessions", h.sessions)
 			fr.Delete("/sessions/{id}", h.deleteSession)
 			fr.Post("/recovery-codes/regenerate", h.regenerate)
+			fr.Post("/password", h.changePassword)
 			fr.Post("/github/link", h.githubLink)
 			fr.Post("/github/unlink", h.githubUnlink)
 		})
