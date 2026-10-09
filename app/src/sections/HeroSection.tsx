@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
-import { AsciiBox, FigletTitle, FIGLET_NAME, Prompt } from '@/components/term';
+import { TerminalWindow, FigletTitle, FIGLET_NAME, Prompt } from '@/components/term';
 import AsciiImage from '@/components/AsciiImage';
 
 const smoothEase = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -10,8 +11,26 @@ const smoothEase = [0.16, 1, 0.3, 1] as [number, number, number, number];
 /*  Hero — figlet name, typed prompts, CTAs, stats table, profile      */
 /* ------------------------------------------------------------------ */
 
+const coarsePointer = () => typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches;
+
+/** Renders each ` in the hint as a <kbd>. */
+function ShellHint({ text }: { text: string }) {
+  const parts = text.split('`');
+  return (
+    <>
+      {parts.map((p, i) => (
+        <span key={i}>
+          {i > 0 && <kbd className="px-1 border border-hud-border rounded-sm text-text font-mono">`</kbd>}
+          {p}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default function HeroSection() {
   const { t } = useI18n();
+  const [touch] = useState(coarsePointer);
 
   return (
     <section
@@ -52,6 +71,10 @@ export default function HeroSection() {
                 <span aria-hidden="true" className="inline-block w-2 h-2 bg-ansi-bright-green animate-pulse-dot" />
                 <span className="text-ansi-bright-green">{t.hero.statusValue}</span>
               </p>
+              <p data-testid="shell-hint" className="font-mono text-[12px] text-text-dim">
+                <span aria-hidden="true"># </span>
+                <ShellHint text={touch ? t.shell.heroHintTouch : t.shell.heroHint} />
+              </p>
             </div>
 
             {/* CTAs */}
@@ -89,9 +112,9 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: smoothEase, delay: 0.2 }}
           >
-            <AsciiBox title="profile.png">
+            <TerminalWindow title="~/profile.png">
               <AsciiImage src="/profile.png" alt={t.hero.profileAlt} />
-            </AsciiBox>
+            </TerminalWindow>
           </motion.div>
         </div>
       </div>

@@ -63,7 +63,7 @@ test('admin sets up TOTP, publishes a post, and it appears on /blog', async ({ p
 
 test('seeded projects render on the home page', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('kanban', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('~/projects/kanban').first()).toBeVisible();
   // Reduced motion → static ASCII backdrop, no WebGL canvas.
   await expect(page.getByTestId('static-ascii-backdrop')).toBeAttached();
   await expect(page.getByTestId('ascii-background')).toHaveCount(0);

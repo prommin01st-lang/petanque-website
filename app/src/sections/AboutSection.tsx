@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
-import { AsciiBox } from '@/components/term';
+import { TerminalWindow } from '@/components/term';
 import SectionHeading from './SectionHeading';
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -31,7 +31,7 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.5, ease: easeOutExpo }}
         >
-          <AsciiBox title="~/about/README.md">
+          <TerminalWindow title="~/about/README.md">
             <div className="space-y-4 px-1 py-2 md:px-3">
               {[t.about.bio1, t.about.bio2, t.about.bio3].map((para) => (
                 <p key={para} className="font-body text-[15.5px] md:text-[16px] font-light text-text-dim leading-relaxed">
@@ -39,9 +39,9 @@ export default function AboutSection() {
                 </p>
               ))}
             </div>
-          </AsciiBox>
+          </TerminalWindow>
 
-          <AsciiBox title={t.about.factsTitle}>
+          <TerminalWindow title={`~/about/${t.about.factsTitle}`}>
             <div className="px-1 py-2 font-mono text-[13px] leading-relaxed">
               <p className="text-text-dim">---</p>
               {facts.map((fact) => (
@@ -62,7 +62,7 @@ export default function AboutSection() {
                 </a>
               </p>
             </div>
-          </AsciiBox>
+          </TerminalWindow>
         </motion.div>
       </div>
     </section>

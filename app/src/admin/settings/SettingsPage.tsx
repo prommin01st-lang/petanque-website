@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { AsciiBox, ErrorLine, LoadingBar } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar } from '@/components/term';
 import { api, ApiError, setCsrfToken } from '@/lib/api';
 import { useI18n } from '@/i18n/I18nContext';
 import { errorText, toAdminError, BY_CODE } from '../errors';
@@ -162,7 +162,7 @@ export default function SettingsPage() {
     <div className="flex flex-col gap-6 font-mono">
       <h1 className="m-0 text-lg text-ansi-bright-cyan">{s.title}</h1>
 
-      <AsciiBox title={s.account}>
+      <TerminalWindow title={s.account} user="admin">
         {me && (
           <dl className="m-0 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm">
             <dt className="text-text-dim">{s.username}</dt>
@@ -171,9 +171,9 @@ export default function SettingsPage() {
             <dd className="m-0">{t.admin.method[me.authMethod]}</dd>
           </dl>
         )}
-      </AsciiBox>
+      </TerminalWindow>
 
-      <AsciiBox title={s.twoFactor}>
+      <TerminalWindow title={s.twoFactor} user="admin">
         <div className="flex flex-col gap-3 text-sm">
           <p className="m-0">
             {me?.totpEnabled ? <span className="text-ansi-bright-green">✓ {s.enabled}</span> : <span className="text-text-dim">{s.disabled}</span>}
@@ -191,10 +191,10 @@ export default function SettingsPage() {
             </div>
           )}
         </div>
-      </AsciiBox>
+      </TerminalWindow>
 
       {providers.data?.github && me && (
-        <AsciiBox title={s.github}>
+        <TerminalWindow title={s.github} user="admin">
           <div className="flex flex-col gap-3 text-sm">
             {me.githubLogin ? (
               <>
@@ -216,10 +216,10 @@ export default function SettingsPage() {
               </>
             )}
           </div>
-        </AsciiBox>
+        </TerminalWindow>
       )}
 
-      <AsciiBox title={s.sessions}>
+      <TerminalWindow title={s.sessions} user="admin">
         <div className="flex flex-col gap-3 text-sm">
           {sessions.isPending && <LoadingBar label={t.common.loading} />}
           {sessions.isError && (
@@ -266,7 +266,7 @@ export default function SettingsPage() {
           </div>
           {logoutFailed && <p role="alert" className="m-0 text-danger">ERR: {s.logoutAllFailed}</p>}
         </div>
-      </AsciiBox>
+      </TerminalWindow>
     </div>
   );
 }

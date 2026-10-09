@@ -7,7 +7,7 @@ import { useDocumentTitle } from '@/lib/useDocumentTitle';
 import { useI18n } from '@/i18n/I18nContext';
 import Markdown from '@/components/Markdown';
 import AsciiImage from '@/components/AsciiImage';
-import { AsciiBox, ErrorLine, LoadingBar, Prompt } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar, Prompt } from '@/components/term';
 import { NotFoundContent } from './NotFoundPage';
 
 export default function BlogPostPage() {
@@ -27,7 +27,7 @@ export default function BlogPostPage() {
 
   return (
     <section className="min-h-[100dvh] px-4 sm:px-6 pt-24 pb-20 pointer-events-none">
-      <AsciiBox title={`~/blog/${slug}.md`} className="mx-auto max-w-3xl">
+      <TerminalWindow title={`~/blog/${slug}.md`} className="mx-auto max-w-3xl">
         <div className="px-1 py-2 md:px-4 md:py-4 font-mono space-y-3 min-w-0 [overflow-wrap:anywhere]">
           <Prompt command={`cat ~/blog/${slug}.md`} />
           {isPending && <LoadingBar label={t.common.loading} />}
@@ -71,7 +71,7 @@ export default function BlogPostPage() {
             </article>
           )}
         </div>
-      </AsciiBox>
+      </TerminalWindow>
     </section>
   );
 }

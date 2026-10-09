@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { pick } from '@/lib/pick';
 import { useDocumentTitle } from '@/lib/useDocumentTitle';
 import { useI18n } from '@/i18n/I18nContext';
-import { AsciiBox, ErrorLine, LoadingBar, Prompt } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar, Prompt } from '@/components/term';
 import AsciiImage from '@/components/AsciiImage';
 
 const PER_PAGE = 10;
@@ -46,7 +46,7 @@ export default function BlogListPage() {
 
   return (
     <section className="min-h-[100dvh] px-4 sm:px-6 pt-24 pb-20 pointer-events-none">
-      <AsciiBox title="~/blog" className="mx-auto max-w-3xl">
+      <TerminalWindow title="~/blog" className="mx-auto max-w-3xl">
         <div className="px-1 py-2 md:px-3 md:py-3 font-mono space-y-3">
           <h1 className="sr-only">{t.blog.title}</h1>
           <Prompt command="ls -la ~/blog" />
@@ -116,7 +116,7 @@ export default function BlogListPage() {
           )}
           <Link to="/" className="link-neon inline-block mt-8">{`[ ← ${t.common.back} ]`}</Link>
         </div>
-      </AsciiBox>
+      </TerminalWindow>
     </section>
   );
 }

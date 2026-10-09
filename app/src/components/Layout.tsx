@@ -5,14 +5,26 @@ import { Toaster } from '@/components/ui/sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AsciiBackground from '@/background/AsciiBackground';
 import StaticAsciiBackdrop from '@/background/StaticAsciiBackdrop';
+import StatusBar from '@/statusbar/StatusBar';
+import { STATUS_BAR_PX } from '@/statusbar/constants';
 import { useFxEnabled } from '@/background/useFxEnabled';
+import ShellProvider from '@/shell/ShellProvider';
+import BootSequence from '@/boot/BootSequence';
 
 export default function Layout() {
+  return (
+    <ShellProvider>
+      <LayoutInner />
+    </ShellProvider>
+  );
+}
+
+function LayoutInner() {
   const [fx, toggleFx, reducedMotion] = useFxEnabled();
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-[100dvh] bg-bg font-body">
+    <div className="min-h-[100dvh] bg-bg font-body" style={{ paddingBottom: STATUS_BAR_PX }}>
       {/* ASCII backdrop (fixed, z-0, pointer-events none — input comes from window listeners) */}
       {fx ? <AsciiBackground cell={isMobile ? 10 : 8} /> : <StaticAsciiBackdrop />}
 
@@ -26,7 +38,11 @@ export default function Layout() {
 
       <Footer />
 
-      <Toaster theme="dark" position="bottom-right" />
+      <StatusBar />
+
+      <Toaster theme="dark" position="bottom-right" offset={STATUS_BAR_PX + 16} />
+
+      <BootSequence />
     </div>
   );
 }

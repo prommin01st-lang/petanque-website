@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useLocation, useNavigate, useSearchParams, type Location } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
-import { AsciiBox, Prompt } from '@/components/term';
+import { TerminalWindow, Prompt } from '@/components/term';
 import { useI18n } from '@/i18n/I18nContext';
 import Field from '../components/Field';
 import { ME_KEY } from '../useMe';
@@ -167,7 +167,7 @@ export default function LoginPage() {
         </span>
       </div>
 
-      <AsciiBox title={stepTitle[step]} as="section" className="w-full max-w-md">
+      <TerminalWindow title={stepTitle[step]} user="admin" as="section" className="w-full max-w-md">
         {step === 'password' && (
           <form onSubmit={submitPassword} className="flex flex-col gap-3">
             <Field label={t.admin.login.username}>
@@ -251,7 +251,7 @@ export default function LoginPage() {
         {step === 'codes' && (
           <RecoveryCodes codes={recoveryCodes} onContinue={() => void finish('/admin')} />
         )}
-      </AsciiBox>
+      </TerminalWindow>
     </div>
   );
 }

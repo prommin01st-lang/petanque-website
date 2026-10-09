@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useI18n } from '@/i18n/I18nContext';
 import type { Language } from '@/i18n/translations';
+import { useActiveSection } from '@/hooks/useActiveSection';
+import { useShell } from '@/shell/useShell';
 
 const sectionLinks = [
   { key: 'about', href: '#about' },
@@ -30,26 +32,12 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [activeSection, setActiveSection] = useState('');
   const { pathname } = useLocation();
   const isHome = pathname === '/';
   const onBlog = pathname.startsWith('/blog');
 
-  /* Scroll-spy (home only) */
-  useEffect(() => {
-    if (!isHome) return;
-    const handleScroll = () => {
-      let current = '';
-      for (const { href } of sectionLinks) {
-        const el = document.getElementById(href.slice(1));
-        if (el && el.getBoundingClientRect().top <= 120) current = href.slice(1);
-      }
-      setActiveSection(current);
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHome]);
+  const activeSection = useActiveSection();
+  const shell = useShell();
 
   /* Any route change (incl. browser back/forward) closes the overlay. */
   const [menuPath, setMenuPath] = useState(pathname);
@@ -105,6 +93,7 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
   /* `hash` is set for in-page section links; blog links just navigate */
   const handleLinkClick = (e: React.MouseEvent, hash?: string) => {
     closeMenu();
+    if (shell.open) shell.close();
     if (!hash || !isHome) return; // router navigation; HomePage scrolls to the hash
     e.preventDefault();
     document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
@@ -159,6 +148,27 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
     </button>
   );
 
+  const shellButton = (
+    <button
+      type="button"
+      onClick={(e) => {
+        if (shell.open) {
+          shell.close();
+          return;
+        }
+        // From the mobile overlay, close it and return focus to [ menu ] when the shell closes.
+        const opener = mobileOpen ? menuButtonRef.current : e.currentTarget;
+        setMobileOpen(false);
+        shell.openShell(opener);
+      }}
+      aria-pressed={shell.open}
+      aria-label={shell.open ? t.statusBar.closeShell : t.statusBar.openShell}
+      className={`transition-colors duration-200 hover:text-ansi-bright-cyan ${shell.open ? 'text-ansi-bright-cyan' : 'text-ansi-bright-green'}`}
+    >
+      [ &gt;_ {t.statusBar.shell} ]
+    </button>
+  );
+
   return (
     <>
       <nav
@@ -204,6 +214,7 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
 
         {/* Desktop right side */}
         <div className="hidden md:flex items-center gap-4 ml-auto">
+          {shellButton}
           {langToggle}
           {toggleFx}
         </div>
@@ -247,7 +258,8 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
             </li>
           ))}
         </ul>
-        <div className="mt-10 pt-6 border-t border-dashed border-hud-border flex items-center gap-6 text-[15px]">
+        <div className="mt-10 pt-6 border-t border-dashed border-hud-border flex flex-wrap items-center gap-6 text-[15px]">
+          {shellButton}
           {langToggle}
           {toggleFx}
         </div>

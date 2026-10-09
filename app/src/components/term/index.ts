@@ -1,4 +1,4 @@
-export { default as AsciiBox } from './AsciiBox';
+export { default as TerminalWindow } from './TerminalWindow';
 export { default as AsciiDivider } from './AsciiDivider';
 export { default as Cursor } from './Cursor';
 export { default as ErrorLine } from './ErrorLine';

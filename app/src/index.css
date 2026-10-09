@@ -62,6 +62,10 @@
     --warn: #FCE94F;
     --danger: #EF2929;
     --tag: #AD7FA8;
+    --window-bar: #2A2A2A;
+    --window-btn: #3D3D3D;
+    --window-border: #383838;
+    --ubuntu-orange: #E95420;
 
     --font-mono: 'JetBrains Mono', monospace;
     --font-body: 'Inter', system-ui, sans-serif;
@@ -297,52 +301,86 @@
 
 /* ----- Terminal kit ----- */
 
-.term-box {
+.term-window {
   position: relative;
-  margin-top: 0.6rem;
-  border: 1px solid var(--hud-border);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--window-border);
+  border-radius: 6px 6px 2px 2px;
   background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(6px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.35);
   font-family: var(--font-mono);
 }
 
-.term-box::before,
-.term-box::after {
-  position: absolute;
-  color: var(--ansi-cyan);
-  line-height: 1;
-  background: var(--bg);
-  font-size: 0.8rem;
+/* GNOME/Ubuntu Terminal headerbar */
+.term-window-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  /* room for the buttons on the right; title centres in what is left */
+  padding: 0.3rem 4.75rem 0.3rem 0.75rem;
+  border-radius: 5px 5px 0 0;
+  background: var(--window-bar);
+  border-bottom: 1px solid var(--window-border);
+  font-size: 0.78rem;
+  line-height: 1.3;
+  user-select: none;
 }
 
-.term-box::before {
-  content: '+';
-  top: -0.45rem;
-  left: -0.35rem;
-}
-
-.term-box::after {
-  content: '+';
-  bottom: -0.45rem;
-  right: -0.35rem;
-}
-
-.term-box-head {
-  position: absolute;
-  top: -0.7rem;
-  left: 0.75rem;
-  padding: 0 0.25rem;
-  background: var(--bg);
-  font-size: 0.8rem;
-  line-height: 1.4;
-  white-space: nowrap;
-  max-width: calc(100% - 1.5rem);
+.term-window-title {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
 }
 
-.term-box-body {
-  padding: 1.1rem 1rem 1rem;
+.term-window-buttons {
+  position: absolute;
+  top: 50%;
+  right: 0.6rem;
+  display: flex;
+  gap: 0.45rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.term-window-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 9999px;
+  background: var(--window-btn);
+  color: var(--text);
+  font-size: 0.65rem;
+  line-height: 1;
+}
+
+.term-window-btn-close {
+  background: var(--ubuntu-orange);
+  color: #FFFFFF;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .term-window-bar {
+    padding-right: 3.9rem;
+  }
+  .term-window-buttons { gap: 0.3rem; right: 0.45rem; }
+  .term-window-btn { width: 0.9rem; height: 0.9rem; font-size: 0.55rem; }
+  .term-window-btn-close { font-size: 0.7rem; }
+}
+
+.term-window-body {
+  flex: 1;
+  min-width: 0;
+  padding: 1rem;
 }
 
 .ascii-divider {
@@ -404,14 +442,8 @@
 
 /* ----- Public site (terminal redesign) ----- */
 
-/* AsciiBox whose body stretches to the box height (equal-height cards) */
-.term-box-fill {
-  display: flex;
-  flex-direction: column;
-}
-
-.term-box-fill > .term-box-body {
-  flex: 1;
+/* TerminalWindow whose body is a flex column (equal-height cards) */
+.term-window-fill > .term-window-body {
   display: flex;
   flex-direction: column;
   min-height: 0;

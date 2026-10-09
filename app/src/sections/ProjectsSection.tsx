@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { pick } from '@/lib/pick';
 import type { Project } from '@/lib/types';
-import { AsciiBox, ErrorLine, LoadingBar } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar } from '@/components/term';
 import { useI18n } from '@/i18n/I18nContext';
 import SectionHeading from './SectionHeading';
 
@@ -35,7 +35,7 @@ function ProjectCard({
 
   return (
     <div className="h-full pt-1" style={fixedHeight ? { height: CARD_HEIGHT } : undefined}>
-      <AsciiBox title={project.slug} as="article" className="term-box-fill h-full">
+      <TerminalWindow title={`~/projects/${project.slug}`} as="article" className="term-window-fill h-full">
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-mono font-bold text-[15px] text-text leading-snug min-w-0">
             {pick(project.name, lang)}
@@ -80,7 +80,7 @@ function ProjectCard({
             )}
           </div>
         </div>
-      </AsciiBox>
+      </TerminalWindow>
     </div>
   );
 }

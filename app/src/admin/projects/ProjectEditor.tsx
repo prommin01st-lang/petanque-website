@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { AsciiBox, ErrorLine, LoadingBar } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar } from '@/components/term';
 import { api } from '@/lib/api';
 import type { AdminProject, ProjectInput } from '@/lib/types';
 import { useI18n } from '@/i18n/I18nContext';
@@ -103,7 +103,7 @@ function EditorForm({ project }: { project?: AdminProject }) {
   );
 
   return (
-    <AsciiBox title={project ? t.admin.projects.editTitle : t.admin.projects.newTitle}>
+    <TerminalWindow title={project ? t.admin.projects.editTitle : t.admin.projects.newTitle} user="admin">
       <form
         noValidate
         className="flex flex-col gap-4 font-mono"
@@ -171,6 +171,6 @@ function EditorForm({ project }: { project?: AdminProject }) {
           )}
         </div>
       </form>
-    </AsciiBox>
+    </TerminalWindow>
   );
 }

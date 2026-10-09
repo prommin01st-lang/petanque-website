@@ -61,3 +61,12 @@ describe('Layout background', () => {
     expect(toggle).toHaveAttribute('title', expect.stringMatching(/reduced motion/i));
   });
 });
+
+describe('Layout status bar', () => {
+  it('mounts the window list and reserves bottom padding', () => {
+    stubMatchMedia();
+    const { container } = renderLayout();
+    expect(screen.getByRole('navigation', { name: 'Window list' })).toBeInTheDocument();
+    expect((container.firstChild as HTMLElement).style.paddingBottom).toBe('24px');
+  });
+});

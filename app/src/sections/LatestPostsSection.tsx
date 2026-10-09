@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { pick } from '@/lib/pick';
 import { useI18n } from '@/i18n/I18nContext';
-import { AsciiBox } from '@/components/term';
+import { TerminalWindow } from '@/components/term';
 import SectionHeading from './SectionHeading';
 
 export default function LatestPostsSection() {
@@ -19,7 +19,7 @@ export default function LatestPostsSection() {
     <section id="blog" className="relative w-full py-20 px-4 sm:px-6 md:px-10 pointer-events-none">
       <div className="mx-auto max-w-6xl">
         <SectionHeading command="ls -t ~/blog | head -3" title={t.blog.latest} />
-        <AsciiBox title="~/blog" className="max-w-3xl">
+        <TerminalWindow title="~/blog" className="max-w-3xl">
           <ul className="list-none p-0 m-0 px-1 py-2 space-y-5 font-mono">
             {data.items.map((p) => (
               <li key={p.slug}>
@@ -38,7 +38,7 @@ export default function LatestPostsSection() {
           <Link to="/blog" className="link-neon inline-block mt-4 px-1 font-mono text-[13px]">
             {`[ ${t.blog.allPosts} → ]`}
           </Link>
-        </AsciiBox>
+        </TerminalWindow>
       </div>
     </section>
   );

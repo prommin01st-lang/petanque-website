@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
-import { AsciiBox } from '@/components/term';
+import { TerminalWindow } from '@/components/term';
 import SectionHeading from './SectionHeading';
 
 const smoothEase = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -39,14 +39,14 @@ export default function StatsSection() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: smoothEase }}
             >
-              <AsciiBox title={area.command} className="term-box-fill w-full">
+              <TerminalWindow title={area.command} className="term-window-fill w-full">
                 <h3 className="font-mono font-bold text-[15px] text-text leading-snug">
                   {t.stats.areas[area.key].title}
                 </h3>
                 <p className="mt-2 font-body text-[14px] font-light text-text-dim leading-relaxed">
                   {t.stats.areas[area.key].description}
                 </p>
-              </AsciiBox>
+              </TerminalWindow>
             </motion.div>
           ))}
         </div>

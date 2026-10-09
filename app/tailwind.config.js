@@ -17,6 +17,11 @@ module.exports = {
         'warn': '#FCE94F',
         'danger': '#EF2929',
         'tag': '#AD7FA8',
+        // GNOME/Ubuntu Terminal window chrome
+        'window-bar': '#2A2A2A',
+        'window-btn': '#3D3D3D',
+        'window-border': '#383838',
+        'ubuntu-orange': '#E95420',
         ansi: {
           black: '#2E3436',
           red: '#CC0000',

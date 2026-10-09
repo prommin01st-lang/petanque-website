@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { ApiError } from '@/lib/api';
-import { AsciiBox, ErrorLine, FigletTitle, FIGLET_NAME } from './index';
+import { TerminalWindow, ErrorLine, FigletTitle, FIGLET_NAME } from './index';
 
-it('AsciiBox shows its title and children', () => {
-  render(<AsciiBox title="~/projects"><p>hi</p></AsciiBox>);
+it('TerminalWindow shows its title and children', () => {
+  render(<TerminalWindow title="~/projects"><p>hi</p></TerminalWindow>);
   expect(screen.getByText('~/projects')).toBeInTheDocument();
   expect(screen.getByText('hi')).toBeInTheDocument();
 });

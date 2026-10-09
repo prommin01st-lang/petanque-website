@@ -6,6 +6,9 @@ import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { I18nProvider } from '@/i18n/I18nContext';
 import Navbar from './Navbar';
+import ShellProvider from '@/shell/ShellProvider';
+
+vi.mock('@/shell/QuakeShell', () => ({ default: ({ open }: { open: boolean }) => (open ? <div data-testid="shell" /> : null) }));
 
 /** Exposes the router's navigate (e.g. to simulate browser back/forward). */
 const nav: { current: NavigateFunction | null } = { current: null };
@@ -21,9 +24,11 @@ function renderNavbar() {
   return render(
     <I18nProvider>
       <MemoryRouter initialEntries={['/']}>
-        <NavigateProbe />
-        <Navbar onToggleFx={() => {}} />
-        <main>page</main>
+        <ShellProvider>
+          <NavigateProbe />
+          <Navbar onToggleFx={() => {}} />
+          <main>page</main>
+        </ShellProvider>
       </MemoryRouter>
     </I18nProvider>,
   );
@@ -109,5 +114,33 @@ describe('Navbar mobile menu', () => {
 
     expect(overlay()).not.toBeVisible();
     vi.unstubAllGlobals();
+  });
+});
+
+describe('Navbar shell button', () => {
+  it('opens the shell, reflects aria-pressed and closes it again', async () => {
+    const user = userEvent.setup();
+    renderNavbar();
+    const [btn] = screen.getAllByRole('button', { name: 'Open shell' });
+    expect(btn).toHaveAttribute('aria-pressed', 'false');
+    expect(btn).toHaveTextContent('[ >_ shell ]');
+    await user.click(btn);
+    expect(await screen.findByTestId('shell')).toBeInTheDocument();
+    const [pressed] = screen.getAllByRole('button', { name: 'Close shell' });
+    expect(pressed).toHaveAttribute('aria-pressed', 'true');
+    await user.click(pressed);
+    expect(screen.queryByTestId('shell')).toBeNull();
+  });
+});
+
+describe('Navbar with the shell', () => {
+  it('clicking a section link closes an open shell', async () => {
+    const user = userEvent.setup();
+    renderNavbar();
+    await user.click(screen.getByRole('button', { name: /open shell/i, hidden: false }));
+    expect(await screen.findByTestId('shell')).toBeInTheDocument();
+    const nav = screen.getByRole('navigation', { name: /main/i });
+    await user.click(within(nav).getAllByRole('link', { name: /about/i })[0]);
+    expect(screen.queryByTestId('shell')).toBeNull();
   });
 });

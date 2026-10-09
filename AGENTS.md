@@ -167,7 +167,7 @@ app/src/
 │   ├── Footer.tsx
 │   ├── AsciiImage.tsx   # interactive terminal-coloured ASCII image (+ asciiImage.ts pure helpers)
 │   ├── Markdown.tsx     # sanitized + highlighted markdown (`<Markdown source=… />`)
-│   ├── term/            # AsciiBox, Prompt, AsciiDivider, FigletTitle (+FIGLET_NAME), Cursor, LoadingBar, ErrorLine
+│   ├── term/            # TerminalWindow (GNOME-style window card), Prompt, AsciiDivider, FigletTitle (+FIGLET_NAME), Cursor, LoadingBar, ErrorLine
 │   └── ui/              # shadcn primitives
 ├── pages/               # HomePage, BlogListPage, BlogPostPage, NotFoundPage
 ├── sections/            # Hero, About, Projects, Skills, Stats, LatestPosts (+ SectionHeading)
@@ -200,7 +200,7 @@ app/src/
 * Tokens in `tailwind.config.js`: semantic `bg`, `surface`, `text`, `text-dim`, `hud-border`, `prompt-user`, `prompt-path`, `link`, `warn`, `danger`, `tag`, plus `ansi.{black…white}` and `ansi.bright.*`. Matching CSS vars in `index.css` — keep both in sync. `asciiImage.test.ts` has a **Tango drift guard** comparing `TANGO` with `tailwind.config.js` and `index.css`; the background shader's `FIELD_PALETTE` is derived from `TANGO` via `tango(name)` and checked too.
 * `accent` is shadcn's token — for cyan text use `text-ansi-bright-cyan`.
 * Fonts (Google Fonts in `index.html`): JetBrains Mono (`font-mono`), Inter (`font-body`), IBM Plex Sans Thai (Thai fallback for both).
-* Component classes (`index.css`): `.term-box*`, `.btn-neon`, `.btn-neon-outline`, `.btn-danger-outline`, `.btn-term`, `.chip`/`.chip-green`, `.input-hud`, `.textarea-hud`, `.link-neon`, `.term-tab*`, `.term-tag`, `.ascii-table*`, `.ascii-divider*`, `.ascii-image*`, `.md-term` (markdown), `hljs-*`. Prefer these over one-off styles.
+* Component classes (`index.css`): `.term-window*` (TerminalWindow chrome only — never hand-roll a title bar), `.btn-neon`, `.btn-neon-outline`, `.btn-danger-outline`, `.btn-term`, `.chip`/`.chip-green`, `.input-hud`, `.textarea-hud`, `.link-neon`, `.term-tab*`, `.term-tag`, `.ascii-table*`, `.ascii-divider*`, `.ascii-image*`, `.md-term` (markdown), `hljs-*`. Prefer these over one-off styles.
 * **Pointer-events contract:** section wrappers `pointer-events-none`, content panels `pointer-events-auto`.
 
 ### Admin console (`src/admin/`)
@@ -220,6 +220,49 @@ Custom context (`useI18n()` → `{lang, t, setLang, toggleLang}`), languages `en
 * TypeScript strict (`noUnusedLocals`, `noUnusedParameters`, `verbatimModuleSyntax` → `import type` for types, `erasableSyntaxOnly`). Path alias `@/*` → `src/*`.
 * React Compiler lint rules are on: no `Math.random()` during render (use `hashRand`), no ref writes during render.
 * Code, comments and docs in English; Thai only in translations.
+
+---
+
+## Shell, status bar, boot
+
+An xterm.js Quake drop-down shell, a tmux-style status bar and a first-visit boot sequence, all on the public site (never `src/admin/**`).
+
+### File map
+
+```
+app/src/
+├── shell/
+│   ├── loadXterm.ts         # dynamic import of xterm + addons + CSS (the only xterm import site)
+│   ├── xtermTheme.ts        # xterm theme from TANGO (no new hex literals)
+│   ├── ansi.ts              # color()/link helpers (SGR + OSC-8)
+│   ├── parse.ts             # line -> {cmd, args} (quotes, escapes)
+│   ├── fs.ts                # virtual FS: /projects, /blog, /skills ... (skillSlug, slugged skill file names)
+│   ├── suggest.ts           # "did you mean" (edit distance)
+│   ├── complete.ts          # Tab completion over commands and FS paths
+│   ├── types.ts             # ShellContext, Command, ShellOutput, ShellData
+│   ├── commands/            # index.ts registry + run(); one file per command
+│   ├── readline.ts          # line editor (history, completion, Ctrl keys); the only file that writes to a TermPort
+│   ├── safeUrl.ts           # classifyUrl: every opened/linked URL must be http(s) or a same-site /... path
+│   ├── useShell.ts / useShellContext.ts / ShellProvider.tsx   # state, ShellContext wiring, ` / Esc handling
+│   └── QuakeShell.tsx       # lazy drop-down panel hosting xterm
+├── statusbar/               # StatusBar.tsx (nav "Window list": N:name* windows, [>_ shell]) + constants.ts
+├── hooks/useActiveSection.ts# shared by Navbar and StatusBar
+└── boot/                    # shouldBoot.ts + BootSequence.tsx (overlay z-[200])
+```
+
+### Commands
+
+`help`, `ls`, `cat`, `tree`, `whoami`, `echo`, `date`, `history`, `clear`, `lang`, `cd`, `open`, `exit` (registry: `shell/commands/index.ts`). `help` is a `makeHelp(() => COMMANDS)` factory to avoid a circular import. Open with the backtick key or the status bar `>_ shell` button; close with Esc (inside xterm this is handled by `attachCustomKeyEventHandler`, because xterm stops propagation) or `exit`.
+
+### Boundaries and rules
+
+* **`ShellContext` boundary:** commands receive a `ShellContext` and return `string[]`; they never import xterm. Only `readline.ts` writes to a `TermPort`.
+* **Lazy loading:** xterm and its CSS live only in the lazy chunk (via `loadXterm`); entry chunk budget is ~15 kB gzip over the 90,856 B baseline; xterm stays lazy only. Never statically import xterm elsewhere. The lazy `QuakeShell` sits behind `ShellChunkBoundary` (retryable error panel if the chunk fails to load).
+* **React Query keys shared with the page:** only `['projects']` and `['post', slug]`; the shell's posts list uses its own `perPage` (so `['posts', {page, perPage: 50}]` is not shared) (`useShellContext.ts`). Ctrl+C aborts the shell's wait (`abortable`), never the shared query.
+* **`SHELL_THAI=ok`:** the shell follows the site language (`lang`), so its UI strings (`t.shell.*`) and Thai content render in the terminal; add every shell string to both `en` and `th`.
+* **`useActiveSection`:** one scroll-spy for Navbar and StatusBar; falls back to the last present section at page bottom and re-evaluates on resize.
+* **Boot gating (`shouldBoot`):** only on `/`, once per session (`sessionStorage` `booted`), skipped under `prefers-reduced-motion` and when `navigator.webdriver` is true. All storage access is in try/catch.
+* **Tests:** `src/test/setup.ts` sets `navigator.webdriver = true` so unit tests never boot; Playwright also sets it, so the overlay never shows in E2E. xterm runs with `screenReaderMode: true`, so `.xterm-accessibility-tree` has the text if `.xterm-rows` does not. E2E: `e2e/shell.spec.ts`.
 
 ---
 

@@ -11,7 +11,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { AsciiBox, ErrorLine, LoadingBar } from '@/components/term';
+import { TerminalWindow, ErrorLine, LoadingBar } from '@/components/term';
 import Markdown from '@/components/Markdown';
 import { api, ApiError } from '@/lib/api';
 import type { AdminPost, PostInput, PostStatus } from '@/lib/types';
@@ -309,7 +309,7 @@ function EditorForm({ post }: { post?: AdminPost }) {
   const showPreview = wide || pane === 'preview';
 
   return (
-    <AsciiBox title={post ? p.editTitle : p.newTitle}>
+    <TerminalWindow title={post ? p.editTitle : p.newTitle} user="admin">
       {showRestore && draft && autosave.savedAt !== null && (
         <div role="status" className="mb-4 flex flex-wrap items-center gap-3 border border-warn/60 px-3 py-2 font-mono text-sm text-warn">
           <span>{p.draftFound.replace('{time}', new Date(autosave.savedAt).toLocaleString())}</span>
@@ -486,6 +486,6 @@ function EditorForm({ post }: { post?: AdminPost }) {
           )}
         </div>
       </form>
-    </AsciiBox>
+    </TerminalWindow>
   );
 }

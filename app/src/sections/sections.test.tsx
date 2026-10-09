@@ -2,13 +2,14 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import * as apiModule from '@/lib/api';
 import type { PostSummary, Project } from '@/lib/types';
 import { I18nProvider } from '@/i18n/I18nContext';
 import { translations } from '@/i18n/translations';
 import Navbar from '@/components/Navbar';
 import HomePage from '@/pages/HomePage';
+import ShellProvider from '@/shell/ShellProvider';
 
 const projects: Project[] = [
   {
@@ -50,8 +51,10 @@ function renderHome(posts: PostSummary[] = []) {
     <QueryClientProvider client={qc}>
       <I18nProvider>
         <MemoryRouter initialEntries={['/']}>
-          <Navbar />
-          <HomePage />
+          <ShellProvider>
+            <Navbar />
+            <HomePage />
+          </ShellProvider>
         </MemoryRouter>
       </I18nProvider>
     </QueryClientProvider>,
@@ -67,9 +70,11 @@ describe('terminal home page', () => {
     expect(screen.getByText('whoami')).toBeInTheDocument();
     expect(screen.getByText('~/about/README.md')).toBeInTheDocument();
     expect(screen.getByText('~/skills')).toBeInTheDocument();
+    expect(screen.getByText('~/about/quick_facts.yaml')).toBeInTheDocument();
+    expect(screen.getByText('~/profile.png')).toBeInTheDocument();
 
-    // project boxes are titled with their slug (desktop carousel + mobile stack)
-    expect((await screen.findAllByText('kanban')).length).toBeGreaterThan(0);
+    // project boxes are titled with their slug path (desktop carousel + mobile stack)
+    expect((await screen.findAllByText('~/projects/kanban')).length).toBeGreaterThan(0);
     const source = screen.getAllByRole('link', { name: '[ source ↗ ]' });
     expect(source[0]).toHaveAttribute('href', projects[0].repoUrl);
     // a project without repoUrl gets no source link: 2 renders × 1 linked project
@@ -102,5 +107,30 @@ describe('terminal home page', () => {
 
     expect(screen.getByText(translations.th.about.bio1)).toBeInTheDocument();
     expect(screen.queryByText(translations.en.about.bio1)).not.toBeInTheDocument();
+  });
+});
+
+describe('hero shell hint', () => {
+  const stubPointer = (coarse: boolean) =>
+    vi.stubGlobal('matchMedia', (q: string) => ({
+      matches: coarse && q.includes('pointer: coarse'), media: q, onchange: null,
+      addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false,
+    }));
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('shows the ` shortcut as <kbd> on fine pointers', () => {
+    stubPointer(false);
+    renderHome();
+    const hint = screen.getByTestId('shell-hint');
+    expect(hint).toHaveTextContent('press ` to open a shell');
+    expect(hint.querySelector('kbd')).toHaveTextContent('`');
+  });
+
+  it('shows the tap hint on coarse pointers', () => {
+    stubPointer(true);
+    renderHome();
+    const hint = screen.getByTestId('shell-hint');
+    expect(hint).toHaveTextContent('tap >_ shell to open a shell');
+    expect(hint.querySelector('kbd')).toBeNull();
   });
 });
