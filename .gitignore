@@ -25,6 +25,9 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
+# Cloudflare Tunnel credentials (deploy/cloudflared/config.yml is safe to commit)
+deploy/cloudflared/creds.json
+
 # Temporary / Session files
 .playwright-mcp/
 app/test-results/

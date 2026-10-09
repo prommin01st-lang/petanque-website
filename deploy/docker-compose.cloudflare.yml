@@ -1,0 +1,22 @@
+# Cloudflare Tunnel deployment: replaces public Caddy/HTTPS with a cloudflared
+# connector that joins the internal network and proxies www.$DOMAIN to the app.
+# Usage (from deploy/):
+#   docker compose -f docker-compose.yml -f docker-compose.cloudflare.yml up -d
+# No host ports are published; Caddy stays disabled unless --profile direct.
+services:
+  caddy:
+    # Keep the plain Caddy setup available for direct exposure
+    # (docker compose ... --profile direct up -d), don't start it by default.
+    profiles: ["direct"]
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.0
+    command: tunnel --no-autoupdate run
+    volumes:
+      - ./cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+      - ./cloudflared/creds.json:/etc/cloudflared/creds.json:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [internal]

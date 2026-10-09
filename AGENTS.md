@@ -22,7 +22,7 @@ Content (projects) is seeded from `server/internal/seed/projects.json` into an e
 | `app/` | Frontend SPA (public site + admin). |
 | `server/` | Go module `github.com/prommin01st-lang/petanque-website/server`. |
 | `e2e/` | Playwright end-to-end tests. |
-| `deploy/` | `docker-compose.yml`, `Caddyfile`, `.env.example`, `backup.sh`, `README.md` (deploy guide). |
+| `deploy/` | `docker-compose.yml`, `docker-compose.cloudflare.yml`, `cloudflared/`, `Caddyfile`, `.env.example`, `backup.sh`, `README.md` (deploy guide). |
 | `Dockerfile` | Multi-stage: node build → Go build (embeds `app/dist`) → distroless `nonroot`. |
 | `.github/` | Empty on purpose: no CI workflows and no Dependabot (they spend Actions minutes). |
 | `docs/superpowers/` | Design spec and implementation plan for the ASCII terminal CMS. |
@@ -279,6 +279,7 @@ app/src/
 
 * **Docker:** `Dockerfile` builds the SPA, embeds it, compiles a static Go binary (`CGO_ENABLED=0`), runs as distroless `nonroot` with `/data` volume, `HEALTHCHECK` via `/server healthcheck`.
 * **Compose** (`deploy/`): `app` (built locally from the repo `Dockerfile`, tag `petanque-website:latest`) + `caddy` (automatic HTTPS, HSTS, zstd/gzip) on network `172.28.0.0/16`. See `deploy/README.md` for setup, first login, restore and updates.
+* **Cloudflare Tunnel** (alternative to opening ports 80/443): `docker-compose.cloudflare.yml` override — runs a `cloudflare/cloudflared` connector on the internal network (`www.$DOMAIN` → `http://app:8080`, TLS at the edge, no published ports) and disables Caddy unless `--profile direct`. Tunnel creds live in `deploy/cloudflared/creds.json` (gitignored, `chown 65532`). Start with `docker compose -f docker-compose.yml -f docker-compose.cloudflare.yml up -d`.
 * **Backups:** `deploy/backup.sh` runs `/server backup --force` (SQLite `VACUUM INTO`) and tars uploads into `./backups`, keeping the newest 14.
 * **No CI (owner's decision — GitHub Actions minutes cost money).** Do not add `.github/workflows/*`. Verification is local: Go vet/tests, `npm run lint` / `npm test -- --run` / `npm run build`, e2e when relevant, and a successful `docker build` (or `deploy/local-up.sh`).
 
