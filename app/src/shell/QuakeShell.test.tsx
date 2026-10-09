@@ -52,7 +52,7 @@ beforeEach(() => { fake.writes = []; fake.input = null; fake.keyHandler = null; 
 
 it('shows the welcome banner and runs ls', async () => {
   ui();
-  await waitFor(() => expect(out()).toContain("Welcome to prommin's shell."));
+  await waitFor(() => expect(out()).toContain("Welcome to petanque21st's shell."));
   fake.input!('ls\r');
   await waitFor(() => expect(out()).toContain('projects/'));
 });
@@ -100,7 +100,7 @@ it('shows the welcome banner once per session', async () => {
   sessionStorage.setItem('shell-welcomed', '1');
   ui();
   await waitFor(() => expect(fake.input).not.toBeNull());
-  await waitFor(() => expect(out()).toContain('guest@prommin'));
+  await waitFor(() => expect(out()).toContain('guest@petanque21st'));
   expect(out()).not.toContain('Welcome');
 });
 

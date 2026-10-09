@@ -39,7 +39,7 @@ export default function StatusBar() {
       className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 px-2 font-mono text-[12px] leading-none bg-ansi-green text-bg"
       style={{ height: STATUS_BAR_PX }}
     >
-      <span aria-hidden="true">[prommin]</span>
+      <span aria-hidden="true">[petanque21st]</span>
       <span className="hidden sm:flex gap-3">
         {SECTIONS.map((s, i) => (
           <button

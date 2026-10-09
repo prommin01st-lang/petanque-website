@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-const HOME_TITLE = 'Prommin L. — Full-Stack Developer';
+const HOME_TITLE = 'Petanque21st — Full-Stack Developer';
 
-/** Sets document.title to `<title> — Prommin L.`; an empty title restores the home title. */
+/** Sets document.title to `<title> — Petanque21st`; an empty title restores the home title. */
 export function useDocumentTitle(title: string) {
   useEffect(() => {
-    document.title = title ? `${title} — Prommin L.` : HOME_TITLE;
+    document.title = title ? `${title} — Petanque21st` : HOME_TITLE;
     return () => {
       document.title = HOME_TITLE;
     };

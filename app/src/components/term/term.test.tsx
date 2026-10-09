@@ -17,6 +17,6 @@ it('ErrorLine formats ApiError and retries', async () => {
 });
 
 it('FigletTitle keeps an accessible name', () => {
-  render(<FigletTitle text="PROMMIN.L" art={FIGLET_NAME} />);
-  expect(screen.getByRole('heading', { name: 'PROMMIN.L' })).toBeInTheDocument();
+  render(<FigletTitle text="PETANQUE21ST" art={FIGLET_NAME} />);
+  expect(screen.getByRole('heading', { name: 'PETANQUE21ST' })).toBeInTheDocument();
 });

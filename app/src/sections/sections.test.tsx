@@ -66,7 +66,7 @@ describe('terminal home page', () => {
   it('renders the terminal sections with API projects', async () => {
     const { postsSpy } = renderHome();
 
-    expect(screen.getByRole('heading', { name: 'PROMMIN.L' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'PETANQUE21ST' })).toBeInTheDocument();
     expect(screen.getByText('whoami')).toBeInTheDocument();
     expect(screen.getByText('~/about/README.md')).toBeInTheDocument();
     expect(screen.getByText('~/skills')).toBeInTheDocument();

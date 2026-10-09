@@ -164,7 +164,7 @@ export default function QuakeShell({ open, onClose }: { open: boolean; onClose: 
           return term.cols;
         },
       },
-      prompt: () => `${bold(color('guest@prommin', 'green', true))}:${bold(color(cwdRef.current, 'blue', true))}$ `,
+      prompt: () => `${bold(color('guest@petanque21st', 'green', true))}:${bold(color(cwdRef.current, 'blue', true))}$ `,
       onLine: async (line, signal) => {
         const out = await run(line, { ...ctxRef.current, signal });
         saveHistory(history);

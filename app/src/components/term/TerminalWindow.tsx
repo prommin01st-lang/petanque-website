@@ -39,7 +39,7 @@ const LIVE_BTN =
 export default function TerminalWindow({
   title,
   user = 'guest',
-  host = 'prommin',
+  host = 'petanque21st',
   as: Tag = 'div',
   className = '',
   children,

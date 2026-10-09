@@ -58,7 +58,7 @@ func (h *Handler) rss(w http.ResponseWriter, r *http.Request) {
 		httpx.Fail(w, err)
 		return
 	}
-	ch := rssChannel{Title: "Prommin L. — Blog", Link: h.PublicURL + "/blog", Description: defaultDescription, Items: []rssItem{}}
+	ch := rssChannel{Title: "Petanque21st — Blog", Link: h.PublicURL + "/blog", Description: defaultDescription, Items: []rssItem{}}
 	for _, p := range list {
 		it := rssItem{Title: p.Title.En, Link: h.PublicURL + "/blog/" + p.Slug, GUID: h.PublicURL + "/blog/" + p.Slug, Description: p.Excerpt.En}
 		if t, err := store.ParseTime(p.PublishedAt); err == nil {

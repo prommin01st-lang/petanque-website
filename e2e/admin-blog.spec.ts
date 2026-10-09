@@ -41,14 +41,14 @@ test('admin sets up TOTP, publishes a post, and it appears on /blog', async ({ p
   await page.getByRole('link', { name: new RegExp(TITLE) }).click();
   await expect(page).toHaveURL(/\/blog\/e2e-hello-world$/);
   await expect(page.getByRole('heading', { name: 'It works' })).toBeVisible();
-  await expect(page).toHaveTitle(`${TITLE} — Prommin L.`);
+  await expect(page).toHaveTitle(`${TITLE} — Petanque21st`);
 
   // Server-rendered meta for crawlers (web.RenderIndex).
   const res = await page.request.get('/blog/e2e-hello-world');
   expect(res.ok()).toBe(true);
   const html = await res.text();
-  expect(html).toContain(`<title>${TITLE} — Prommin L.</title>`);
-  expect(html).toContain(`<meta property="og:title" content="${TITLE} — Prommin L.">`);
+  expect(html).toContain(`<title>${TITLE} — Petanque21st</title>`);
+  expect(html).toContain(`<meta property="og:title" content="${TITLE} — Petanque21st">`);
   expect(html).toContain('<meta property="og:type" content="article">');
   expect(html).toContain('<link rel="canonical" href="http://localhost:8090/blog/e2e-hello-world">');
 

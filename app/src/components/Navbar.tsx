@@ -191,7 +191,7 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
         >
           <span className="font-bold text-prompt-user">~</span>
           <span className="text-text">/</span>
-          <span className="font-bold text-prompt-path">prommin-l</span>
+          <span className="font-bold text-prompt-path">petanque21st</span>
           <span className="text-text ml-1">$</span>
           <span aria-hidden="true" className="inline-block w-2 h-4 bg-text animate-blink-cursor ml-1.5" />
         </Link>
@@ -241,7 +241,7 @@ export default function Navbar({ fxEnabled = true, fxLocked = false, onToggleFx 
         style={{ backgroundColor: 'rgba(12, 12, 12, 0.97)' }}
       >
         <p className="text-[13px] text-text-dim mb-6">
-          <span className="font-bold text-prompt-user">guest@prommin</span>:<span className="font-bold text-prompt-path">~</span>$ ls
+          <span className="font-bold text-prompt-user">guest@petanque21st</span>:<span className="font-bold text-prompt-path">~</span>$ ls
         </p>
         <ul className="list-none p-0 m-0 space-y-5">
           {links.map((l) => (
