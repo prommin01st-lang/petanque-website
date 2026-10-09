@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	defaultTitle       = "Prommin L. — Full-Stack Developer"
+	defaultTitle       = "Petanque21st — Full-Stack Developer"
 	defaultDescription = "Full-stack developer building real-time systems, enterprise backends and developer automation."
 )
 
@@ -91,7 +91,7 @@ func (h *Handler) metaFor(r *http.Request, p string) Meta {
 		m.NoIndex = true
 	case p == "/": // home: default meta
 	case p == "/blog":
-		m.Title = "Blog — Prommin L."
+		m.Title = "Blog — Petanque21st"
 	case strings.HasPrefix(p, "/blog/") && !strings.Contains(strings.TrimPrefix(p, "/blog/"), "/"):
 		slug := strings.TrimPrefix(p, "/blog/")
 		post, err := posts.PublishedBySlug(r.Context(), h.DB, slug)
@@ -100,7 +100,7 @@ func (h *Handler) metaFor(r *http.Request, p string) Meta {
 			m.NoIndex = true
 			return m
 		}
-		m.Title = post.Title.En + " — Prommin L."
+		m.Title = post.Title.En + " — Petanque21st"
 		m.Article = true
 		if post.Excerpt.En != "" {
 			m.Description = post.Excerpt.En

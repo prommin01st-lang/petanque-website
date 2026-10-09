@@ -11,15 +11,15 @@ describe('TerminalWindow chrome', () => {
   it('prefixes path titles with user@host like a GNOME terminal', () => {
     const { container } = render(<TerminalWindow title="~/projects"><p>hi</p></TerminalWindow>);
     const bar = titleBar(container);
-    expect(bar.querySelector('.term-window-title')).toHaveTextContent(/^guest@prommin: ~\/projects$/);
-    expect(bar.querySelector('.term-window-title')).toHaveAttribute('title', 'guest@prommin: ~/projects');
+    expect(bar.querySelector('.term-window-title')).toHaveTextContent(/^guest@petanque21st: ~\/projects$/);
+    expect(bar.querySelector('.term-window-title')).toHaveAttribute('title', 'guest@petanque21st: ~/projects');
     expect(screen.getByText('~/projects')).toBeInTheDocument();
     expect(screen.getByText('hi')).toBeInTheDocument();
   });
 
   it('prefixes absolute paths too', () => {
     const { container } = render(<TerminalWindow title="/etc/motd" />);
-    expect(titleBar(container).querySelector('.term-window-title')).toHaveTextContent(/^guest@prommin: \/etc\/motd$/);
+    expect(titleBar(container).querySelector('.term-window-title')).toHaveTextContent(/^guest@petanque21st: \/etc\/motd$/);
   });
 
   it('renders non-path titles as-is', () => {
@@ -36,7 +36,7 @@ describe('TerminalWindow chrome', () => {
 
   it('shows the home directory when there is no title', () => {
     const { container } = render(<TerminalWindow><p>body</p></TerminalWindow>);
-    expect(titleBar(container).querySelector('.term-window-title')).toHaveTextContent(/^guest@prommin: ~$/);
+    expect(titleBar(container).querySelector('.term-window-title')).toHaveTextContent(/^guest@petanque21st: ~$/);
   });
 
   it('renders decorative, non-focusable window buttons and no heading', () => {

@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-A bilingual (English/Thai) portfolio site for a full-stack developer ("Prommin L.") with a small built-in CMS:
+A bilingual (English/Thai) portfolio site for a full-stack developer ("Prommin L.", site brand **Petanque21st**, domain www.petanque21st.com) with a small built-in CMS:
 
 * **`app/`** — React 19 + Vite + TypeScript + Tailwind SPA. Public pages (home sections, `/blog`, `/blog/:slug`) styled as a **Linux terminal** (Tango ANSI palette, JetBrains Mono, ASCII boxes/prompts) over an **ASCII-only animated WebGL background**. An **admin console** lives under `/admin/*`.
 * **`server/`** — Go HTTP server (chi + SQLite via `modernc.org/sqlite`, CGO-free). Serves the JSON API, uploaded media, RSS/sitemap, and the built SPA (embedded) with per-page `<head>` meta.
@@ -181,7 +181,7 @@ app/src/
 * **API client** (`lib/api.ts`): `request` with `credentials: 'same-origin'`, strict JSON handling (`ApiError{status,code,message,fields}`; non-JSON 2xx → `bad_response`; network → status 0), CSRF header from `setCsrfToken`, `upload(file)`. Grouped as `api.projects/posts/post`, `api.auth.*`, `api.admin.*`.
 * **Query keys:** `['projects']`, `['posts', params]`, `['post', slug]`, `['me']`, `['admin','projects']`, `['admin','posts', status]`, `['admin','post', id]`, `['admin','media']`, `['admin','audit', page]`, `['admin','sessions']`.
 * **Localized content** comes from the API as `{en, th}`; render with `pick(l, lang)` (falls back to `en`).
-* `useDocumentTitle(title)` sets `<title> — Prommin L.`; the server injects the same title for crawlers.
+* `useDocumentTitle(title)` sets `<title> — Petanque21st`; the server injects the same title for crawlers.
 
 ### ASCII background (`src/background/`)
 
@@ -253,7 +253,7 @@ app/src/
 
 ### Commands
 
-`help`, `ls`, `cat`, `tree`, `whoami`, `echo`, `date`, `history`, `clear`, `lang`, `cd`, `open`, `exit` (registry: `shell/commands/index.ts`). Hidden easter eggs (`hidden: true` — left out of `help`, Tab completion and suggestions): `login`, `sudo su`, `ssh admin@prommin` open `/admin/login`; other `sudo`/`ssh` targets print a refusal. `help` is a `makeHelp(() => COMMANDS)` factory to avoid a circular import. Open with the backtick key or the status bar `>_ shell` button; close with Esc (inside xterm this is handled by `attachCustomKeyEventHandler`, because xterm stops propagation) or `exit`. The shell window's title-bar buttons are live: `_` minimizes to the title bar (click the bar to restore), `□` maximizes (double-clicking the bar toggles it too), `×` closes. `TerminalWindow` makes a button real only when its handler (`onClose`/`onMinimize`/`onMaximize`) is passed; cards without handlers keep decorative, `aria-hidden` buttons (`.term-window-buttons` is `pointer-events: none`, `.term-window-buttons-live` re-enables it).
+`help`, `ls`, `cat`, `tree`, `whoami`, `echo`, `date`, `history`, `clear`, `lang`, `cd`, `open`, `exit` (registry: `shell/commands/index.ts`). Hidden easter eggs (`hidden: true` — left out of `help`, Tab completion and suggestions): `login`, `sudo su`, `ssh admin@petanque21st` open `/admin/login`; other `sudo`/`ssh` targets print a refusal. `help` is a `makeHelp(() => COMMANDS)` factory to avoid a circular import. Open with the backtick key or the status bar `>_ shell` button; close with Esc (inside xterm this is handled by `attachCustomKeyEventHandler`, because xterm stops propagation) or `exit`. The shell window's title-bar buttons are live: `_` minimizes to the title bar (click the bar to restore), `□` maximizes (double-clicking the bar toggles it too), `×` closes. `TerminalWindow` makes a button real only when its handler (`onClose`/`onMinimize`/`onMaximize`) is passed; cards without handlers keep decorative, `aria-hidden` buttons (`.term-window-buttons` is `pointer-events: none`, `.term-window-buttons-live` re-enables it).
 
 ### Boundaries and rules
 

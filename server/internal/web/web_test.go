@@ -53,7 +53,7 @@ func TestSPAFallbackAndAssets(t *testing.T) {
 		t.Fatalf("asset: %d %s", code, cc)
 	}
 	code, body, cc = get(r, "/some/deep/route")
-	if code != 200 || !strings.Contains(body, "<title>Prommin L.") || strings.Contains(body, "<title>dev</title>") || cc != "no-cache" {
+	if code != 200 || !strings.Contains(body, "<title>Petanque21st") || strings.Contains(body, "<title>dev</title>") || cc != "no-cache" {
 		t.Fatalf("fallback: %d %s %s", code, cc, body)
 	}
 	if code, _, _ := get(r, "/assets/missing.js"); code != 404 {

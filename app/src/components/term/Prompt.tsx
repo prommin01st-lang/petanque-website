@@ -9,7 +9,7 @@ interface PromptProps {
   typing?: boolean;
 }
 
-export default function Prompt({ user = 'guest', host = 'prommin', path = '~', command, typing = false }: PromptProps) {
+export default function Prompt({ user = 'guest', host = 'petanque21st', path = '~', command, typing = false }: PromptProps) {
   const style = command ? ({ '--chars': command.length } as CSSProperties) : undefined;
   return (
     <p className="font-mono text-sm m-0">

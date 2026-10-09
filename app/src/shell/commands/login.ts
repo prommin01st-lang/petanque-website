@@ -6,7 +6,7 @@ import { fmt, usage } from './util';
 /* ------------------------------------------------------------------ */
 
 const ADMIN_LOGIN = '/admin/login';
-const HOSTS = new Set(['prommin', 'admin@prommin']);
+const HOSTS = new Set(['petanque21st', 'admin@petanque21st', 'petanque21st.com', 'admin@petanque21st.com']);
 
 function openLogin(ctx: ShellContext): string[] {
   if (ctx.signal.aborted) return [];
@@ -38,7 +38,7 @@ export const ssh: Command = {
   summary: (t) => t.shell.help.login,
   run(args, ctx) {
     const target = args[0];
-    if (!target) return [usage(ctx, 'ssh admin@prommin')];
+    if (!target) return [usage(ctx, 'ssh admin@petanque21st')];
     if (HOSTS.has(target.toLowerCase())) return openLogin(ctx);
     const host = target.includes('@') ? target.slice(target.lastIndexOf('@') + 1) : target;
     return [fmt(ctx.t.shell.sshRefused, { host })];

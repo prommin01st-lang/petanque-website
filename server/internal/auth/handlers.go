@@ -267,7 +267,7 @@ func (h *Handler) totpSetup(w http.ResponseWriter, r *http.Request) {
 		httpx.Fail(w, errTOTPEnabled)
 		return
 	}
-	issuer := "prommin.dev"
+	issuer := "petanque21st.com"
 	if u, err := url.Parse(h.Cfg.PublicURL); err == nil && u.Hostname() != "" {
 		issuer = u.Hostname()
 	}

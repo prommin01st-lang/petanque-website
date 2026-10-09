@@ -19,7 +19,7 @@ export const translations = {
 
     // Hero
     hero: {
-      name: 'PROMMIN.L',
+      name: 'PETANQUE21ST',
       tagline:
         'Full-Stack Developer & DevOps-oriented engineer building real-time collaboration systems, enterprise backends, and developer automation — solo.',
       ctaPrimary: 'view projects',
@@ -385,7 +385,7 @@ export const translations = {
       copyright: 'Prommin L.',
     },
     shell: {
-      welcome: "Welcome to prommin's shell.",
+      welcome: "Welcome to petanque21st's shell.",
       hint: "type 'help' to get started",
       heroHint: 'press ` to open a shell',
       heroHintTouch: 'tap >_ shell to open a shell',
@@ -413,10 +413,10 @@ export const translations = {
       },
     },
     boot: {
-      mounted: 'Mounted /home/prommin',
+      mounted: 'Mounted /home/petanque21st',
       started: 'Started portfolio.service',
       reached: 'Reached target Graphical Interface',
-      login: 'prommin login: guest (automatic login)',
+      login: 'petanque21st login: guest (automatic login)',
       skip: 'press any key to skip',
     },
   },
@@ -439,7 +439,7 @@ export const translations = {
 
     // Hero
     hero: {
-      name: 'PROMMIN.L',
+      name: 'PETANQUE21ST',
       tagline:
         'นักพัฒนา Full-Stack & DevOps-oriented สร้างระบบ real-time collaboration, enterprise backends และ developer automation — แบบเดี่ยว',
       ctaPrimary: 'ดูผลงาน',
@@ -805,7 +805,7 @@ export const translations = {
       copyright: 'Prommin L.',
     },
     shell: {
-      welcome: 'ยินดีต้อนรับสู่ shell ของ prommin',
+      welcome: 'ยินดีต้อนรับสู่ shell ของ petanque21st',
       hint: "พิมพ์ 'help' เพื่อเริ่มต้น",
       heroHint: 'กด ` เพื่อเปิด shell',
       heroHintTouch: 'แตะ >_ shell เพื่อเปิด shell',
@@ -833,10 +833,10 @@ export const translations = {
       },
     },
     boot: {
-      mounted: 'เมานต์ /home/prommin แล้ว',
+      mounted: 'เมานต์ /home/petanque21st แล้ว',
       started: 'เริ่ม portfolio.service แล้ว',
       reached: 'เข้าสู่ Graphical Interface แล้ว',
-      login: 'prommin login: guest (เข้าสู่ระบบอัตโนมัติ)',
+      login: 'petanque21st login: guest (เข้าสู่ระบบอัตโนมัติ)',
       skip: 'กดปุ่มใดก็ได้เพื่อข้าม',
     },
   },

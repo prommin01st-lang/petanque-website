@@ -6,7 +6,7 @@ import { stripAnsi } from '../ansi';
 const plain = (lines: string[]) => lines.map(stripAnsi);
 
 describe('hidden admin login commands', () => {
-  it.each(['login', 'sudo su', 'ssh admin@prommin', 'ssh prommin', 'SSH admin@prommin'])('%s opens the admin login', async (line) => {
+  it.each(['login', 'sudo su', 'ssh admin@petanque21st', 'ssh petanque21st', 'SSH admin@petanque21st', 'ssh admin@petanque21st.com'])('%s opens the admin login', async (line) => {
     const ctx = makeTestCtx();
     expect(plain(await run(line, ctx))).toEqual(['opening /admin/login…']);
     expect(ctx.calls.navigate).toEqual([['/admin/login']]);
@@ -26,7 +26,7 @@ describe('hidden admin login commands', () => {
   });
 
   it('bare ssh prints usage', async () => {
-    expect(plain(await run('ssh', makeTestCtx()))).toEqual(['usage: ssh admin@prommin']);
+    expect(plain(await run('ssh', makeTestCtx()))).toEqual(['usage: ssh admin@petanque21st']);
   });
 
   it('is hidden from help, completion and suggestions', async () => {

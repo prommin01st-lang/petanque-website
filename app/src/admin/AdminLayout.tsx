@@ -86,7 +86,7 @@ export default function AdminLayout() {
     <div className="min-h-[100dvh] grid grid-rows-[auto_auto_1fr] md:grid-rows-[auto_1fr] md:grid-cols-[180px_1fr] bg-bg text-text font-mono">
       <header className="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-hud-border px-4 py-3 text-sm">
         <p className="m-0 min-w-0 truncate">
-          <span className="font-bold text-prompt-user">admin@prommin</span>
+          <span className="font-bold text-prompt-user">admin@petanque21st</span>
           <span className="text-text">:</span>
           <span className="font-bold text-prompt-path">~/admin/{section}</span>
           <span className="text-text">$</span>
