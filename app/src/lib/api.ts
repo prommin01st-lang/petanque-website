@@ -100,6 +100,8 @@ export const api = {
       request<{ recoveryCodes: string[] }>('POST', '/api/auth/recovery-codes/regenerate', { code }),
     linkGitHub: (code: string) => request<{ url: string }>('POST', '/api/auth/github/link', { code }),
     unlinkGitHub: (code: string) => request<void>('POST', '/api/auth/github/unlink', { code }),
+    changePassword: (body: { currentPassword: string; newPassword: string; code: string }) =>
+      request<void>('POST', '/api/auth/password', body),
   },
   admin: {
     projects: () => request<{ items: AdminProject[] }>('GET', '/api/admin/projects'),

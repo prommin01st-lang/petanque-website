@@ -10,6 +10,7 @@ import RecoveryCodes from '../login/RecoveryCodes';
 import { fmtTime } from '../time';
 import { clearDrafts } from '../posts/useAutosave';
 import useMe from '../useMe';
+import ChangePassword from './ChangePassword';
 
 /* ------------------------------------------------------------------ */
 /*  OAuth redirect guard                                               */
@@ -172,6 +173,8 @@ export default function SettingsPage() {
           </dl>
         )}
       </TerminalWindow>
+
+      <ChangePassword />
 
       <TerminalWindow title={s.twoFactor} user="admin">
         <div className="flex flex-col gap-3 text-sm">

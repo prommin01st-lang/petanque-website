@@ -109,6 +109,7 @@ Entry: `cmd/server/main.go` — loads config, migrates, seeds projects, bootstra
 * **Rate limiting** (`auth/ratelimit.go`, table `login_attempts`): 15-minute window, 5 failures per IP (all steps), 10 per admin account (second-factor steps). Each attempt is **reserved** (pre-charged as a failure under a mutex) before slow verification and **refunded** by its AUTOINCREMENT id unless it was a real credential failure; history is cleared only when a session reaches `full`. Limited → 429 `rate_limited` + `Retry-After`. DB errors fail closed.
 * **TOTP replay guard:** `admins.totp_last_step`; a code's time step must be strictly greater than the last accepted one (atomic `UPDATE … WHERE totp_last_step < ?`). After a failed attempt the user may need the next code.
 * **GitHub (optional):** login-with-GitHub only for an already-linked admin. **Linking requires a TOTP step-up** (`POST /api/auth/github/link` with a code → `{url}`). Callback redirects: `/admin/login?error=github_not_linked|github_failed` (also for a missing/forged/expired state cookie), `/admin/settings?linked=1`, `/admin/settings?error=github_in_use|github_failed`.
+* **Password change:** `POST /api/auth/password {currentPassword,newPassword,code}` (full + CSRF, rate-limited like a step-up; 422 `newPassword` for < 12 chars, > 72 bytes or unchanged) updates the hash and deletes every *other* session of the admin; audit `admin.password_change` / `_failed`.
 * Security-relevant actions (logins, failures, CRUD, sessions, recovery, GitHub link) go to `audit_log`.
 
 ### API
@@ -124,7 +125,7 @@ Entry: `cmd/server/main.go` — loads config, migrates, seeds projects, bootstra
 | `GET /api/auth/providers` | — | `{github: bool}`. |
 | `POST /api/auth/login`, `/totp/setup`, `/totp/verify`, `/recovery`, `/logout` | partial session | Login state machine. |
 | `GET /api/auth/github/start`, `/github/callback` | — | OAuth flow. |
-| `GET /api/auth/me`, `/sessions`; `POST /logout-all`, `/recovery-codes/regenerate`, `/github/link`, `/github/unlink`; `DELETE /sessions/{id}` | full + CSRF | Account/session management. |
+| `GET /api/auth/me`, `/sessions`; `POST /logout-all`, `/recovery-codes/regenerate`, `/password`, `/github/link`, `/github/unlink`; `DELETE /sessions/{id}` | full + CSRF | Account/session management. |
 | `/api/admin/projects` (GET, POST), `/projects/{id}` (GET, PUT, DELETE), `PUT /projects/order` | full + CSRF | Projects CMS. |
 | `/api/admin/posts?status` (GET, POST), `/posts/{id}` (GET, PUT, DELETE) | full + CSRF | Posts CMS. |
 | `/api/admin/media` (GET, POST multipart), `DELETE /media/{id}` | full + CSRF | Media library. |
@@ -208,7 +209,7 @@ app/src/
 * Routes: `/admin/login`; behind `AuthGate` (redirects to login with `state.from`) and `AdminLayout`: `projects`, `projects/new`, `projects/:id`, `posts`, `posts/new`, `posts/:id`, `media`, `settings`, `audit`.
 * Login (`login/`): password → TOTP / recovery code, or first-time TOTP setup (QR + `data-testid="totp-secret"`) → recovery codes (checkbox gates `[continue]`). Optional "Login with GitHub" link.
 * Post editor: EN|TH tabs, markdown preview (side by side ≥ 1024px), draft/published toggle, image paste/drop upload, Ctrl/Cmd+S, **localStorage autosave** (`draft:post:<id|new>`) with restore banner; drafts are cleared on logout. `dirtyGuard.ts` confirms before leaving with unsaved changes.
-* Projects: CRUD + drag reorder. Media: upload/list/delete, copy markdown. Settings: sessions, logout-all, recovery regeneration, GitHub link/unlink. Audit: paged log.
+* Projects: CRUD + drag reorder. Media: upload/list/delete, copy markdown. Settings: change password (current password + TOTP; revokes other sessions), sessions, logout-all, recovery regeneration, GitHub link/unlink. Audit: paged log.
 * **Command palette:** Ctrl/Cmd+K.
 
 ### i18n
