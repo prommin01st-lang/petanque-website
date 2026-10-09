@@ -24,7 +24,7 @@ Content (projects) is seeded from `server/internal/seed/projects.json` into an e
 | `e2e/` | Playwright end-to-end tests. |
 | `deploy/` | `docker-compose.yml`, `Caddyfile`, `.env.example`, `backup.sh`, `README.md` (deploy guide). |
 | `Dockerfile` | Multi-stage: node build → Go build (embeds `app/dist`) → distroless `nonroot`. |
-| `.github/` | `dependabot.yml` (npm, gomod). No CI workflows by design. |
+| `.github/` | Empty on purpose: no CI workflows and no Dependabot (they spend Actions minutes). |
 | `docs/superpowers/` | Design spec and implementation plan for the ASCII terminal CMS. |
 | `tech-spec.md` | Historical design doc from the original site; may be stale. |
 
