@@ -3,6 +3,7 @@ package web
 import (
 	"encoding/xml"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/prommin01st-lang/petanque-website/server/internal/httpx"
@@ -33,12 +34,26 @@ type rssItem struct {
 
 type urlSet struct {
 	XMLName xml.Name  `xml:"http://www.sitemaps.org/schemas/sitemap/0.9 urlset"`
+	ImageNS string    `xml:"xmlns:image,attr"`
 	URLs    []siteURL `xml:"url"`
 }
 
 type siteURL struct {
-	Loc     string `xml:"loc"`
-	LastMod string `xml:"lastmod,omitempty"`
+	Loc     string      `xml:"loc"`
+	LastMod string      `xml:"lastmod,omitempty"`
+	Images  []siteImage `xml:"image:image,omitempty"`
+}
+
+type siteImage struct {
+	Loc string `xml:"image:loc"`
+}
+
+func (h *Handler) robots(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Cache-Control", "public, max-age=3600")
+	// Public API responses and assets must stay crawlable for the React application.
+	// Admin pages stay crawlable so robots can see their noindex metadata.
+	_, _ = w.Write([]byte("User-agent: *\nAllow: /\nDisallow: /api/admin/\nDisallow: /api/auth/\n\nSitemap: " + h.PublicURL + "/sitemap.xml\n"))
 }
 
 func writeXML(w http.ResponseWriter, contentType string, v any) {
@@ -70,7 +85,10 @@ func (h *Handler) rss(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) sitemap(w http.ResponseWriter, r *http.Request) {
-	set := urlSet{URLs: []siteURL{{Loc: h.PublicURL + "/"}, {Loc: h.PublicURL + "/blog"}}}
+	set := urlSet{ImageNS: "http://www.google.com/schemas/sitemap-image/1.1", URLs: []siteURL{
+		{Loc: h.PublicURL + "/", Images: []siteImage{{Loc: h.defaultImage()}}},
+		{Loc: h.PublicURL + "/blog"},
+	}}
 	const page = 50
 	for offset := 0; ; offset += page {
 		list, total, err := posts.ListPublished(r.Context(), h.DB, "", page, offset)
@@ -80,6 +98,13 @@ func (h *Handler) sitemap(w http.ResponseWriter, r *http.Request) {
 		}
 		for _, p := range list {
 			u := siteURL{Loc: h.PublicURL + "/blog/" + p.Slug}
+			if p.CoverURL != "" {
+				cover := p.CoverURL
+				if strings.HasPrefix(cover, "/") {
+					cover = h.PublicURL + cover
+				}
+				u.Images = []siteImage{{Loc: cover}}
+			}
 			if t, err := store.ParseTime(p.PublishedAt); err == nil {
 				u.LastMod = t.Format("2006-01-02")
 			}

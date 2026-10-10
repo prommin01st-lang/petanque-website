@@ -1,5 +1,5 @@
 export interface SkillCategory {
-  key: 'backend' | 'frontend' | 'databases' | 'devopsTesting' | 'cloudIntegrations';
+  key: 'backend' | 'frontend' | 'databases' | 'devopsTesting' | 'cloudIntegrations' | 'learning';
   dir: string;
   skills: string[];
 }
@@ -9,5 +9,6 @@ export const SKILL_CATEGORIES: readonly SkillCategory[] = [
   { key: 'frontend', dir: 'frontend', skills: ['Next.js 14-16', 'React 19', 'TypeScript', 'Material UI', 'Tailwind CSS'] },
   { key: 'databases', dir: 'databases', skills: ['PostgreSQL', 'SQL Server', 'Redis'] },
   { key: 'devopsTesting', dir: 'devops-testing', skills: ['Docker', 'PowerShell', 'xUnit', 'Testcontainers', 'FluentAssertions', 'Bruno'] },
-  { key: 'cloudIntegrations', dir: 'cloud-integrations', skills: ['Cloudflare R2', 'Google OAuth/Calendar', 'Gmail SMTP', 'Gemini API', 'RAG', 'LLM Fine-tuning'] },
+  { key: 'cloudIntegrations', dir: 'cloud-integrations', skills: ['Cloudflare R2', 'Google OAuth/Calendar', 'Gmail SMTP', 'Gemini API', 'RAG'] },
+  { key: 'learning', dir: 'learning', skills: ['LLMs', 'LLM Fine-tuning', 'Data Analysis'] },
 ];

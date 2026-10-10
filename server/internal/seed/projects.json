@@ -35,20 +35,20 @@
   },
   {
     "slug": "queue-backend",
-    "nameEn": "Queue Backend",
-    "nameTh": "Queue Backend",
-    "descEn": "Job queue backend (.NET 10, PostgreSQL, Redis) built test-first: WebApplicationFactory + Testcontainers harness with 80%+ integration coverage via xUnit + FluentAssertions.",
-    "descTh": "แบ็กเอนด์ job queue (.NET 10, PostgreSQL, Redis) พัฒนาแบบ test-first: WebApplicationFactory + Testcontainers ครอบคลุม integration test 80%+ ด้วย xUnit + FluentAssertions",
+    "nameEn": "Customer Queue Management",
+    "nameTh": "ระบบจัดการคิวลูกค้า",
+    "descEn": "A queue management system for restaurants and service businesses. Customers can check their queue through their ticket and receive web or app notifications, while staff manage queues and divide responsibilities. I handled database design, backend architecture, frontend development, and part of the web and mobile UI design. Deployment was handled by others.",
+    "descTh": "ระบบจัดการคิวสำหรับร้านอาหารและธุรกิจบริการ ให้ลูกค้าตรวจสอบคิวผ่านบัตรคิวและรับการแจ้งเตือนบนเว็บหรือแอป พร้อมเครื่องมือให้พนักงานจัดการคิวและแบ่งหน้าที่ ผมรับผิดชอบการออกแบบฐานข้อมูล สถาปัตยกรรม Backend การพัฒนา Frontend และออกแบบ UI บางส่วนของเว็บและมือถือ ส่วน Deployment มีผู้รับผิดชอบคนอื่น",
     "tags": [
-      ".NET 10",
-      "Redis",
-      "Testcontainers",
-      "xUnit"
+      "Next.js",
+      ".NET",
+      "PostgreSQL",
+      "WebP"
     ],
-    "metric": "80%+ test coverage",
-    "repoUrl": "https://github.com/prommin01st-lang",
+    "metric": "Database · Backend · Frontend",
+    "repoUrl": "",
     "demoUrl": "",
-    "flagship": false
+    "flagship": true
   },
   {
     "slug": "realtime-chat",

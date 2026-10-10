@@ -57,8 +57,11 @@ export default function HeroSection() {
             transition={{ duration: 0.5, ease: smoothEase }}
           >
             <div className="hero-figlet">
-              <FigletTitle text={t.hero.name} art={FIGLET_NAME} />
+              <FigletTitle text={t.hero.name} art={FIGLET_NAME} as="div" />
             </div>
+
+            <h1 className="mt-6 font-body text-2xl md:text-3xl font-semibold text-text">{t.hero.fullName}</h1>
+            <p className="mt-2 font-body text-sm text-text-dim">{t.hero.alternateName}</p>
 
             <div className="mt-8 space-y-2">
               <Prompt command="whoami" typing />
@@ -113,7 +116,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, ease: smoothEase, delay: 0.2 }}
           >
             <TerminalWindow title="~/profile.png">
-              <AsciiImage src="/profile.png" alt={t.hero.profileAlt} />
+              <AsciiImage src="/prommin-chandet-petanque.png" alt={t.hero.profileAlt} width={960} height={960} priority />
             </TerminalWindow>
           </motion.div>
         </div>

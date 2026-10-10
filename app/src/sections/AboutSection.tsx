@@ -33,7 +33,7 @@ export default function AboutSection() {
         >
           <TerminalWindow title="~/about/README.md">
             <div className="space-y-4 px-1 py-2 md:px-3">
-              {[t.about.bio1, t.about.bio2, t.about.bio3].map((para) => (
+              {[t.about.bio1, t.about.bio2, t.about.bio3, t.about.bio4, t.about.bio5].map((para) => (
                 <p key={para} className="font-body text-[15.5px] md:text-[16px] font-light text-text-dim leading-relaxed">
                   {para}
                 </p>

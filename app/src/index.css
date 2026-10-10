@@ -558,12 +558,17 @@
   background: var(--bg);
 }
 
-.ascii-image-frame canvas {
+.ascii-image-frame canvas,
+.ascii-image-source {
   position: absolute;
   inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.ascii-image-frame canvas {
+  background: var(--bg);
 }
 
 .ascii-image-frame canvas.is-interactive {

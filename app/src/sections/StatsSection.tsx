@@ -9,12 +9,12 @@ const smoothEase = [0.16, 1, 0.3, 1] as [number, number, number, number];
 /*  DATA — Focus Areas                                                 */
 /* ------------------------------------------------------------------ */
 
-type AreaKey = 'realtime' | 'fullstack' | 'cloudAi';
+type AreaKey = 'analysis' | 'fullstack' | 'learning';
 
 const focusAreas: { key: AreaKey; command: string }[] = [
-  { key: 'realtime', command: 'ping --realtime' },
-  { key: 'fullstack', command: 'dotnet run --full-stack' },
-  { key: 'cloudAi', command: 'deploy --cloud --ai' },
+  { key: 'analysis', command: 'cat requirements.md' },
+  { key: 'fullstack', command: 'npm run build' },
+  { key: 'learning', command: 'learn --llm --data' },
 ];
 
 /* ------------------------------------------------------------------ */

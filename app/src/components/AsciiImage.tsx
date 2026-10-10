@@ -12,6 +12,10 @@ interface AsciiImageProps {
   cols?: number;
   /** false → static decoration: no toggle, lens, ripple or click. */
   interactive?: boolean;
+  width?: number;
+  height?: number;
+  /** Give the above-the-fold portrait higher fetch priority. */
+  priority?: boolean;
   className?: string;
 }
 
@@ -235,7 +239,7 @@ function canvasSupported(): boolean {
 /*  scramble ripple, and click / button toggle to the full photo.      */
 /* ------------------------------------------------------------------ */
 
-export default function AsciiImage({ src, alt, cols = 88, interactive = true, className = '' }: AsciiImageProps) {
+export default function AsciiImage({ src, alt, cols = 88, interactive = true, width, height, priority = false, className = '' }: AsciiImageProps) {
   const { t } = useI18n();
   const [supported] = useState(canvasSupported);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -308,6 +312,7 @@ export default function AsciiImage({ src, alt, cols = 88, interactive = true, cl
     e.onError = fail;
     const img = new Image();
     img.decoding = 'async';
+    img.fetchPriority = priority ? 'high' : 'auto';
     img.onload = () => {
       if (cancelled) return;
       e.img = img;
@@ -320,7 +325,7 @@ export default function AsciiImage({ src, alt, cols = 88, interactive = true, cl
       img.onload = null;
       img.onerror = null;
     };
-  }, [src, cols, canvasMode]);
+  }, [src, cols, canvasMode, priority]);
 
   /* --- interaction --- */
   const toggle = () => {
@@ -364,22 +369,20 @@ export default function AsciiImage({ src, alt, cols = 88, interactive = true, cl
   };
 
   if (!canvasMode) {
-    return <img src={src} alt={alt} className={`ascii-image-fallback ${className}`} />;
+    return <img src={src} alt={alt} width={width} height={height} decoding="async" fetchPriority={priority ? 'high' : 'auto'} className={`ascii-image-fallback ${className}`} />;
   }
 
-  const decorative = alt === '';
   return (
     <div className={`ascii-image ${className}`}>
       <div
         ref={frameRef}
         className="ascii-image-frame"
-        role={decorative ? undefined : 'img'}
-        aria-label={decorative ? undefined : alt}
-        aria-hidden={decorative || undefined}
-        style={{ aspectRatio: grid ? `${grid.cols} / ${grid.rows * 2}` : '1 / 1' }}
+        style={{ aspectRatio: width && height ? `${width} / ${height}` : grid ? `${grid.cols} / ${grid.rows * 2}` : '1 / 1' }}
         data-cols={grid?.cols}
         data-rows={grid?.rows}
       >
+        {/* Keep a real, crawlable image beneath the decorative ASCII canvas. */}
+        <img src={src} alt={alt} width={width} height={height} decoding="async" fetchPriority={priority ? 'high' : 'auto'} className="ascii-image-source" />
         <canvas
           ref={canvasRef}
           aria-hidden="true"
