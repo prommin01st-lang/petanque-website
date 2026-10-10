@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
 	"io"
 	"net/http/httptest"
@@ -53,11 +54,77 @@ func TestSPAFallbackAndAssets(t *testing.T) {
 		t.Fatalf("asset: %d %s", code, cc)
 	}
 	code, body, cc = get(r, "/some/deep/route")
-	if code != 200 || !strings.Contains(body, "<title>Petanque21st") || strings.Contains(body, "<title>dev</title>") || cc != "no-cache" {
+	if code != 200 || !strings.Contains(body, "<title>"+defaultTitle) || strings.Contains(body, "<title>dev</title>") || cc != "no-cache" {
 		t.Fatalf("fallback: %d %s %s", code, cc, body)
 	}
 	if code, _, _ := get(r, "/assets/missing.js"); code != 404 {
 		t.Fatal("missing asset must 404, not index")
+	}
+}
+
+func structuredData(t *testing.T, body string) map[string]any {
+	t.Helper()
+	_, rest, found := strings.Cut(body, `<script type="application/ld+json">`)
+	if !found {
+		t.Fatal("missing structured data")
+	}
+	data, _, _ := strings.Cut(rest, "</script>")
+	var result map[string]any
+	if err := json.Unmarshal([]byte(data), &result); err != nil {
+		t.Fatalf("invalid structured data: %v", err)
+	}
+	return result
+}
+
+func TestProfileSEOAndRobots(t *testing.T) {
+	r, _ := setup(t)
+	_, body, _ := get(r, "/?utm_source=test")
+	data := structuredData(t, body)
+	graph := data["@graph"].([]any)
+	person := graph[0].(map[string]any)
+	if person["name"] != personName || person["image"] != "https://ex.com"+portraitPath {
+		t.Fatalf("incorrect identity: %+v", person)
+	}
+	if graph[2].(map[string]any)["mainEntity"].(map[string]any)["@id"] != person["@id"] {
+		t.Fatal("profile must reference the same person")
+	}
+	for _, want := range []string{personNameThai, `href="https://ex.com/"`, `name="twitter:image"`, `property="og:image:alt"`, "max-image-preview:large"} {
+		if !strings.Contains(body, want) {
+			t.Errorf("home metadata missing %s", want)
+		}
+	}
+	code, robots, _ := get(r, "/robots.txt")
+	if code != 200 || !strings.Contains(robots, "Sitemap: https://ex.com/sitemap.xml") || strings.Contains(robots, "Disallow: /api/\n") {
+		t.Fatalf("public content must remain crawlable: %s", robots)
+	}
+	_, sm, _ := get(r, "/sitemap.xml")
+	if !strings.Contains(sm, `<image:loc>https://ex.com`+portraitPath+`</image:loc>`) {
+		t.Fatalf("portrait missing from sitemap: %s", sm)
+	}
+	rec := httptest.NewRecorder()
+	r.ServeHTTP(rec, httptest.NewRequest("GET", "/profile.png", nil))
+	if rec.Code != 301 || rec.Header().Get("Location") != portraitPath {
+		t.Fatal("old portrait URL must redirect to the renamed asset")
+	}
+}
+
+func TestArticleStructuredDataEscapesCMSContent(t *testing.T) {
+	r, add := setup(t)
+	title := `</script><script>alert("xss")</script>`
+	add("article", title, "published")
+	_, body, _ := get(r, "/blog/article")
+	data := structuredData(t, body)
+	if data["@type"] != "BlogPosting" || data["headline"] != title || data["author"].(map[string]any)["name"] != personName {
+		t.Fatalf("incorrect article data: %+v", data)
+	}
+	if strings.Contains(body, title) {
+		t.Fatal("CMS content can break out of the JSON-LD script")
+	}
+	for _, route := range []string{"/admin/login", "/blog/missing", "/missing"} {
+		_, hidden, _ := get(r, route)
+		if strings.Contains(hidden, "application/ld+json") {
+			t.Errorf("structured data must not appear on %s", route)
+		}
 	}
 }
 

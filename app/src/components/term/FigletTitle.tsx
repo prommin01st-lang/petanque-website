@@ -7,15 +7,15 @@ export const FIGLET_NAME = `
  |_|   |_____| |_/_/   \\_\\_| \\_|\\__\\_\\\\___/|_____|_____|_|____/ |_|
 `.replace(/^\n|\n$/g, "");
 
-export default function FigletTitle({ text, art }: { text: string; art: string }) {
+export default function FigletTitle({ text, art, as: Tag = 'h1' }: { text: string; art: string; as?: 'h1' | 'div' }) {
   return (
-    <h1 aria-label={text} className="font-mono text-ansi-bright-cyan text-glow-cyan">
+    <Tag aria-label={text} className="font-mono text-ansi-bright-cyan text-glow-cyan">
       <pre aria-hidden="true" className="hidden sm:block m-0 overflow-x-auto text-[clamp(6px,1.05vw,14px)] leading-tight">
         {art}
       </pre>
       <span aria-hidden="true" className="block sm:hidden text-3xl font-bold tracking-tight">
         {text}
       </span>
-    </h1>
+    </Tag>
   );
 }

@@ -46,6 +46,9 @@ export default function BlogPostPage() {
               )}
               <h1 className="text-2xl md:text-3xl font-bold text-text">{pick(post.title, lang)}</h1>
               <p className="mt-2 text-[13px] text-text-dim">
+                {t.blog.by}{' '}<Link to="/#about" rel="author" className="link-neon">{t.hero.fullName}</Link>
+              </p>
+              <p className="mt-2 text-[13px] text-text-dim">
                 <time className="text-warn" dateTime={post.publishedAt}>
                   {new Date(post.publishedAt).toLocaleDateString(lang === 'th' ? 'th-TH' : 'en-GB')}
                 </time>

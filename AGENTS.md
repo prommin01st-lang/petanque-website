@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-A bilingual (English/Thai) portfolio site for a full-stack developer ("Prommin L.", site brand **Petanque21st**, domain www.petanque21st.com) with a small built-in CMS:
+A bilingual (English/Thai) portfolio site for a full-stack developer ("Prommin Chandet", nickname "Petanque", site brand **Petanque21st**, domain www.petanque21st.com) with a small built-in CMS:
 
 * **`app/`** — React 19 + Vite + TypeScript + Tailwind SPA. Public pages (home sections, `/blog`, `/blog/:slug`) styled as a **Linux terminal** (Tango ANSI palette, JetBrains Mono, ASCII boxes/prompts) over an **ASCII-only animated WebGL background**. An **admin console** lives under `/admin/*`.
 * **`server/`** — Go HTTP server (chi + SQLite via `modernc.org/sqlite`, CGO-free). Serves the JSON API, uploaded media, RSS/sitemap, and the built SPA (embedded) with per-page `<head>` meta.
@@ -288,7 +288,7 @@ app/src/
 ## Gotchas
 
 * Never commit `app/dist`, `server/internal/web/dist/*` (except `.keep`), `*.db`, `e2e/.data`, or the user's untracked `.agents/`, `.claude/`, `skills-lock.json`.
-* `app/public/` holds only `profile.png` (hero portrait and the default og image).
+* `app/public/` holds `prommin-chandet-petanque.png` (hero portrait and the default og image). The Go server redirects the previous `/profile.png` URL to it.
 * Playwright lives only in `e2e/package.json`; `app/` has no Playwright dependency.
 * TOTP codes are single-use: tests or scripts that log in twice within 30 s need the next code.
 

@@ -110,3 +110,37 @@ Replace `admin` with your `ADMIN_USERNAME`. Exit code 2 = usage error, 1 = failu
 There is no CI image registry; the image is built on the server from the checkout:
 
     git pull && docker compose build app && docker compose up -d
+
+## Search discovery after publishing
+
+Set `DOMAIN=www.petanque21st.com` in the production `deploy/.env`; Compose derives
+`PUBLIC_URL=https://www.petanque21st.com` from it. The server uses it for
+canonical URLs, profile and article structured data, image URLs, RSS and the sitemap.
+The frontend and Go binary must both be rebuilt when changing profile copy or images.
+See [Deploy.md](../Deploy.md) for the rollout steps for this SEO and profile update.
+
+After deploying, inspect the public `/`, `/robots.txt`, `/sitemap.xml` and
+`/prommin-chandet-petanque.png` URLs. Cloudflare may add managed robots.txt content;
+check the actual public response includes the sitemap and permits public assets and
+the public API. Admin pages deliberately remain crawlable so their `noindex` can be read.
+
+In the owner's [Google Search Console](https://search.google.com/search-console),
+verify the domain, submit `https://www.petanque21st.com/sitemap.xml`, and inspect the
+home URL with the live test before requesting indexing. Validate a published article
+and the home page in the [Rich Results Test](https://search.google.com/test/rich-results).
+Monitor impressions and clicks for the owner's full name and nickname after recrawling;
+neither indexing nor the first search position is guaranteed.
+
+The current language switch uses one URL with English as the initial language. Both
+names are visible on that initial page; Thai copy is available through the switch.
+Do not add `hreflang` pointing to nonexistent language URLs. Separate crawlable language
+routes would be needed for independently indexed English and Thai pages.
+
+Keep profile claims and project results grounded in the owner's actual experience.
+Project content is stored in the database: changing `server/internal/seed/projects.json`
+does not update an existing installation. Correct existing project descriptions through
+the admin console. Add independently verified public profile links to `sameAs` only.
+
+References: [Google's SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide),
+[profile structured data](https://developers.google.com/search/docs/appearance/structured-data/profile-page),
+and [image sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps).

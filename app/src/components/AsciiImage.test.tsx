@@ -104,7 +104,7 @@ function renderImage(props: Partial<Parameters<typeof AsciiImage>[0]> = {}) {
   );
 }
 
-const frameOf = () => screen.getByRole('img', { name: 'Profile portrait' });
+const frameOf = () => screen.getByRole('img', { name: 'Profile portrait' }).parentElement!;
 const canvasOf = () => document.querySelector('canvas') as HTMLCanvasElement;
 
 afterEach(() => {
@@ -136,7 +136,7 @@ describe('AsciiImage canvas path', () => {
     raf = mockRaf();
   });
 
-  it('builds the grid and keeps the toggle outside role=img', async () => {
+  it('builds the grid with a crawlable image and an accessible toggle', async () => {
     renderImage();
     const frame = frameOf();
     // jsdom has no layout (width 0) → falls back to the max column count; square image → rows = cols/2
@@ -147,6 +147,7 @@ describe('AsciiImage canvas path', () => {
     const button = screen.getByRole('button', { name: 'ASCII / photo' });
     expect(frame).not.toContainElement(button);
     expect(frame).toContainElement(canvasOf());
+    expect(screen.getByRole('img', { name: 'Profile portrait' })).toHaveAttribute('src', '/profile.png');
   });
 
   it('targets ≥ 4.5px cells for the rendered width and paints bold glyphs', async () => {
@@ -220,15 +221,15 @@ describe('AsciiImage canvas path', () => {
 
   it('falls back to a plain <img> without a toggle when loading fails', async () => {
     renderImage({ src: '/uploads/broken.png' });
-    await waitFor(() => expect(screen.getByRole('img', { name: 'Profile portrait' }).tagName).toBe('IMG'));
-    expect(screen.queryByRole('button')).toBeNull();
+    await waitFor(() => expect(screen.queryByRole('button')).toBeNull());
+    expect(screen.getByRole('img', { name: 'Profile portrait' })).toHaveClass('ascii-image-fallback');
   });
 
   it('falls back when pixel sampling throws (e.g. tainted canvas)', async () => {
     mockCanvas(makeCtx({ taint: true }));
     renderImage();
-    await waitFor(() => expect(screen.getByRole('img', { name: 'Profile portrait' }).tagName).toBe('IMG'));
-    expect(screen.queryByRole('button')).toBeNull();
+    await waitFor(() => expect(screen.queryByRole('button')).toBeNull());
+    expect(screen.getByRole('img', { name: 'Profile portrait' })).toHaveClass('ascii-image-fallback');
   });
 
   it('renders a decorative, non-interactive thumbnail without a toggle', async () => {

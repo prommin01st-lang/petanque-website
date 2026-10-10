@@ -144,7 +144,7 @@ describe('shell commands', () => {
     for (const n of ['help', 'ls', 'cat', 'tree', 'whoami', 'cd', 'open', 'exit']) expect(out).toContain(n);
   });
   it('tree skills summarises', async () => {
-    expect(plain(await run('tree ~/skills', makeTestCtx())).at(-1)).toMatch(/^5 directories, \d+ files$/);
+    expect(plain(await run('tree ~/skills', makeTestCtx())).at(-1)).toMatch(/^6 directories, \d+ files$/);
   });
   it('echo, history, clear, exit, whoami', async () => {
     const ctx = makeTestCtx({ history: ['ls', 'help'] });

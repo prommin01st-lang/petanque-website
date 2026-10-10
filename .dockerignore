@@ -4,6 +4,7 @@ app/dist
 .superpowers
 .agents
 .claude
+.aws
 **/*.db*
 e2e
 docs

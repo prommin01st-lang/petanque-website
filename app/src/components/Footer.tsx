@@ -6,7 +6,9 @@ export default function Footer() {
 
   const socials = [
     { key: 'github', label: t.footer.github, href: 'https://github.com/prommin01st-lang', external: true },
-    { key: 'linkedin', label: t.footer.linkedin, href: 'https://linkedin.com/in/prommin-l', external: true },
+    { key: 'linkedin', label: t.footer.linkedin, href: 'https://www.linkedin.com/in/prommin-chandet-36b87940a', external: true },
+    { key: 'facebook', label: t.footer.facebook, href: 'https://www.facebook.com/petanque.pommin', external: true },
+    { key: 'instagram', label: t.footer.instagram, href: 'https://www.instagram.com/p_65_t_61_6e_71_75_e/', external: true },
     { key: 'rss', label: t.footer.rss, href: '/rss.xml', external: false },
   ];
 
@@ -21,6 +23,8 @@ export default function Footer() {
     >
       <div className="max-w-6xl mx-auto">
         <AsciiDivider char="=" />
+
+        <p className="mt-6 max-w-2xl font-body text-sm leading-relaxed text-text-dim">{t.footer.invitation}</p>
 
         <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <Prompt command="exit" />

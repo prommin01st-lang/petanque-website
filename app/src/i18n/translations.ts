@@ -2,6 +2,9 @@ export type Language = 'en' | 'th';
 
 export const translations = {
   en: {
+    seo: {
+      homeTitle: 'Prommin Chandet (Petanque) — Full-Stack Web Developer',
+    },
     // Navbar
     nav: {
       home: 'Home',
@@ -20,17 +23,19 @@ export const translations = {
     // Hero
     hero: {
       name: 'PETANQUE21ST',
+      fullName: 'Prommin Chandet',
+      alternateName: 'พรหมมินทร์ จันทร์เดช · Petanque',
       tagline:
-        'Full-Stack Developer & DevOps-oriented engineer building real-time collaboration systems, enterprise backends, and developer automation — solo.',
+        'Full-Stack Web Developer with a BA/SA internship background. I ask questions to understand the problem, build practical solutions, and keep learning.',
       ctaPrimary: 'view projects',
       ctaSecondary: 'read the blog',
-      profileAlt: 'Prommin L. profile picture',
+      profileAlt: 'Pixel-art portrait of Prommin Chandet (Petanque)',
       statusLabel: 'status',
-      statusValue: 'online — open for collaboration',
+      statusValue: 'online — say hello and exchange ideas',
       stats: [
-        { value: '10+', label: 'Projects Shipped' },
-        { value: '~50%', label: 'Overhead Reduced' },
-        { value: '<100ms', label: 'Real-time Latency' },
+        { value: 'Web', label: 'Full-Stack Development' },
+        { value: 'BA/SA', label: 'Internship Experience' },
+        { value: 'LLM', label: 'Learning AI & Data' },
       ],
     },
 
@@ -38,24 +43,28 @@ export const translations = {
     about: {
       title: 'ABOUT ME',
       bio1:
-        'I am a Full-Stack Developer and DevOps-oriented engineer working solo on several production and internal tools. I focus on building real-time collaboration features, robust backend APIs, and developer automation.',
+        'I’m Prommin Chandet (พรหมมินทร์ จันทร์เดช), also known as Petanque. I’m a Full-Stack Web Developer with internship experience in Business Analysis and Systems Analysis (BA/SA). I enjoy asking questions, understanding the problem behind a task, and finding a way forward.',
       bio2:
-        'My flagship project — a Kanban Task Management platform built with Next.js and .NET 10 — reduced manual task-management overhead by approximately 50% and cut the weekly task cycle from 8 hours to 2, through real-time drag & drop, Google Calendar sync, and 15+ live event types powered by SignalR.',
+        'During my BA/SA internship, I reviewed an analysis project and found inconsistencies between the requirements, the UI, and the supplied information. I reported those issues to the manager. My responsibilities also included preparing test cases and a Software Requirements Specification (SRS).',
       bio3:
-        'I actively build AI-powered applications, integrating RAG (Retrieval-Augmented Generation), Model Context Protocol, and custom LLM fine-tuning.',
+        'For a company-assigned queue management system using Next.js, .NET, and PostgreSQL, I worked on database design, backend architecture, frontend development, and part of the web and mobile UI design. Customers can track their queue through their ticket and receive web or app notifications, while businesses manage queues and staff responsibilities. Deployment was handled by others.',
+      bio4:
+        'When an image-heavy page loaded slowly, I traced the problem to uploads that were not resized or converted. I added client-side cropping, resizing, and WebP conversion, with file-extension and size validation on the backend. It was a reminder that an upload flow affects both performance and the user experience.',
+      bio5:
+        'Working on that project made me want to learn more about deployment and production troubleshooting: investigating issues is harder without access to the running system. Alongside web development, I’m currently studying large language models (LLMs), fine-tuning, and data analysis. I enjoy learning how new tools work and exploring the problems they can help solve.',
       factsTitle: 'quick_facts.yaml',
       facts: {
         role: 'Role',
-        roleValue: 'Solo Full-Stack Developer',
+        roleValue: 'Full-Stack Web Developer',
         focus: 'Focus',
-        focusValue: 'Real-time Collaboration Systems',
+        focusValue: 'Web Applications & Requirements Analysis',
         backend: 'Backend',
         backendValue: '.NET 10, C#, ASP.NET Core, EF Core 10, SignalR',
         frontend: 'Frontend',
         frontendValue: 'Next.js 14-16, React 19, TypeScript, Material UI, Tailwind CSS',
         databases: 'Databases',
         databasesValue: 'PostgreSQL, SQL Server, Redis',
-        devops: 'DevOps & Testing',
+        devops: 'Tools & Testing',
         devopsValue: 'Docker, PowerShell, xUnit, Testcontainers, Bruno',
         cloud: 'Cloud & Integrations',
         cloudValue: 'Cloudflare R2, Google OAuth/Calendar, Gmail SMTP, Gemini API',
@@ -73,8 +82,9 @@ export const translations = {
         backend: 'Backend',
         frontend: 'Frontend',
         databases: 'Databases',
-        devopsTesting: 'DevOps & Testing',
+        devopsTesting: 'Tools & Testing',
         cloudIntegrations: 'Cloud & Integrations',
+        learning: 'Currently Learning',
       },
     },
 
@@ -82,17 +92,17 @@ export const translations = {
     stats: {
       title: 'CORE FOCUS AREAS',
       areas: {
-        realtime: {
-          title: 'Real-Time Systems',
-          description: 'Live collaboration with SignalR hubs, WebSockets & drag-and-drop sync (<100ms)',
+        analysis: {
+          title: 'Understanding the Problem',
+          description: 'Checking that requirements, UI, and information agree. BA/SA internship experience preparing test cases and SRS documents.',
         },
         fullstack: {
-          title: 'Full-Stack Architecture',
-          description: 'End-to-end delivery: Next.js frontend + .NET 10 backend + PostgreSQL',
+          title: 'Full-Stack Web Development',
+          description: 'Building web applications around everyday needs, including queue tracking, customer notifications, and tools for staff.',
         },
-        cloudAi: {
-          title: 'Cloud, AI & DevOps',
-          description: 'Google APIs, Gemini AI, Cloudflare R2, Docker & test automation',
+        learning: {
+          title: 'Learning LLMs & Data Analysis',
+          description: 'Currently exploring language models, fine-tuning, and data analysis alongside web development.',
         },
       },
     },
@@ -100,7 +110,7 @@ export const translations = {
     // Projects
     projects: {
       title: 'FEATURED PROJECTS',
-      subtitle: 'Production tools, templates, and experiments — designed, built, and shipped solo.',
+      subtitle: 'Web applications, developer tools, and experiments from my development journey.',
       flagship: 'flagship',
       source: 'source',
       demo: 'demo',
@@ -133,6 +143,7 @@ export const translations = {
       next: 'Next',
       empty: 'No posts yet.',
       minRead: 'min read',
+      by: 'By',
       notTranslated: 'This post has no Thai version yet — showing the English version.',
     },
 
@@ -377,12 +388,15 @@ export const translations = {
       next: 'Next section',
     },
     footer: {
-      subtitle: 'Full-Stack Developer & DevOps',
+      subtitle: 'Full-Stack Web Developer',
+      invitation: 'This is my space to share work and new projects. Come say hello and exchange ideas.',
       builtWith: 'Built with',
       github: 'github',
       linkedin: 'linkedin',
+      facebook: 'facebook',
+      instagram: 'instagram',
       rss: 'rss',
-      copyright: 'Prommin L.',
+      copyright: 'Prommin Chandet (Petanque)',
     },
     shell: {
       welcome: "Welcome to petanque21st's shell.",
@@ -422,6 +436,9 @@ export const translations = {
   },
 
   th: {
+    seo: {
+      homeTitle: 'พรหมมินทร์ จันทร์เดช (Petanque) — Full-Stack Web Developer',
+    },
     // Navbar
     nav: {
       home: 'หน้าแรก',
@@ -440,17 +457,19 @@ export const translations = {
     // Hero
     hero: {
       name: 'PETANQUE21ST',
+      fullName: 'พรหมมินทร์ จันทร์เดช',
+      alternateName: 'Prommin Chandet · Petanque',
       tagline:
-        'นักพัฒนา Full-Stack & DevOps-oriented สร้างระบบ real-time collaboration, enterprise backends และ developer automation — แบบเดี่ยว',
+        'Full-Stack Web Developer ที่เริ่มจากการตั้งคำถามเพื่อเข้าใจปัญหา พัฒนาเว็บจากความต้องการจริง และเรียนรู้สิ่งใหม่อยู่เสมอ พร้อมพื้นฐานจากการฝึกงานด้าน BA/SA',
       ctaPrimary: 'ดูผลงาน',
       ctaSecondary: 'อ่านบล็อก',
-      profileAlt: 'รูปโปรไฟล์ของ Prommin L.',
+      profileAlt: 'ภาพพิกเซลอาร์ตของ พรหมมินทร์ จันทร์เดช (Petanque)',
       statusLabel: 'สถานะ',
-      statusValue: 'ออนไลน์ — พร้อมรับงานร่วมกัน',
+      statusValue: 'ออนไลน์ — แวะมาทักทายและแลกเปลี่ยนไอเดียกันได้',
       stats: [
-        { value: '10+', label: 'โปรเจกต์ที่ส่งมอบ' },
-        { value: '~50%', label: 'ลดภาระงาน' },
-        { value: '<100ms', label: 'เลเทนซีเรียลไทม์' },
+        { value: 'Web', label: 'พัฒนาเว็บไซต์ Full-Stack' },
+        { value: 'BA/SA', label: 'ประสบการณ์ฝึกงาน' },
+        { value: 'LLM', label: 'กำลังศึกษา AI และข้อมูล' },
       ],
     },
 
@@ -458,24 +477,28 @@ export const translations = {
     about: {
       title: 'เกี่ยวกับฉัน',
       bio1:
-        'ฉันเป็นนักพัฒนา Full-Stack และ DevOps-oriented engineer ทำงานเดี่ยวบนโปรเจกต์ production และ internal tools หลายตัว โฟกัสที่การสร้าง real-time collaboration features, backend APIs ที่แข็งแกร่ง และ developer automation',
+        'ผมชื่อพรหมมินทร์ จันทร์เดช (Prommin Chandet) ชื่อเล่น Petanque เป็น Full-Stack Web Developer และมีประสบการณ์ฝึกงานด้าน Business Analysis และ Systems Analysis (BA/SA) ผมชอบตั้งคำถามเพื่อเข้าใจปัญหาที่อยู่เบื้องหลังงาน และมองหาวิธีที่จะพางานนั้นไปต่อได้',
       bio2:
-        'โปรเจกต์หลักของฉัน — แพลตฟอร์มจัดการงาน Kanban ที่สร้างด้วย Next.js และ .NET 10 — ลดภาระการจัดการงานลงประมาณ 50% และลด cycle time รายสัปดาห์จาก 8 ชั่วโมงเหลือ 2 ชั่วโมง ผ่าน real-time drag & drop, Google Calendar sync และ 15+ live event types ที่ขับเคลื่อนด้วย SignalR',
+        'ระหว่างฝึกงานด้าน BA/SA ผมได้รับงานวิเคราะห์โปรเจกต์หนึ่ง และพบว่าข้อกำหนดความต้องการ (Requirement), หน้าจอ UI และข้อมูลที่ได้รับมีจุดที่ไม่สอดคล้องกัน ผมมีหน้าที่รายงานประเด็นเหล่านี้ให้ Manager ทราบ รวมถึงจัดทำ Test Case และเอกสารข้อกำหนดความต้องการของซอฟต์แวร์ (SRS)',
       bio3:
-        'ฉันพัฒนาแอปพลิเคชันที่ขับเคลื่อนด้วย AI โดยนำ RAG (Retrieval-Augmented Generation), Model Context Protocol และการ Fine-tuning LLM มาประยุกต์ใช้งานจริง',
+        'ในโปรเจกต์ระบบจัดการคิวที่ได้รับมอบหมายจากบริษัท ผมใช้ Next.js, .NET และ PostgreSQL โดยรับผิดชอบการออกแบบฐานข้อมูล สถาปัตยกรรม Backend การพัฒนา Frontend และออกแบบ UI บางส่วนของเว็บและมือถือ ระบบให้ลูกค้าตรวจสอบคิวผ่านบัตรคิวและรับการแจ้งเตือนบนเว็บหรือแอป พร้อมเครื่องมือให้ร้านจัดการคิวและแบ่งหน้าที่พนักงาน ส่วน Deployment มีผู้รับผิดชอบคนอื่น',
+      bio4:
+        'เมื่อพบว่าหน้าที่มีรูปภาพจำนวนมากโหลดช้า ผมตรวจไปถึงขั้นตอนอัปโหลดและพบว่ายังไม่มีการปรับขนาดหรือแปลงไฟล์ จึงเพิ่มการครอป ปรับขนาด และแปลงภาพเป็น WebP ฝั่ง Client พร้อมตรวจนามสกุลและจำกัดขนาดไฟล์ฝั่ง Backend งานนี้ทำให้เห็นว่ารายละเอียดในขั้นตอนอัปโหลดส่งผลทั้งต่อประสิทธิภาพและประสบการณ์ของผู้ใช้',
+      bio5:
+        'ประสบการณ์นี้ทำให้ผมอยากเรียนรู้ Deployment และการวิเคราะห์ปัญหาบน Production ให้มากขึ้น เพราะการตรวจหาสาเหตุทำได้ยากเมื่อไม่สามารถเข้าถึงระบบที่กำลังทำงานอยู่ได้ ขณะเดียวกันผมกำลังศึกษาเรื่องโมเดลภาษาขนาดใหญ่ (LLM), Fine-tuning และการวิเคราะห์ข้อมูลควบคู่กับการพัฒนาเว็บไซต์ ผมสนุกกับการทำความเข้าใจเครื่องมือใหม่และสำรวจว่าจะใช้แก้ปัญหาอะไรได้บ้าง',
       factsTitle: 'quick_facts.yaml',
       facts: {
         role: 'บทบาท',
-        roleValue: 'นักพัฒนา Full-Stack เดี่ยว',
+        roleValue: 'นักพัฒนาเว็บไซต์ Full-Stack',
         focus: 'จุดโฟกัส',
-        focusValue: 'ระบบ Collaboration แบบ Real-time',
+        focusValue: 'เว็บแอปพลิเคชันและการวิเคราะห์ความต้องการ',
         backend: 'แบ็กเอนด์',
         backendValue: '.NET 10, C#, ASP.NET Core, EF Core 10, SignalR',
         frontend: 'ฟรอนต์เอนด์',
         frontendValue: 'Next.js 14-16, React 19, TypeScript, Material UI, Tailwind CSS',
         databases: 'ฐานข้อมูล',
         databasesValue: 'PostgreSQL, SQL Server, Redis',
-        devops: 'DevOps & เทสต์',
+        devops: 'เครื่องมือและการทดสอบ',
         devopsValue: 'Docker, PowerShell, xUnit, Testcontainers, Bruno',
         cloud: 'คลาวด์ & Integrations',
         cloudValue: 'Cloudflare R2, Google OAuth/Calendar, Gmail SMTP, Gemini API',
@@ -493,8 +516,9 @@ export const translations = {
         backend: 'แบ็กเอนด์',
         frontend: 'ฟรอนต์เอนด์',
         databases: 'ฐานข้อมูล',
-        devopsTesting: 'DevOps & เทสต์',
+        devopsTesting: 'เครื่องมือและการทดสอบ',
         cloudIntegrations: 'คลาวด์ & Integrations',
+        learning: 'กำลังศึกษา',
       },
     },
 
@@ -502,17 +526,17 @@ export const translations = {
     stats: {
       title: 'จุดโฟกัสหลัก',
       areas: {
-        realtime: {
-          title: 'ระบบ Real-Time',
-          description: 'Live collaboration ด้วย SignalR hubs, WebSockets & drag-and-drop sync (<100ms)',
+        analysis: {
+          title: 'เข้าใจปัญหาก่อนลงมือ',
+          description: 'ตรวจความสอดคล้องของ Requirement, UI และข้อมูล พร้อมประสบการณ์ฝึกงาน BA/SA ในการจัดทำ Test Case และ SRS',
         },
         fullstack: {
-          title: 'สถาปัตยกรรม Full-Stack',
-          description: 'ส่งมอบครบวงจร: Next.js frontend + .NET 10 backend + PostgreSQL',
+          title: 'พัฒนาเว็บไซต์ Full-Stack',
+          description: 'สร้างเว็บแอปพลิเคชันจากปัญหาใกล้ตัว เช่น การติดตามคิว การแจ้งเตือนลูกค้า และเครื่องมือสำหรับพนักงาน',
         },
-        cloudAi: {
-          title: 'คลาวด์, AI & DevOps',
-          description: 'Google APIs, Gemini AI, Cloudflare R2, Docker & test automation',
+        learning: {
+          title: 'เรียนรู้ LLM และการวิเคราะห์ข้อมูล',
+          description: 'กำลังศึกษาโมเดลภาษา การทำ Fine-tuning และการวิเคราะห์ข้อมูล ควบคู่กับการพัฒนาเว็บไซต์',
         },
       },
     },
@@ -520,7 +544,7 @@ export const translations = {
     // Projects
     projects: {
       title: 'ผลงานเด่น',
-      subtitle: 'เครื่องมือ production, เทมเพลต และการทดลอง — ออกแบบ พัฒนา และส่งมอบเองทั้งหมด',
+      subtitle: 'เว็บแอปพลิเคชัน เครื่องมือสำหรับนักพัฒนา และงานทดลองตลอดเส้นทางการเรียนรู้ของผม',
       flagship: 'ผลงานหลัก',
       source: 'ซอร์สโค้ด',
       demo: 'เดโม',
@@ -553,6 +577,7 @@ export const translations = {
       next: 'ถัดไป',
       empty: 'ยังไม่มีโพสต์',
       minRead: 'นาทีในการอ่าน',
+      by: 'เขียนโดย',
       notTranslated: 'บทความนี้ยังไม่มีฉบับภาษาไทย — แสดงฉบับภาษาอังกฤษแทน',
     },
 
@@ -797,12 +822,15 @@ export const translations = {
       next: 'ส่วนถัดไป',
     },
     footer: {
-      subtitle: 'นักพัฒนา Full-Stack & DevOps',
+      subtitle: 'นักพัฒนาเว็บไซต์ Full-Stack',
+      invitation: 'พื้นที่เก็บผลงานและโปรเจกต์ใหม่ ๆ ของผม แวะมาทักทาย พูดคุย หรือแลกเปลี่ยนไอเดียกันได้ครับ',
       builtWith: 'สร้างด้วย',
       github: 'github',
       linkedin: 'linkedin',
+      facebook: 'เฟซบุ๊ก',
+      instagram: 'อินสตาแกรม',
       rss: 'rss',
-      copyright: 'Prommin L.',
+      copyright: 'พรหมมินทร์ จันทร์เดช (Petanque)',
     },
     shell: {
       welcome: 'ยินดีต้อนรับสู่ shell ของ petanque21st',

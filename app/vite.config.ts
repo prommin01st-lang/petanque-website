@@ -15,6 +15,7 @@ export default defineConfig(({ command }) => ({
       '/uploads': 'http://localhost:8080',
       '/rss.xml': 'http://localhost:8080',
       '/sitemap.xml': 'http://localhost:8080',
+      '/robots.txt': 'http://localhost:8080',
     },
   },
   build: {

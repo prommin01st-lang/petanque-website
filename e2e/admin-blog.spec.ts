@@ -57,7 +57,7 @@ test('admin sets up TOTP, publishes a post, and it appears on /blog', async ({ p
   expect(rss).toMatch(/^<\?xml[^>]*\?>\s*<rss version="2.0">/);
   expect(rss).toContain(`<title>${TITLE}</title>`);
   const sitemap = await (await page.request.get('/sitemap.xml')).text();
-  expect(sitemap).toMatch(/^<\?xml[^>]*\?>\s*<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
+  expect(sitemap).toMatch(/^<\?xml[^>]*\?>\s*<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9"[^>]*>/);
   expect(sitemap).toContain('<loc>http://localhost:8090/blog/e2e-hello-world</loc>');
 });
 

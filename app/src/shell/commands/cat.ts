@@ -18,7 +18,7 @@ const cat: Command = {
     const ref = node.ref;
     switch (ref.type) {
       case 'about':
-        return [ctx.t.about.bio1, ctx.t.about.bio2, ctx.t.about.bio3];
+        return [ctx.t.about.bio1, ctx.t.about.bio2, ctx.t.about.bio3, ctx.t.about.bio4, ctx.t.about.bio5];
       case 'skill':
         return [`${ref.skill} (${ref.category})`];
       case 'project': {
