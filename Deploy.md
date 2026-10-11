@@ -14,6 +14,7 @@ The local `localhost:8088` Compose instance is a development installation.
 - The server emits Person, ProfilePage, WebSite and blog article structured data,
   complete social image metadata, robots.txt and an image-aware sitemap.
 - The portrait is now `/prommin-chandet-petanque.png`. `/profile.png` redirects to it.
+- The browser tab favicon explicitly uses the same portrait, including on blog and admin routes.
 
 The live CMS entry `queue-backend` has already been updated through the admin console
 in this session: Customer Queue Management, bilingual description, confirmed technology
@@ -90,6 +91,12 @@ images, JavaScript and the public API. Purge stale robots.txt/image cache entrie
 Open the home page on desktop and mobile, switch EN/TH, try the ASCII/photo button, and
 check the social links. Check a published blog post's title, canonical and author data.
 Admin and draft pages must retain `noindex`.
+
+For the favicon update, rebuild and restart the app using the steps above: the icon link
+is in the embedded HTML, so no database or DNS change is needed. Confirm the page source
+contains `rel="icon"` pointing to `/prommin-chandet-petanque.png`, and check the browser
+tab on both `/` and `/blog`. If an existing tab retains the generic icon, reopen the tab
+or check a private window to rule out the browser's favicon cache.
 
 ## Request indexing
 
