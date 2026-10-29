@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { pick } from '@/lib/pick';
 import { useDocumentTitle } from '@/lib/useDocumentTitle';
 import { useI18n } from '@/i18n/I18nContext';
-import { TerminalWindow, ErrorLine, LoadingBar, Prompt } from '@/components/term';
+import { TerminalWindow, ErrorLine, TermSkeleton, Prompt } from '@/components/term';
 import AsciiImage from '@/components/AsciiImage';
 
 const PER_PAGE = 10;
@@ -50,7 +50,7 @@ export default function BlogListPage() {
         <div className="px-1 py-2 md:px-3 md:py-3 font-mono space-y-3">
           <h1 className="sr-only">{t.blog.title}</h1>
           <Prompt command="ls -la ~/blog" />
-          {isPending && <LoadingBar label={t.common.loading} />}
+          {isPending && <TermSkeleton layout="list" label={t.common.loading} />}
           {error && !isPending && (
             <ErrorLine error={error} onRetry={() => void refetch()} retryLabel={t.common.retry} fallbackMessage={t.common.error} />
           )}
