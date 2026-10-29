@@ -449,6 +449,13 @@
   to { width: 10ch; }
 }
 
+/* ASCII skeleton (ascii-reveal's AsciiSkeleton, wrapped by TermSkeleton) in Tango colours */
+.term-skeleton {
+  --ascii-skeleton: var(--text-dim);
+  --ascii-accent: var(--ansi-bright-green);
+  --ascii-font: 'JetBrains Mono', 'IBM Plex Sans Thai', ui-monospace, monospace;
+}
+
 /* ----- Public site (terminal redesign) ----- */
 
 /* TerminalWindow whose body is a flex column (equal-height cards) */

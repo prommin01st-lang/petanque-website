@@ -168,7 +168,7 @@ app/src/
 │   ├── Footer.tsx
 │   ├── AsciiImage.tsx   # interactive terminal-coloured ASCII image (+ asciiImage.ts pure helpers)
 │   ├── Markdown.tsx     # sanitized + highlighted markdown (`<Markdown source=… />`)
-│   ├── term/            # TerminalWindow (GNOME-style window card), Prompt, AsciiDivider, FigletTitle (+FIGLET_NAME), Cursor, LoadingBar, ErrorLine
+│   ├── term/            # TerminalWindow (GNOME-style window card), Prompt, AsciiDivider, FigletTitle (+FIGLET_NAME), Cursor, LoadingBar, TermSkeleton, ErrorLine
 │   └── ui/              # shadcn primitives
 ├── pages/               # HomePage, BlogListPage, BlogPostPage, NotFoundPage
 ├── sections/            # Hero, About, Projects, Skills, Stats, LatestPosts (+ SectionHeading)
@@ -195,6 +195,10 @@ app/src/
 ### Interactive ASCII images
 
 `AsciiImage` renders an image as Tango-coloured ASCII on a canvas (Bourke ramp, auto-levels, nearest-ANSI colour via `asciiImage.ts`). Interactive mode: hover lens reveals the photo locally; click or the `[ASCII / photo]` button (`aria-pressed`) toggles the full photo. Falls back to a plain `<img>` without canvas support. Used for the hero portrait and blog covers (`interactive={false}` in lists).
+
+### ASCII skeletons
+
+`TermSkeleton` (`components/term/TermSkeleton.tsx`) wraps `AsciiSkeleton` from the `ascii-reveal` package: `layout="lines|list|article|cards"`, `role="status"` with an sr-only `label` (glyphs are `aria-hidden`). Used for the public loading states (projects section, `/blog`, `/blog/:slug`); the admin keeps `LoadingBar`. `ascii-reveal` does not tree-shake (~17 kB gzip), so it is `React.lazy`-loaded with `LoadingBar` as the Suspense fallback — never import it statically, and don't use `cn` there (it would pull tailwind-merge into the entry). Colours: `.term-skeleton` sets `--ascii-skeleton` / `--ascii-accent` / `--ascii-font` in `index.css`.
 
 ### Theme: Linux terminal (Tango ANSI)
 

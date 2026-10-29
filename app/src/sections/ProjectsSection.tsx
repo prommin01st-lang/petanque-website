@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { pick } from '@/lib/pick';
 import type { Project } from '@/lib/types';
-import { TerminalWindow, ErrorLine, LoadingBar } from '@/components/term';
+import { TerminalWindow, ErrorLine, TermSkeleton } from '@/components/term';
 import { useI18n } from '@/i18n/I18nContext';
 import SectionHeading from './SectionHeading';
 
@@ -176,7 +176,7 @@ export default function ProjectsSection() {
         <div className="px-4 sm:px-6 md:px-10">
           <div className="mx-auto max-w-6xl pointer-events-auto">
             {isPending ? (
-              <LoadingBar label={t.common.loading} />
+              <TermSkeleton layout="cards" label={t.common.loading} />
             ) : error ? (
               <ErrorLine error={error} onRetry={() => void refetch()} retryLabel={t.common.retry} fallbackMessage={t.common.error} />
             ) : (
