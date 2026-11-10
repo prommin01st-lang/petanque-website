@@ -7,7 +7,7 @@ import { useDocumentTitle } from '@/lib/useDocumentTitle';
 import { useI18n } from '@/i18n/I18nContext';
 import Markdown from '@/components/Markdown';
 import AsciiImage from '@/components/AsciiImage';
-import { TerminalWindow, ErrorLine, LoadingBar, Prompt } from '@/components/term';
+import { TerminalWindow, ErrorLine, TermSkeleton, Prompt } from '@/components/term';
 import { NotFoundContent } from './NotFoundPage';
 
 export default function BlogPostPage() {
@@ -30,7 +30,7 @@ export default function BlogPostPage() {
       <TerminalWindow title={`~/blog/${slug}.md`} className="mx-auto max-w-3xl">
         <div className="px-1 py-2 md:px-4 md:py-4 font-mono space-y-3 min-w-0 [overflow-wrap:anywhere]">
           <Prompt command={`cat ~/blog/${slug}.md`} />
-          {isPending && <LoadingBar label={t.common.loading} />}
+          {isPending && <TermSkeleton layout="article" label={t.common.loading} />}
           {error && !isPending && (
             <ErrorLine error={error} onRetry={() => void refetch()} retryLabel={t.common.retry} fallbackMessage={t.common.error} />
           )}

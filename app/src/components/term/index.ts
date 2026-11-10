@@ -5,3 +5,5 @@ export { default as ErrorLine } from './ErrorLine';
 export { default as FigletTitle, FIGLET_NAME } from './FigletTitle';
 export { default as LoadingBar } from './LoadingBar';
 export { default as Prompt } from './Prompt';
+export { default as TermSkeleton } from './TermSkeleton';
+export type { TermSkeletonLayout } from './TermSkeleton';
